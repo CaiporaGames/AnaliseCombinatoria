@@ -1,0 +1,5443 @@
+\documentclass[11pt,a4paper,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+\usepackage{lmodern,microtype}
+\usepackage[a4paper,top=2.45cm,bottom=2.4cm,left=2.55cm,right=2.35cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array,tabularx,longtable,multicol}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{matrix,positioning,arrows.meta,calc,decorations.pathreplacing,fit,backgrounds}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr,enumitem}
+\usepackage[hidelinks,colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{bookmark}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{.6em}
+\setcounter{tocdepth}{2}
+\definecolor{azulescuro}{HTML}{18364D}
+\definecolor{azulclaro}{HTML}{EAF2F8}
+\definecolor{verdeescuro}{HTML}{236F57}
+\definecolor{verdeclaro}{HTML}{EAF6F0}
+\definecolor{laranjaescuro}{HTML}{865723}
+\definecolor{laranjaclaro}{HTML}{FFF5E6}
+\definecolor{cinzaclaro}{HTML}{F2F4F6}
+\definecolor{vermelhoclaro}{HTML}{FBEDED}
+\hypersetup{pdftitle={Reconstruindo a Combinatória: dos produtos cartesianos aos polinómios},pdfauthor={Caderno de investigação matemática},pdfsubject={Princípios aditivo e multiplicativo, bijeções, funções geradoras e aplicações}}
+\newtcolorbox{perguntabox}{enhanced,breakable,colback=laranjaclaro,colframe=laranjaescuro!50,boxrule=.6pt,arc=2mm,left=3mm,right=3mm,top=2mm,bottom=2mm,before skip=7pt,after skip=7pt}
+\newtcolorbox{descobertabox}[1]{enhanced,breakable,colback=verdeclaro,colframe=verdeescuro!60,title={#1},fonttitle=\bfseries,boxrule=.7pt,arc=2mm,before skip=9pt,after skip=9pt}
+\newtcolorbox{teoremabox}[1]{enhanced,breakable,colback=azulclaro,colframe=azulescuro!65,title={#1},fonttitle=\bfseries,boxrule=.7pt,arc=2mm,before skip=9pt,after skip=9pt}
+\newtcolorbox{observacaobox}[1]{enhanced,breakable,colback=cinzaclaro,colframe=black!28,title={#1},fonttitle=\bfseries,boxrule=.5pt,arc=2mm,before skip=7pt,after skip=7pt}
+\newcommand{\Pergunta}[1]{\begin{perguntabox}\textbf{Pergunta da investigação.} #1\end{perguntabox}}
+\newcommand{\Resposta}[1]{\textcolor{verdeescuro}{\textbf{Resposta do investigador.}} \emph{#1}\par}
+\newcommand{\prova}{\textbf{Justificação.}\ }
+\newcommand{\fimprova}{\hfill$\square$}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Nzero}{\mathbb{N}_0}
+\newcommand{\card}[1]{\lvert #1\rvert}
+\newcommand{\coef}[2]{[ #1 ]\,#2}
+\newcommand{\simeqobj}{\mathrel{\sim}}
+\newcommand{\ccel}[1]{\cellcolor{green!13}{#1}}
+\newcommand{\ecel}[1]{\cellcolor{red!11}{#1}}
+\newcommand{\dc}[1]{\cellcolor{blue!12}{#1}}
+\newcommand{\rom}[1]{\textsc{#1}}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small\color{azulescuro} Reconstruindo a Combinatória}\fancyhead[R]{\small\color{azulescuro}\nouppercase{\leftmark}}\fancyfoot[C]{\small\thepage}\renewcommand{\headrulewidth}{.4pt}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\setlength{\headheight}{14pt}
+\renewcommand\arraystretch{1.18}
+\begin{document}
+\begin{titlepage}
+\centering
+\vspace*{3.0cm}
+{\Large\color{verdeescuro}\textsc{Caderno de investigação matemática}\par}
+\vspace{.65cm}
+{\Huge\bfseries\color{azulescuro} Reconstruindo\\[.2cm] a Combinatória\par}
+\vspace{.8cm}
+{\Large Dos produtos cartesianos às funções geradoras\par}
+\vspace{.25cm}
+{\large\itshape Perguntas, experiências, conjecturas e demonstrações\par}
+\vspace{1.3cm}
+\begin{tikzpicture}[scale=.96]
+  \foreach \i in {0,...,4}{\foreach \j in {0,...,4}{
+    \pgfmathtruncatemacro{\s}{\i+\j}
+    \ifnum\s=4 \fill[verdeescuro!25] (\i*.57,\j*.57) rectangle ++(.54,.54);\else
+      \fill[azulescuro!5] (\i*.57,\j*.57) rectangle ++(.54,.54);\fi
+    \draw[white,line width=.8pt] (\i*.57,\j*.57) rectangle ++(.54,.54);
+  }}
+  \node[below,align=center,text=azulescuro] at (1.38,-.18) {\small Uma tabela, uma condição, uma contagem};
+  \node[right=1.2cm,text=verdeescuro,font=\Huge] at (2.85,1.3) {$\Longrightarrow$};
+  \node[right=2.35cm,align=left,text=azulescuro] at (2.85,1.27) {$F(x)=\displaystyle\sum_{k\ge0}c_kx^k$\\[.15cm]\small O mesmo problema em álgebra};
+\end{tikzpicture}
+\vfill
+{\large Uma reconstrução orgânica: os resultados aparecem quando uma pergunta os exige.\par}
+\vspace{.55cm}
+{\small Novembro de 2026\par}
+\end{titlepage}
+\frontmatter
+\chapter*{Nota ao leitor}\addcontentsline{toc}{chapter}{Nota ao leitor}
+Este texto nasceu de uma dúvida: quando se ensina o princípio multiplicativo, aparecem normalmente dois conjuntos distintos; mas quando surgem permutações, arranjos e combinações, parece que estamos sempre a trabalhar no mesmo conjunto. A dúvida conduziu a outras: \emph{quando precisamos de somar? Por que podemos dividir? O que exatamente contamos: objetos ou representações?}
+
+Em vez de começar pelas fórmulas usuais, resolvemos estudar o objeto mais simples à nossa disposição --- o produto cartesiano --- e modificá-lo pouco a pouco. Desenhámos tabelas, encontrámos simetrias, acrescentámos camadas, criámos restrições, mudámos de representação e chegámos aos polinómios. A exposição reorganiza algumas experiências para fazer crescer a dificuldade de forma natural: primeiro conjuntos diferentes, depois conjuntos iguais; primeiro pares, depois triplos e finalmente sequências de comprimento arbitrário.
+
+As perguntas e observações do investigador foram preservadas sempre que trouxeram uma ideia nova. Pequenas contas erradas, corrigidas durante a conversa, não são repetidas em série: o importante é mostrar a razão da correção e o desenvolvimento do pensamento. As definições e proposições surgem \emph{depois} dos exemplos que as tornaram necessárias. Os últimos capítulos incluem aplicações adicionais, feitas com as mesmas ferramentas, e distinguem resultados já observados de prolongamentos novos.
+
+As figuras e tabelas impressas não são interativas, mas têm sido concebidas para ser reconstruídas num blog: cada uma pode tornar-se um laboratório em que o leitor altera o conjunto, a condição ou a camada.
+\tableofcontents
+\mainmatter
+
+\part{Aprender a contar a partir de um objeto}
+\chapter{Dois conjuntos e a primeira dificuldade}
+\section{Uma tabela antes de qualquer fórmula}
+Escolhemos dois conjuntos distintos:
+\[
+A=\{a,b,c\},\qquad B=\{1,2,3,4\}.
+\]
+Se escolhermos primeiro um elemento de $A$ e depois um elemento de $B$, formamos um par ordenado $(x,y)$. Podemos visualizar todas essas escolhas sem nenhuma fórmula pronta:
+\begin{center}
+\begin{tabular}{c|cccc}
+$A\backslash B$&1&2&3&4\\\hline
+$a$&$(a,1)$&$(a,2)$&$(a,3)$&$(a,4)$\\
+$b$&$(b,1)$&$(b,2)$&$(b,3)$&$(b,4)$\\
+$c$&$(c,1)$&$(c,2)$&$(c,3)$&$(c,4)$
+\end{tabular}
+\end{center}
+A tabela possui três linhas e quatro colunas. Cada célula representa um par e nenhum par aparece em duas células. Portanto, há $3\cdot4=12$ pares.
+\Pergunta{Por que as escolhas podem ser multiplicadas? E se os dois conjuntos forem iguais?}
+\Resposta{O princípio não exclui que os dois conjuntos sejam iguais. Continuamos a escolher uma primeira e uma segunda entrada.}
+É a independência das duas posições, e não a diferença entre os conjuntos, que explica a multiplicação.
+\begin{teoremabox}{Primeiro resultado: princípio multiplicativo}
+Para conjuntos finitos $A$ e $B$,
+\[\card{A\times B}=\card A\,\card B.\]
+\prova Para cada um dos $\card A$ elementos da primeira coordenada, a segunda percorre exatamente os $\card B$ elementos de $B$. As linhas são disjuntas e todas têm o mesmo comprimento.\fimprova
+\end{teoremabox}
+\section{Introduzir uma condição sem mudar os conjuntos}
+Mantemos $A$ e $B$, mas aceitamos um par $(x,y)$ somente quando
+\[
+\begin{cases}
+y\in\{2,4\},&x=a\text{ ou }x=b,\\
+y\in\{2,3,4\},&x=c.
+\end{cases}
+\]
+\begin{center}\small
+\begin{tabular}{c|cccc|c}
+$A\backslash B$&1&2&3&4&Total na linha\\\hline
+$a$&\ecel{$(a,1)$}&\ccel{$(a,2)$}&\ecel{$(a,3)$}&\ccel{$(a,4)$}&2\\
+$b$&\ecel{$(b,1)$}&\ccel{$(b,2)$}&\ecel{$(b,3)$}&\ccel{$(b,4)$}&2\\
+$c$&\ecel{$(c,1)$}&\ccel{$(c,2)$}&\ccel{$(c,3)$}&\ccel{$(c,4)$}&3
+\end{tabular}
+\end{center}
+A condição não altera $A$ nem $B$ isoladamente. Ela seleciona elementos do produto cartesiano. Chamemos $R$ ao conjunto selecionado:
+\[R=\{(x,y)\in A\times B:\text{ a condição é satisfeita}\}.\]
+É importante notar que $R$ \emph{não é um par}; é um \emph{conjunto de pares}.
+\Pergunta{Por que já não podemos multiplicar $3\cdot4$? Existe uma maneira de usar ainda o princípio multiplicativo?}
+\Resposta{Podemos dividir o conjunto em dois, aplicar o princípio em cada um e depois somar. Ou contar tudo e retirar o que não interessa.}
+A primeira resposta sugere partir $R$ em duas regiões:
+\[
+R_1=\{a,b\}\times\{2,4\},\qquad R_2=\{c\}\times\{2,3,4\}.
+\]
+Em cada região, multiplicamos. Como não há pares comuns às duas regiões, somamos:
+\[
+\card R=2\cdot2+1\cdot3=7.
+\]
+Em alternativa, dos 12 pares totais, cinco são proibidos: $12-5=7$.
+\begin{teoremabox}{Segundo resultado: princípio aditivo}
+Se um conjunto finito $R$ for dividido em partes disjuntas $R_1,\ldots,R_s$, então
+\[R=R_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}R_s
+\quad\Longrightarrow\quad \card R=\sum_{i=1}^{s}\card{R_i}.\]
+\prova Todo elemento de $R$ pertence a uma e apenas uma parte; ao somar os tamanhos das partes, cada elemento é contado exatamente uma vez.\fimprova
+\end{teoremabox}
+\begin{descobertabox}{A diferença que organizará o resto do texto}
+Multiplicamos quando encadeamos escolhas com quantidades conhecidas. Somamos quando reunimos casos que não se sobrepõem. Subtraímos quando conhecemos os casos proibidos. Tudo isto pode acontecer mesmo que os conjuntos iniciais sejam diferentes.
+\end{descobertabox}
+
+\chapter{A diagonal, a ordem e as representações}
+\section{Dois fatores iguais}
+Tomemos agora $A=B=\{1,2,3\}$. A tabela ainda tem nove células. Mas, se exigirmos coordenadas diferentes, a diagonal fica proibida:
+\begin{center}
+\begin{tabular}{c|ccc}
+$A\backslash A$&1&2&3\\\hline
+1&\ecel{$(1,1)$}&\ccel{$(1,2)$}&\ccel{$(1,3)$}\\
+2&\ccel{$(2,1)$}&\ecel{$(2,2)$}&\ccel{$(2,3)$}\\
+3&\ccel{$(3,1)$}&\ccel{$(3,2)$}&\ecel{$(3,3)$}
+\end{tabular}
+\end{center}
+Duas contagens aparecem naturalmente: contar tudo e subtrair a diagonal, $9-3=6$; ou escolher primeiro um de três elementos e depois um dos dois restantes, $3\cdot2=6$.
+
+\section{Uma nova pergunta: o que significa ``a mesma escolha''?}
+Os pares $(1,2)$ e $(2,1)$ são distintos no produto cartesiano. Mas, se queremos simplesmente escolher os elementos $1$ e $2$, sem atender à ordem, ambos representam o mesmo objeto.
+\Pergunta{Quando a ordem não importa, basta dividir por dois?}
+\Resposta{Neste caso, sim. Os pares aparecem nas duas orientações.}
+Os seis pares fora da diagonal distribuem-se em três classes:
+\[
+\{(1,2),(2,1)\},\quad
+\{(1,3),(3,1)\},\quad
+\{(2,3),(3,2)\}.
+\]
+Cada classe contém exatamente dois pares. Por isso, há $6/2=3$ escolhas de dois elementos distintos sem ordem.
+\begin{observacaobox}{Duas operações que não devemos confundir}
+\textbf{Restringir} significa retirar objetos que não satisfazem uma condição: por exemplo, excluir $(2,2)$ por ter entradas iguais. \textbf{Identificar} significa declarar que objetos diferentes da tabela são representações de uma mesma escolha: por exemplo, $(1,2)$ e $(2,1)$. Dividir por $2$ só é legítimo aqui porque \emph{todas} as classes têm tamanho $2$.
+\end{observacaobox}
+\section{Dois conjuntos diferentes, mas com interseção}
+Para testar a regra, consideremos
+\[A=\{1,2,3\},\qquad B=\{2,3,4\}.\]
+Agora $(2,3)$ e $(3,2)$ aparecem na tabela; porém, $(1,2)$ aparece e $(2,1)$ não aparece. Além disso, $(2,2)$ não tem uma segunda representação invertida: ele é o seu próprio inverso.
+\begin{center}\small
+\begin{tabular}{c|ccc}
+$A\backslash B$&2&3&4\\\hline
+1&$(1,2)$&$(1,3)$&$(1,4)$\\
+2&\dc{$(2,2)$}&\ccel{$(2,3)$}&$(2,4)$\\
+3&\ccel{$(3,2)$}&\dc{$(3,3)$}&$(3,4)$
+\end{tabular}
+\end{center}
+\emph{A região simétrica é determinada pela interseção dos conjuntos, não pela tabela inteira.}
+\Pergunta{Se $A$ e $B$ partilham $k$ elementos, quantos pares têm um inverso diferente dentro do mesmo produto?}
+\Resposta{Na região comum, há $k(k-1)$ pares fora da diagonal. Cada escolha sem ordem aparece duas vezes; as representações excedentes são $k(k-1)/2$.}
+A resposta nasce do produto cartesiano $S\times S$, onde $S=A\cap B$. Nele há $k^2$ pares, $k$ diagonais e $k(k-1)$ pares fora da diagonal. Estes últimos agrupam-se em pares espelhados.
+\begin{teoremabox}{Contagem por simetria parcial}
+Se $\card A=n$, $\card B=m$ e $\card{A\cap B}=k$, o número de escolhas de dois elementos \emph{sem ordem}, representáveis por pares de $A\times B$, é
+\[U=nm-\frac{k(k-1)}2.\]
+Se também exigirmos que os elementos escolhidos sejam distintos, então
+\[U_{\ne}=nm-k-\frac{k(k-1)}2.\]
+\prova Começamos com $nm$ representações ordenadas. Uma representação possui inversa distinta na tabela se, e somente se, os seus dois valores são distintos e pertencem a $A\cap B$. Assim, somente $k(k-1)$ representações entram em classes de tamanho dois: há $k(k-1)/2$ duplicações excedentes. Se os pares $(a,a)$ forem proibidos, retiramos ainda as $k$ células diagonais.\fimprova
+\end{teoremabox}
+\section{Uma soma surge do desenho da tabela}
+Se fizermos $A=B$ e $\card A=n$, então $m=k=n$. Substituindo na expressão anterior,
+\[
+U_{\ne}=n^2-n-\frac{n(n-1)}2=\frac{n(n-1)}2,
+\qquad
+U=\frac{n(n+1)}2.
+\]
+Observemos, porém, a mesma contagem por linhas: na parte triangular que contém a diagonal, as linhas têm $n,n-1,\ldots,1$ células. Logo,
+\[
+1+2+\cdots+n=\frac{n(n+1)}2.
+\]
+\begin{descobertabox}{Uma identidade aparece sem ser o objetivo inicial}
+A soma dos primeiros naturais foi encontrada por \emph{duas maneiras de contar o mesmo conjunto}: pelas linhas e pela simetria da tabela quadrada. A identidade surge como consequência, não como fórmula anunciada à partida.
+\end{descobertabox}
+
+\chapter{Acrescentar uma dimensão: as camadas}
+\section{Três conjuntos distintos primeiro}
+Agora tomemos três conjuntos diferentes:
+\[A=\{a,b\},\quad B=\{1,2,3\},\quad C=\{u,v,w\}.\]
+Um triplo $(x,y,z)$ possui três coordenadas. Podemos fixar $z$ e obter uma tabela $2\times3$ em cada camada. Existem três camadas, todas com seis triplos.
+\begin{center}
+\begin{tikzpicture}[x=.82cm,y=.7cm]
+\foreach \k/\nome in {0/u,1/v,2/w}{
+ \begin{scope}[shift={(\k*3.9,0)}]
+  \node[font=\small\bfseries,text=azulescuro] at (1,2.5) {$z=\nome$};
+  \foreach \i in {0,1}{\foreach \j in {0,1,2}{
+   \fill[blue!8] (\j,\i) rectangle ++(.90,.90);
+   \draw[white,very thick] (\j,\i) rectangle ++(.90,.90);
+  }}
+  \node[font=\scriptsize] at (.45,1.45) {$a$};
+  \node[font=\scriptsize] at (.45,.45) {$b$};
+ \end{scope}
+}
+\end{tikzpicture}
+\end{center}
+\Pergunta{Podemos contar uma única camada e multiplicar pelo número de camadas?}
+\Resposta{Sim, se todas tiverem a mesma quantidade. Isso permite evitar desenhar todo o sólido.}
+Deste modo, encontramos $\card{A\times B\times C}=6\cdot3=18$.
+\section{Restrições que alteram o tamanho das camadas}
+Não devemos pressupor que todas as camadas continuem iguais após introduzir uma condição. Escolhemos
+\[A=\{1,2\},\quad B=\{1,2,3\},\quad C=\{1,3\},\]
+e exigimos que as três coordenadas sejam distintas.
+\begin{center}
+\begin{tabular}{c@{\qquad\qquad}c}
+\multicolumn{1}{c}{$z=1$}&\multicolumn{1}{c}{$z=3$}\\[2mm]
+\begin{tabular}{c|ccc}$x\backslash y$&1&2&3\\\hline 1&--&--&--\\ 2&--&--&\ccel{$(2,3,1)$}\end{tabular}&
+\begin{tabular}{c|ccc}$x\backslash y$&1&2&3\\\hline 1&--&\ccel{$(1,2,3)$}&--\\ 2&\ccel{$(2,1,3)$}&--&--\end{tabular}
+\end{tabular}
+\end{center}
+A primeira camada possui um triplo válido e a segunda, dois. A multiplicação por número de camadas falharia; a soma não falha.
+\Resposta{Não são iguais. Temos de somar as quantidades das camadas.}
+\begin{teoremabox}{Contagem por camadas (ou fibras)}
+Se $R\subseteq A\times B\times C$ e
+\[R_z=\{(x,y)\in A\times B:(x,y,z)\in R\},\]
+então
+\[\boxed{\card R=\sum_{z\in C}\card{R_z}}.\]
+\prova Cada triplo de $R$ pertence a uma e apenas uma camada, determinada pela terceira coordenada $z$. As camadas são disjuntas e a sua união é $R$. Aplica-se o princípio aditivo.\fimprova
+\end{teoremabox}
+Quando $\card{R_z}=t$ para todo $z$, a expressão reduz-se a $\card C\,t$: recuperamos o princípio multiplicativo como caso particular.
+
+
+\section{Somente agora, três cópias do mesmo conjunto}
+
+Até aqui, estudámos produtos cartesianos de conjuntos distintos
+e descobrimos que podemos organizar os seus elementos em camadas.
+Cada camada é uma tabela de pares ordenados, obtida ao fixarmos
+uma das coordenadas do triplo.
+
+Vimos também que, quando impomos restrições, nem todas as
+camadas precisam de ter a mesma quantidade de elementos
+permitidos. Nesse caso, somos obrigados a contar cada camada
+separadamente e, depois, somar os resultados.
+
+Mas surge uma nova pergunta: o que acontece quando os três
+conjuntos são iguais?
+
+Tomemos
+
+\[
+A=\{1,2,3\}.
+\]
+
+Queremos estudar o produto cartesiano
+
+\[
+A^3=A\times A\times A.
+\]
+
+Cada elemento de $A^3$ é um triplo ordenado $(x,y,z)$,
+em que cada coordenada pertence a $A$.
+
+Pelo Princípio Multiplicativo, o conjunto completo possui
+
+\[
+|A^3|=3\cdot3\cdot3=27
+\]
+
+elementos.
+
+Geometricamente, podemos imaginar um cubo formado por
+$27$ posições. Cada posição corresponde a uma escolha de
+$x$, uma escolha de $y$ e uma escolha de $z$.
+
+\Pergunta{E se quisermos apenas os triplos em que os três
+elementos são diferentes?}
+
+Vamos impor as condições
+
+\[
+x\neq y,\qquad x\neq z,\qquad y\neq z.
+\]
+
+Em vez de procurar imediatamente uma fórmula, voltaremos
+à nossa representação por camadas.
+
+\subsection*{Primeira experiência: fixar a terceira coordenada}
+
+Comecemos pela camada $z=1$.
+
+Nessa camada, podemos variar livremente $x$ e $y$ entre
+os três elementos de $A$, formando inicialmente nove pares.
+
+A tabela seguinte representa os triplos $(x,y,1)$.
+Os triplos dentro de caixas satisfazem as três condições.
+
+\[
+\begin{array}{c|ccc}
+x\backslash y & 1 & 2 & 3\\ \hline
+1 &(1,1,1)&(1,2,1)&(1,3,1)\\[3pt]
+2 &(2,1,1)&(2,2,1)&\boxed{(2,3,1)}\\[3pt]
+3 &(3,1,1)&\boxed{(3,2,1)}&(3,3,1)
+\end{array}
+\]
+
+Observemos o que aconteceu.
+
+Como fixámos $z=1$, não podemos escolher $x=1$ nem
+$y=1$. Isso elimina a primeira linha e a primeira
+coluna da tabela.
+
+Restam quatro pares possíveis para as primeiras duas
+coordenadas:
+
+\[
+(2,2),\quad(2,3),\quad(3,2),\quad(3,3).
+\]
+
+Mas ainda precisamos de impor $x\neq y$.
+
+Assim, os pares $(2,2)$ e $(3,3)$ também são proibidos.
+Restam apenas
+
+\[
+(2,3,1),\qquad(3,2,1).
+\]
+
+\Pergunta{Conseguimos contar os triplos desta camada
+sem precisar de enumerá-los?}
+
+\Resposta{Sim. Depois de fixar $z=1$, restam dois
+valores possíveis para $x$. Escolhido $x$, existe
+apenas um valor disponível para $y$.}
+
+Portanto, pelo Princípio Multiplicativo, a camada
+possui
+
+\[
+2\cdot1=2
+\]
+
+triplos permitidos.
+
+\subsection*{Segunda experiência: mudar de camada}
+
+Fixemos agora $z=2$.
+
+Construímos novamente uma tabela com três linhas
+e três colunas:
+
+\[
+\begin{array}{c|ccc}
+x\backslash y & 1 & 2 & 3\\ \hline
+1 &(1,1,2)&(1,2,2)&\boxed{(1,3,2)}\\[3pt]
+2 &(2,1,2)&(2,2,2)&(2,3,2)\\[3pt]
+3 &\boxed{(3,1,2)}&(3,2,2)&(3,3,2)
+\end{array}
+\]
+
+Desta vez, a restrição $x\neq z$ elimina a segunda
+linha, enquanto $y\neq z$ elimina a segunda coluna.
+
+A condição $x\neq y$ elimina ainda os pares com
+primeiras coordenadas iguais.
+
+Restam
+
+\[
+(1,3,2),\qquad(3,1,2).
+\]
+
+Novamente, temos dois triplos permitidos.
+
+\Pergunta{A segunda camada tem a mesma quantidade de
+triplos que a primeira por coincidência, ou existe
+alguma razão para isso?}
+
+Antes de responder, examinemos a última camada.
+
+\subsection*{Terceira experiência: a última camada}
+
+Fixemos $z=3$.
+
+\[
+\begin{array}{c|ccc}
+x\backslash y & 1 & 2 & 3\\ \hline
+1 &(1,1,3)&\boxed{(1,2,3)}&(1,3,3)\\[3pt]
+2 &\boxed{(2,1,3)}&(2,2,3)&(2,3,3)\\[3pt]
+3 &(3,1,3)&(3,2,3)&(3,3,3)
+\end{array}
+\]
+
+Encontramos os triplos
+
+\[
+(1,2,3),\qquad(2,1,3).
+\]
+
+Também nesta camada existem dois triplos permitidos.
+
+Podemos agora reunir as descobertas numa única tabela:
+
+\[
+\begin{array}{c|c|c}
+\text{Camada}
+&\text{Triplos permitidos}
+&\text{Quantidade}\\ \hline
+z=1 &(2,3,1),(3,2,1)&2\\
+z=2 &(1,3,2),(3,1,2)&2\\
+z=3 &(1,2,3),(2,1,3)&2
+\end{array}
+\]
+
+As posições permitidas são diferentes em cada camada,
+mas todas possuem a mesma quantidade de elementos.
+
+\subsection*{O que a regularidade nos permite concluir?}
+
+Como as camadas correspondem a valores diferentes de
+$z$, nenhum triplo pode pertencer simultaneamente a
+duas delas.
+
+Podemos, portanto, aplicar o Princípio Aditivo:
+
+\[
+N=2+2+2=6.
+\]
+
+Mas observemos que estamos a somar três vezes a mesma
+quantidade.
+
+Podemos escrever
+
+\[
+N=3\cdot2=6.
+\]
+
+Acabámos de recuperar o Princípio Multiplicativo
+a partir da decomposição em camadas!
+
+\Pergunta{Mas então já não estamos a fazer linha
+$\times$ coluna $\times$ profundidade?}
+
+\Resposta{Estamos, sim. A terceira coordenada
+determina a camada, e as duas primeiras determinam
+uma posição dentro dela. A diferença é que as
+restrições impedem que todas as posições sejam
+permitidas.}
+
+No cubo completo, tínhamos
+
+\[
+3\cdot3\cdot3=27.
+\]
+
+No conjunto restringido, temos três camadas, cada uma
+com dois elementos permitidos:
+
+\[
+3\cdot(2\cdot1)=6.
+\]
+
+\subsection*{Por que todas as camadas têm a mesma quantidade?}
+
+A tabela sugere uma regularidade, mas precisamos de
+justificá-la sem depender da enumeração dos casos.
+
+Ao fixarmos qualquer valor $z\in A$, existem
+exatamente dois elementos de $A$ diferentes de $z$.
+
+Para construir um triplo permitido, as coordenadas
+$x$ e $y$ precisam de utilizar esses dois elementos,
+sem repetição.
+
+Há duas escolhas para $x$ e, depois de escolher $x$,
+resta uma única escolha para $y$.
+
+Logo, independentemente do valor fixado de $z$,
+cada camada possui
+
+\[
+2\cdot1=2
+\]
+
+elementos.
+
+A regularidade observada nas tabelas não é, portanto,
+uma coincidência: resulta da igualdade entre os
+conjuntos disponíveis e da simetria da restrição.
+
+\subsection*{Uma segunda maneira de construir os triplos}
+
+Na nossa primeira abordagem, escolhemos a terceira
+coordenada e depois contamos os pares permitidos
+na camada correspondente.
+
+Mas poderíamos construir os mesmos triplos noutra
+ordem.
+
+Primeiro escolhemos $x$.
+
+Como $A$ possui três elementos, temos três
+possibilidades.
+
+Depois de escolher $x$, a coordenada $y$ não pode
+receber o mesmo valor. Restam duas possibilidades.
+
+Por fim, a coordenada $z$ deve ser diferente das
+duas anteriores. Resta apenas uma possibilidade.
+
+Portanto,
+
+\[
+\boxed{N=3\cdot2\cdot1=6}.
+\]
+
+Esta expressão coincide com a obtida por camadas:
+
+\[
+\underbrace{3\cdot(2\cdot1)}_{\text{contagem por camadas}}
+=
+\underbrace{3\cdot2\cdot1}_{\text{escolhas sucessivas}}.
+\]
+
+Estamos a contar exatamente os mesmos objetos,
+mas organizámos as escolhas de duas maneiras.
+
+Esta igualdade também mostra que, embora o número
+de escolhas posteriores dependa dos valores
+anteriormente escolhidos, a quantidade de opções
+disponíveis em cada etapa permanece constante.
+
+\subsection*{Uma conjectura para conjuntos maiores}
+
+\Pergunta{Será que podemos repetir este raciocínio
+quando o conjunto possui $n$ elementos?}
+
+Suponhamos que
+
+\[
+A=\{a_1,a_2,\ldots,a_n\},
+\]
+
+com $n\geq3$.
+
+Queremos contar os triplos de $A^3$ cujas
+coordenadas são duas a duas diferentes.
+
+Podemos imaginar $n$ camadas, uma para cada possível
+valor da terceira coordenada.
+
+Ao fixarmos uma camada, sobram $n-1$ valores
+disponíveis para a primeira coordenada e,
+depois de a escolhermos, $n-2$ para a segunda.
+
+Assim, cada camada possui
+
+\[
+(n-1)(n-2)
+\]
+
+elementos permitidos.
+
+Como existem $n$ camadas, a nossa conjectura é
+
+\[
+\boxed{N=n(n-1)(n-2)}.
+\]
+
+\subsection*{Justificação da conjectura}
+
+Fixemos qualquer $z\in A$.
+
+Os pares $(x,y)$ válidos são aqueles em que
+$x,y\in A\setminus\{z\}$ e $x\neq y$.
+
+Como o conjunto $A\setminus\{z\}$ possui $n-1$
+elementos, existem $n-1$ possibilidades para $x$
+e $n-2$ possibilidades para $y$.
+
+Logo, todas as camadas possuem
+$(n-1)(n-2)$ triplos.
+
+As $n$ camadas são disjuntas e cobrem todos os
+triplos permitidos.
+
+Pelo Princípio Aditivo, seguido do Multiplicativo,
+
+\[
+N=\underbrace{
+(n-1)(n-2)+\cdots+(n-1)(n-2)
+}_{n\text{ parcelas}}
+=n(n-1)(n-2).
+\]
+
+A conjectura está demonstrada.
+
+\medskip
+
+\noindent\textbf{Resultado obtido.}
+Se $A$ possui $n\geq3$ elementos, o número de
+triplos ordenados de $A^3$ com coordenadas duas
+a duas diferentes é
+
+\[
+\boxed{n(n-1)(n-2)}.
+\]
+
+\medskip
+
+Mas esta descoberta sugere outra pergunta.
+
+\Pergunta{E se, em vez de triplos, quisermos
+construir sequências de quatro, cinco ou
+$r$ elementos distintos?}
+
+
+\subsection*{Uma interpretação geométrica: caminhar entre as escolhas}
+
+Ao observar novamente o produto cartesiano, surgiu
+outra maneira de imaginar o Princípio Multiplicativo.
+
+Em vez de pensar apenas numa multiplicação, podemos
+imaginar que estamos a caminhar por três direções:
+$x$, $y$ e $z$.
+
+Começamos com o conjunto
+
+\[
+A=\{1,2,3\}.
+\]
+
+Na primeira direção, escolhemos a coordenada $x$.
+Temos três possibilidades.
+
+Suponhamos que escolhemos
+
+\[
+x=2.
+\]
+
+Agora avançamos na direção $y$.
+
+Mas já utilizámos o valor $2$ e não podemos passar por esse ponto novamente. Como pretendemos
+coordenadas distintas, não podemos voltar a
+escolhê-lo.
+
+Portanto,
+
+\[
+y\in\{1,3\}.
+\]
+
+Temos apenas duas possibilidades.
+
+Suponhamos agora que escolhemos $y=1$.
+
+Ao avançarmos na terceira direção, $z$, já não
+podemos utilizar os valores $2$ e $1$.
+
+Resta somente
+
+\[
+z=3.
+\]
+
+Construímos assim o triplo
+
+\[
+(2,1,3).
+\]
+
+O nosso percurso pode ser representado por
+
+\[
+\underbrace{3}_{\text{direção }x}
+\longrightarrow
+\underbrace{2}_{\text{direção }y}
+\longrightarrow
+\underbrace{1}_{\text{direção }z}.
+\]
+
+\Pergunta{Será que podemos interpretar a diminuição
+das possibilidades como uma consequência geométrica
+do caminho que estamos a percorrer?}
+
+\Resposta{Sim, desde que distingamos as direções
+das restrições sobre os valores escolhidos.}
+
+No produto cartesiano completo, as três coordenadas
+podem assumir independentemente qualquer valor de
+$A$. Por isso, cada direção possui três opções.
+
+Mas, quando exigimos coordenadas distintas, cada
+nova escolha precisa de evitar os valores já
+utilizados nas direções anteriores.
+
+Geometricamente, podemos pensar nos $27$ triplos
+de $A^3$ como pontos de uma grelha tridimensional.
+
+A condição $x=y$ identifica os pontos situados
+num plano diagonal dessa grelha. Analogamente,
+as condições $x=z$ e $y=z$ identificam outros
+dois planos diagonais.
+
+Ao exigirmos
+
+\[
+x\neq y,\qquad x\neq z,\qquad y\neq z,
+\]
+
+estamos a selecionar apenas os pontos que não
+pertencem a nenhum desses três planos.
+
+Contudo, não precisamos de eliminar esses pontos
+um a um.
+
+Podemos construir diretamente um caminho permitido,
+escolhendo sucessivamente valores que ainda não
+tenham sido utilizados.
+
+Assim, para um conjunto com $n$ elementos,
+
+\[
+\underbrace{n}_{x}
+\longrightarrow
+\underbrace{n-1}_{y}
+\longrightarrow
+\underbrace{n-2}_{z}.
+\]
+
+E o número total de caminhos possíveis é
+
+\[
+N=n(n-1)(n-2).
+\]
+
+Esta interpretação oferece duas maneiras de olhar
+para a mesma construção:
+
+\begin{itemize}
+    \item O produto cartesiano completo representa
+    todas as posições disponíveis no espaço
+    das escolhas.
+
+    \item As restrições determinam quais os
+    caminhos de escolhas que conduzem a
+    posições permitidas.
+\end{itemize}
+
+A tabela por camadas permite observar os pontos
+permitidos. O raciocínio por escolhas sucessivas
+permite contá-los sem construir toda a tabela.
+
+\medskip
+
+Surge então uma pergunta natural:
+
+\Pergunta{Se acrescentarmos uma quarta, quinta ou
+sexta direção, será que continuaremos a perder
+uma possibilidade em cada nova escolha?}
+
+A representação geométrica já não será tão simples
+de desenhar, mas talvez o percurso continue a
+obedecer à mesma regularidade.
+
+
+A nossa representação geométrica tornar-se-ia
+progressivamente mais difícil de desenhar.
+No entanto, o raciocínio de escolher uma
+coordenada de cada vez continua possível.
+
+Talvez consigamos generalizar a contagem sem
+precisar de construir tabelas de dimensão
+cada vez maior.
+
+\section{Generalizar a \texorpdfstring{$r$}{r} posições}
+Se um conjunto contém $n$ elementos e desejamos formar uma sequência ordenada de comprimento $r$, sem repetir elementos, o mesmo raciocínio fornece
+\[
+N=n(n-1)(n-2)\cdots(n-r+1),\qquad 0\le r\le n.
+\]
+\Pergunta{Como escrever esse produto em forma compacta?}
+Em $5!=5\cdot4\cdot3\cdot2\cdot1$, para conservar apenas os três primeiros fatores, dividimos por $2!$. Para $n$ e $r$, o produto final que não queremos é $(n-r)!$.
+\begin{teoremabox}{Arranjos e permutações, descobertos pelo produto decrescente}
+O número de sequências ordenadas de $r$ elementos distintos retirados de um conjunto de $n$ elementos é
+\[A(n,r)=\frac{n!}{(n-r)!}.\]
+No caso $r=n$, todas as posições são ocupadas: há $n!$ permutações.
+\prova A sequência pode ser construída em $r$ escolhas sucessivas: $n,n-1,\ldots,n-r+1$ possibilidades. A notação fatorial abrevia esse produto.\fimprova
+\end{teoremabox}
+O que ocorre se não distinguirmos a ordem? Para uma escolha fixa de $r$ elementos diferentes, existem exatamente $r!$ sequências ordenadas que a representam.
+\begin{center}
+\small
+\begin{tabular}{ccc}
+$(1,2,3)$&$(1,3,2)$&$(2,1,3)$\\
+$(2,3,1)$&$(3,1,2)$&$(3,2,1)$
+\end{tabular}
+\end{center}
+Todas correspondem à escolha $\{1,2,3\}$.
+\begin{teoremabox}{Combinações: retirar multiplicidades iguais}
+O número de escolhas de $r$ elementos distintos, sem ordem, é
+\[\boxed{\binom nr=\frac{n!}{r!(n-r)!}}.\]
+\prova Existem $n!/(n-r)!$ sequências ordenadas sem repetição. Cada escolha sem ordem possui exatamente $r!$ representações ordenadas e as classes de representações são disjuntas. Dividimos o total por $r!$.\fimprova
+\end{teoremabox}
+\begin{observacaobox}{Uma advertência que veio das tentativas}
+A divisão não ``apaga elementos iguais'' de um conjunto. Ela conta classes de representações. Se algumas classes tiverem seis elementos, outras três e outras um, dividir tudo por seis não funciona. Encontraremos exatamente esse obstáculo quando passarmos a triplos com repetições.
+\end{observacaobox}
+\chapter{O vazio, os zeros e uns e o triângulo de Pascal}
+\section{Uma primeira tentativa de contar subconjuntos}
+Voltemos ao conjunto $A=\{a,b,c\}$. Quantos subconjuntos possui? A nossa primeira ideia foi usar triplos de $A^3$ e ignorar a ordem e a repetição de valores. Por exemplo,
+\[(a,b,a),\ (b,a,a)\ \longmapsto\ \{a,b\}.\]
+Na camada cuja terceira coordenada é $a$, aparecem quatro subconjuntos distintos: $\{a\}$, $\{a,b\}$, $\{a,c\}$ e $\{a,b,c\}$. Outras camadas têm a mesma quantidade interna, mas também trazem subconjuntos que a primeira não contém. A contagem de \emph{novos} subconjuntos é $4+2+1=7$; acrescentando $\varnothing$, chegamos a oito.
+
+\Pergunta{Não haverá uma representação que inclua o vazio e não repita subconjuntos?}
+\Resposta{Talvez possamos usar zeros e uns. Cada elemento poderia estar presente ou ausente.}
+Esta mudança de representação simplifica radicalmente o problema. Atribuímos uma posição a cada elemento de $A$: primeira para $a$, segunda para $b$, terceira para $c$. Cada coordenada vale 1 se o elemento entra no subconjunto e 0 se não entra.
+\begin{center}\small
+\begin{tabular}{c@{\hspace{1.2cm}}c c@{\hspace{1.2cm}}c}
+Vetor&Subconjunto&Vetor&Subconjunto\\\toprule
+$000$&$\varnothing$&$100$&$\{a\}$\\
+$001$&$\{c\}$&$101$&$\{a,c\}$\\
+$010$&$\{b\}$&$110$&$\{a,b\}$\\
+$011$&$\{b,c\}$&$111$&$\{a,b,c\}$
+\end{tabular}
+\end{center}
+Ao contrário da primeira tentativa, cada subconjunto corresponde a um único vetor.
+\begin{teoremabox}{A bijeção entre subconjuntos e vetores binários}
+Se $A=\{a_1,\ldots,a_n\}$, a função
+\[S\subseteq A\longmapsto(\varepsilon_1,\ldots,\varepsilon_n),\qquad
+\varepsilon_i=\begin{cases}1,&a_i\in S,\\0,&a_i\notin S,\end{cases}\]
+é uma bijeção entre os subconjuntos de $A$ e $\{0,1\}^n$. Em particular, $A$ possui $2^n$ subconjuntos.
+\prova Cada subconjunto determina exatamente um vetor. Reciprocamente, cada vetor determina exatamente o subconjunto formado pelos elementos cujas coordenadas são 1. As duas construções são inversas. Há duas escolhas independentes para cada uma das $n$ coordenadas, logo $2^n$ vetores.\fimprova
+\end{teoremabox}
+\section{Contar somente os subconjuntos de tamanho \texorpdfstring{$r$}{r}}
+Se quisermos exatamente $r$ elementos, devemos selecionar os vetores binários com exatamente $r$ algarismos 1. Chamemos $T(n,r)$ ao seu número.
+
+Para $n=3$ e $r=1$, há três vetores: $100,010,001$. Para $n=4$ e $r=2$, podemos organizar os dezasseis vetores binários por duas camadas: a primeira coordenada é 0 ou 1.
+\begin{center}
+\begin{tikzpicture}[node distance=3mm]
+\node[draw=azulescuro,rounded corners,fill=azulclaro,inner sep=6pt] (all) {$T(4,2)$};
+\node[draw=verdeescuro!70,rounded corners,fill=verdeclaro,below left=11mm and 23mm of all,inner sep=6pt] (a) {$0\,\_\,\_\,\_$: $T(3,2)$};
+\node[draw=verdeescuro!70,rounded corners,fill=verdeclaro,below right=11mm and 23mm of all,inner sep=6pt] (b) {$1\,\_\,\_\,\_$: $T(3,1)$};
+\draw[-{Latex},thick] (all) -- (a);
+\draw[-{Latex},thick] (all) -- (b);
+\node[below=3mm of a] {$3$ vetores};
+\node[below=3mm of b] {$3$ vetores};
+\end{tikzpicture}
+\end{center}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|c}
+\hline
+\textbf{Camada $x_1=0$} &
+\textbf{Camada $x_1=1$} \\
+\hline
+$0000$ & $1000$ \\
+$0001$ & $\boxed{1001}$ \\
+$0010$ & $\boxed{1010}$ \\
+$\boxed{0011}$ & $1011$ \\
+$0100$ & $\boxed{1100}$ \\
+$\boxed{0101}$ & $1101$ \\
+$\boxed{0110}$ & $1110$ \\
+$0111$ & $1111$ \\
+\hline
+\textbf{$3$ vetores válidos} &
+\textbf{$3$ vetores válidos} \\
+\hline
+\end{tabular}
+\end{center}
+
+Os vetores destacados possuem exatamente dois
+algarismos iguais a $1$.
+
+Na primeira camada, precisamos de dois algarismos
+$1$ nas três posições restantes.
+
+Na segunda camada, como o primeiro algarismo
+já é $1$, precisamos de apenas mais um.
+
+Portanto,
+
+\[
+T(4,2)=T(3,2)+T(3,1)=3+3=6.
+\]
+
+\Pergunta{O que acontece quando fixamos a primeira coordenada?}
+Se ela for 0, ainda precisamos de $r$ uns nas $n-1$ posições restantes. Se for 1, precisamos de $r-1$ uns nas restantes. Os casos não se intersectam.
+\begin{teoremabox}{Recorrência descoberta por camadas}
+Para $0\le r\le n$,
+\[\boxed{T(n,r)=T(n-1,r)+T(n-1,r-1)}.\]
+Adotamos $T(0,0)=1$, $T(n,0)=T(n,n)=1$ e $T(n,r)=0$ para $r<0$ ou $r>n$.
+\prova Particionamos todos os vetores de comprimento $n$ com $r$ uns segundo o primeiro algarismo, que só pode ser 0 ou 1. Cada classe está em bijeção com os vetores menores indicados na fórmula.\fimprova
+\end{teoremabox}
+\Pergunta{Sem saber nenhuma fórmula especial, quanto vale $T(4,1)$?}
+\Resposta{Não vejo logo na tabela. Mas, pela recorrência, $T(4,1)=T(3,1)+T(3,0)=3+1=4$.}
+Prosseguindo, $T(5,2)=T(4,2)+T(4,1)=6+4=10$.
+
+
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{c|l|c}
+\hline
+$r$ & \textbf{Vetores binários} & $T(4,r)$ \\
+\hline
+$0$ & $0000$ & $1$ \\
+
+$1$ & $0001,\ 0010,\ 0100,\ 1000$ & $4$ \\
+
+$2$ & $0011,\ 0101,\ 0110,$ & \\
+    & $1001,\ 1010,\ 1100$ & $6$ \\
+
+$3$ & $0111,\ 1011,\ 1101,\ 1110$ & $4$ \\
+
+$4$ & $1111$ & $1$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Ao organizarmos as contagens segundo a quantidade
+de algarismos $1$, encontramos
+
+\[
+\boxed{1,\quad4,\quad6,\quad4,\quad1}.
+\]
+
+\Pergunta{Por que os valores aparecem
+simetricamente?}
+
+Por exemplo, por que razão
+
+\[
+T(4,1)=T(4,3)
+\]
+
+e
+
+\[
+T(4,0)=T(4,4)?
+\]
+
+
+\subsection*{Uma simetria descoberta nos vetores binários}
+
+Ao observarmos os valores de $T(4,r)$, encontramos
+
+\[
+1,\quad 4,\quad 6,\quad 4,\quad 1.
+\]
+
+Os números são simétricos. Por exemplo,
+
+\[
+T(4,1)=T(4,3).
+\]
+
+\Pergunta{Conseguimos explicar esta simetria
+sem utilizar uma fórmula de combinações?}
+
+\Resposta{Podemos somar a cada vetor o vetor
+formado apenas por uns, utilizando a soma
+coordenada a coordenada módulo $2$.}
+
+Nesta operação,
+
+\[
+0+1\equiv1\pmod2,\qquad
+1+1\equiv0\pmod2.
+\]
+
+Por exemplo,
+
+\[
+(1,0,0,0)+(1,1,1,1)
+=(0,1,1,1)\pmod2.
+\]
+
+Obtemos as correspondências
+
+\[
+\begin{array}{c@{\quad\longleftrightarrow\quad}c}
+1000 & 0111\\
+0100 & 1011\\
+0010 & 1101\\
+0001 & 1110
+\end{array}
+\]
+
+A transformação troca todos os zeros por uns
+e todos os uns por zeros.
+
+Mais ainda, se aplicarmos a operação duas vezes,
+recuperamos o vetor inicial.
+
+\Pergunta{Será que esta correspondência funciona
+para vetores de qualquer comprimento?}
+
+Consideremos um vetor binário de comprimento $n$
+com exatamente $r$ coordenadas iguais a $1$.
+
+Como possui $n-r$ coordenadas iguais a $0$,
+a transformação produz um vetor com exatamente
+$n-r$ coordenadas iguais a $1$.
+
+A operação é reversível e estabelece uma bijeção
+entre os dois conjuntos de vetores.
+
+\begin{teoremabox}{Simetria das contagens binárias}
+Para $0\le r\le n$,
+
+\[
+\boxed{T(n,r)=T(n,n-r)}.
+\]
+
+\prova
+A transformação que troca cada coordenada
+$0$ por $1$ e cada coordenada $1$ por $0$
+leva os vetores com $r$ uns aos vetores
+com $n-r$ uns.
+
+Como aplicar a transformação duas vezes
+recupera o vetor inicial, ela é uma bijeção.
+Logo, os conjuntos possuem a mesma cardinalidade.
+\fimprova
+\end{teoremabox}
+
+\section{O triângulo surgiu da tabela}
+Organizemos os valores de $T(n,r)$ em linhas, com $r=0,\ldots,n$.
+\begin{center}
+\begin{tikzpicture}[every node/.style={font=\small},x=1.05cm,y=.72cm]
+\foreach \n/\row in {0/{1},1/{1,1},2/{1,2,1},3/{1,3,3,1},4/{1,4,6,4,1},5/{1,5,10,10,5,1},6/{1,6,15,20,15,6,1}} {
+ \foreach \val [count=\k from 0] in \row {
+   \pgfmathsetmacro{\xx}{\k-\n/2}
+   \ifnum\n=5 \ifnum\k=2 \node[draw=verdeescuro,fill=verdeclaro,rounded corners,minimum width=.83cm,minimum height=.62cm] at (\xx,-\n) {\val};
+     \else\node[fill=azulclaro,rounded corners,minimum width=.83cm,minimum height=.62cm] at (\xx,-\n) {\val};\fi
+   \else\node[fill=azulclaro,rounded corners,minimum width=.83cm,minimum height=.62cm] at (\xx,-\n) {\val};\fi
+ \ }
+}
+\end{tikzpicture}
+\end{center}
+\Resposta{Fazendo a tabela, percebo que aparece o triângulo de Pascal; aqui ele surge naturalmente da decomposição do produto cartesiano.}
+\begin{descobertabox}{Duas propriedades, não duas fórmulas a decorar}
+O triângulo de Pascal é a tabela da recorrência que acabámos de demonstrar. Além disso, como cada vetor binário tem um número único de uns, as classes com $0,1,\ldots,n$ uns dividem $\{0,1\}^n$; portanto,
+\[\boxed{\sum_{r=0}^n T(n,r)=2^n}.\]
+Pela bijeção anterior, $T(n,r)=\binom nr$. Obtivemos os coeficientes binomiais por um segundo caminho, independente da contagem inicial das permutações ordenadas.
+\end{descobertabox}
+
+
+\section*{Das escolhas binárias às sequências com repetição}
+
+Até aqui, utilizámos os vetores binários para representar
+subconjuntos de um conjunto $A$.
+
+Se $A$ possui $n$ elementos, cada subconjunto corresponde
+a um vetor de $\{0,1\}^n$, no qual o algarismo $1$
+indica que o elemento foi escolhido.
+
+Descobrimos também que $T(n,r)$ representa o número
+de vetores binários de comprimento $n$ com exatamente
+$r$ algarismos iguais a $1$.
+
+Assim, $T(n,r)$ conta os subconjuntos de $A$ com
+exatamente $r$ elementos.
+
+Mas surge uma pergunta.
+
+\Pergunta{Será que podemos utilizar esta mesma
+representação para contar sequências nas quais
+os elementos podem repetir-se?}
+
+Anteriormente, para construir sequências ordenadas
+sem repetição, podíamos escolher um subconjunto
+de tamanho $r$ e multiplicar por $r!$.
+
+Contudo, quando permitimos repetições, essa
+multiplicação deixa de funcionar diretamente.
+
+Por exemplo, as escolhas
+
+\[
+(a,a),\qquad (a,b)
+\]
+
+não possuem a mesma quantidade de ordenações distintas.
+
+A primeira possui apenas uma, enquanto a segunda
+possui duas.
+
+\subsection*{Uma nova ideia: conservar o conjunto original}
+
+Em vez de criar cópias dos elementos de $A$,
+podemos continuar a trabalhar com o seu conjunto
+das partes.
+
+Tomemos
+
+\[
+A=\{a,b,c\}.
+\]
+
+Queremos construir todas as sequências de comprimento
+$3$, permitindo repetições.
+
+Pelo Princípio Multiplicativo, sabemos que existem
+
+\[
+3\cdot3\cdot3=27
+\]
+
+sequências.
+
+Mas queremos reconstruir esta contagem de outra maneira,
+utilizando os subconjuntos de $A$.
+
+\Pergunta{Podemos começar por escolher quais os
+elementos distintos que aparecerão na sequência
+e, depois, contar quantas sequências podemos formar
+utilizando exatamente esses elementos?}
+
+Vamos experimentar.
+
+\subsection*{Primeira experiência: subconjuntos de um elemento}
+
+Os subconjuntos de $A$ com um elemento são
+
+\[
+\{a\},\qquad\{b\},\qquad\{c\}.
+\]
+
+Se escolhermos $\{a\}$, existe uma única sequência
+de comprimento $3$ que utiliza exatamente
+esse elemento:
+
+\[
+aaa.
+\]
+
+Analogamente, os outros subconjuntos produzem
+
+\[
+bbb,\qquad ccc.
+\]
+
+Portanto, cada subconjunto de tamanho $1$
+produz exatamente uma sequência.
+
+Como existem $T(3,1)=3$ subconjuntos desse tamanho,
+obtemos
+
+\[
+T(3,1)\cdot1=3.
+\]
+
+\subsection*{Segunda experiência: subconjuntos de dois elementos}
+
+Consideremos agora o subconjunto
+
+\[
+\{a,b\}.
+\]
+
+Queremos formar sequências de comprimento $3$
+nas quais apareçam obrigatoriamente os dois elementos.
+
+Podemos utilizar a representação binária:
+
+\[
+a\longleftrightarrow1,
+\qquad
+b\longleftrightarrow0.
+\]
+
+Assim, cada sequência corresponde a um vetor
+de $\{0,1\}^3$.
+
+Mas não podemos utilizar os vetores $000$ e $111$,
+porque representam sequências com apenas um
+elemento distinto.
+
+Restam os seguintes vetores:
+
+\[
+\begin{array}{c|c}
+\text{Vetor binário}&\text{Sequência}\\ \hline
+001&bba\\
+010&bab\\
+100&abb\\
+011&baa\\
+101&aba\\
+110&aab
+\end{array}
+\]
+
+Temos, portanto, seis sequências que utilizam
+exatamente os elementos de $\{a,b\}$.
+
+Observemos a contagem através da nossa função $T$.
+
+Os vetores permitidos podem possuir um ou dois
+algarismos iguais a $1$.
+
+Assim,
+
+\[
+T(3,1)+T(3,2)=3+3=6.
+\]
+
+\Pergunta{E se utilizarmos os outros subconjuntos
+de tamanho $2$?}
+
+Os subconjuntos são
+
+\[
+\{a,b\},\qquad\{a,c\},\qquad\{b,c\}.
+\]
+
+A substituição das letras não altera a quantidade
+de sequências que podemos formar.
+
+Portanto, cada subconjunto de tamanho $2$
+produz seis sequências.
+
+Como existem $T(3,2)=3$ desses subconjuntos,
+temos
+
+\[
+T(3,2)\cdot6=3\cdot6=18.
+\]
+
+\subsection*{Terceira experiência: subconjuntos de três elementos}
+
+Resta o subconjunto
+
+\[
+\{a,b,c\}.
+\]
+
+Queremos construir sequências de comprimento $3$
+utilizando obrigatoriamente os três elementos.
+
+Como temos três posições e os três elementos
+devem aparecer, nenhum pode repetir-se.
+
+Voltamos ao Princípio Multiplicativo:
+
+\[
+3\cdot2\cdot1=3!=6.
+\]
+
+Como existe apenas um subconjunto de tamanho $3$,
+
+\[
+T(3,3)\cdot6=1\cdot6=6.
+\]
+
+\subsection*{Reunindo as três experiências}
+
+Podemos organizar as contagens numa tabela:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|c|c|c}
+\hline
+$k$ & $T(3,k)$ &
+\begin{tabular}{c}
+Sequências por\\
+subconjunto
+\end{tabular}
+& Total\\
+\hline
+$1$ & $3$ & $1$ & $3$\\
+$2$ & $3$ & $6$ & $18$\\
+$3$ & $1$ & $6$ & $6$\\
+\hline
+\multicolumn{3}{r|}{\textbf{Total}}&
+$\mathbf{27}$\\
+\hline
+\end{tabular}
+\end{center}
+
+Pelo Princípio Aditivo,
+
+\[
+N=3+18+6=27.
+\]
+
+E verificamos que
+
+\[
+3\cdot1+3\cdot6+1\cdot6=3^3.
+\]
+
+Recuperámos a mesma quantidade que obteríamos
+pelo Princípio Multiplicativo aplicado diretamente
+a $A^3$.
+
+Mas agora a contagem surgiu a partir do
+conjunto das partes de $A$!
+
+\subsection*{Por que podemos somar estas quantidades?}
+
+Cada sequência possui um único conjunto de
+elementos distintos.
+
+Por exemplo,
+
+\[
+aba\longmapsto\{a,b\},
+\]
+
+enquanto
+
+\[
+acb\longmapsto\{a,b,c\}.
+\]
+
+Uma sequência não pode ter simultaneamente
+dois conjuntos diferentes de elementos distintos.
+
+Portanto, ao agruparmos as sequências segundo
+o subconjunto dos elementos que aparecem nelas,
+obtemos classes disjuntas.
+
+Além disso, todas as sequências pertencem
+a alguma dessas classes.
+
+Assim, a soma não omite sequências e não conta
+nenhuma mais de uma vez.
+
+Esta observação justifica a utilização do
+Princípio Aditivo.
+
+\subsection*{Uma nova quantidade surge da experiência}
+
+Nas experiências anteriores, utilizámos
+repetidamente a seguinte contagem:
+
+Dado um subconjunto fixo com $k$ elementos,
+quantas sequências de comprimento $r$
+podemos formar utilizando obrigatoriamente
+todos esses $k$ elementos?
+
+Chamemos a essa quantidade $M(r,k)$.
+
+\begin{teoremabox}{Definição da quantidade $M(r,k)$}
+Para $r\geq1$ e $1\leq k\leq r$,
+definimos $M(r,k)$ como o número de sequências
+ordenadas de comprimento $r$ formadas com
+$k$ símbolos distintos previamente fixados,
+nas quais cada símbolo aparece pelo menos uma vez.
+
+Por convenção, $M(r,k)=0$ quando $k>r$.
+\end{teoremabox}
+
+Pelas experiências realizadas, encontrámos
+
+\[
+\begin{aligned}
+M(3,1)&=1,\\
+M(3,2)&=6,\\
+M(3,3)&=6.
+\end{aligned}
+\]
+
+Reparemos que esta quantidade não depende
+dos nomes dos elementos escolhidos.
+
+Depende apenas de quantos elementos estão
+disponíveis e do comprimento da sequência.
+
+\subsection*{Regressando à representação binária}
+
+\Pergunta{Podemos calcular $M(r,2)$ diretamente
+a partir dos vetores binários, sem enumerar
+todas as sequências?}
+
+Consideremos um subconjunto fixo
+
+\[
+B=\{a,b\}.
+\]
+
+Como anteriormente, representamos $a$ por $1$
+e $b$ por $0$.
+
+Toda a sequência de comprimento $r$
+corresponde a um vetor de
+
+\[
+\{0,1\}^r.
+\]
+
+Mas queremos utilizar obrigatoriamente
+os dois elementos.
+
+Portanto, precisamos de pelo menos um $0$
+e pelo menos um $1$.
+
+Isto significa que a quantidade de uns
+pode variar entre $1$ e $r-1$.
+
+Logo, pelo Princípio Aditivo,
+
+\[
+M(r,2)=
+T(r,1)+T(r,2)+\cdots+T(r,r-1).
+\]
+
+Ou, de forma abreviada,
+
+\[
+\boxed{
+M(r,2)=\sum_{j=1}^{r-1}T(r,j)
+}.
+\]
+
+\subsection*{Uma experiência com quatro posições}
+
+Tomemos agora $r=4$.
+
+Queremos contar as sequências de quatro
+posições utilizando obrigatoriamente
+os elementos $a$ e $b$.
+
+As sequências binárias podem possuir
+um, dois ou três algarismos iguais a $1$.
+
+Organizemos os casos:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{c|l|c}
+\hline
+$j$ & \textbf{Vetores binários} & $T(4,j)$\\
+\hline
+$1$ &
+$0001,\ 0010,\ 0100,\ 1000$ & $4$\\
+\hline
+$2$ &
+$0011,\ 0101,\ 0110,$ &\\
+    &
+$1001,\ 1010,\ 1100$ & $6$\\
+\hline
+$3$ &
+$0111,\ 1011,\ 1101,\ 1110$ & $4$\\
+\hline
+\multicolumn{2}{r|}{\textbf{Total}}&
+$\mathbf{14}$\\
+\hline
+\end{tabular}
+\end{center}
+
+Assim,
+
+\[
+M(4,2)=T(4,1)+T(4,2)+T(4,3).
+\]
+
+Substituindo os valores,
+
+\[
+M(4,2)=4+6+4=14.
+\]
+
+\Pergunta{Será que precisamos realmente
+de somar todos esses casos?}
+
+Observemos novamente o conjunto completo
+
+\[
+\{0,1\}^4.
+\]
+
+Pelo Princípio Multiplicativo, possui
+
+\[
+2^4=16
+\]
+
+elementos.
+
+Mas apenas dois vetores não utilizam
+simultaneamente os símbolos $0$ e $1$:
+
+\[
+0000,\qquad1111.
+\]
+
+Portanto, podemos contar todos os vetores
+e retirar os dois proibidos:
+
+\[
+M(4,2)=2^4-2=14.
+\]
+
+Esta segunda contagem é mais económica.
+
+\subsection*{Generalizando a descoberta}
+
+O mesmo raciocínio funciona para qualquer
+comprimento $r\geq1$.
+
+O conjunto $\{0,1\}^r$ possui $2^r$
+sequências binárias.
+
+Dessas sequências, exatamente duas não
+utilizam ambos os símbolos:
+
+\[
+(0,0,\ldots,0)
+\quad\text{e}\quad
+(1,1,\ldots,1).
+\]
+
+Logo,
+
+\[
+\boxed{M(r,2)=2^r-2}.
+\]
+
+Encontrámos, portanto, duas expressões
+para a mesma quantidade:
+
+\[
+\boxed{
+\sum_{j=1}^{r-1}T(r,j)=2^r-2
+}.
+\]
+
+Uma expressão surgiu da divisão em casos,
+utilizando o Princípio Aditivo.
+
+A outra surgiu da contagem de todos os vetores
+e da subtração dos casos proibidos.
+
+\begin{teoremabox}{Sequências que utilizam dois símbolos}
+Para $r\geq1$, o número de sequências
+de comprimento $r$ que utilizam obrigatoriamente
+dois símbolos distintos previamente fixados é
+
+\[
+\boxed{M(r,2)=2^r-2}.
+\]
+
+\prova
+Cada posição admite duas escolhas, produzindo
+$2^r$ sequências pelo Princípio Multiplicativo.
+
+Apenas duas sequências utilizam um único
+símbolo: a formada exclusivamente pelo
+primeiro símbolo e a formada exclusivamente
+pelo segundo.
+
+Retirando-as, obtemos $2^r-2$ sequências
+que utilizam ambos os símbolos.
+\fimprova
+\end{teoremabox}
+
+\subsection*{Uma relação geral entre $T$ e $M$}
+
+A experiência inicial com $A=\{a,b,c\}$
+sugere agora uma generalização.
+
+Suponhamos que $A$ possui $n$ elementos
+e queremos formar sequências ordenadas
+de comprimento $r$, permitindo repetições.
+
+Podemos classificar as sequências segundo
+o número $k$ de elementos distintos que aparecem.
+
+Primeiro escolhemos quais serão esses
+$k$ elementos.
+
+Existem
+
+\[
+T(n,k)
+\]
+
+possibilidades para essa escolha.
+
+Depois construímos uma sequência de
+comprimento $r$ utilizando obrigatoriamente
+todos os $k$ elementos escolhidos.
+
+Existem
+
+\[
+M(r,k)
+\]
+
+maneiras de fazer isso.
+
+Pelo Princípio Multiplicativo, a quantidade
+de sequências que utilizam exatamente
+$k$ elementos distintos é
+
+\[
+T(n,k)M(r,k).
+\]
+
+Como uma sequência de comprimento $r$
+não pode utilizar mais de $r$ elementos
+distintos, e também não pode utilizar mais
+elementos do que os $n$ disponíveis,
+temos
+
+\[
+1\leq k\leq\min(n,r).
+\]
+
+Somando todos os casos disjuntos,
+
+\[
+\boxed{
+n^r=
+\sum_{k=1}^{\min(n,r)}
+T(n,k)M(r,k)
+}.
+\]
+
+\begin{teoremabox}{Decomposição das sequências por elementos distintos}
+Se $A$ possui $n\geq1$ elementos e $r\geq1$,
+então
+
+\[
+\boxed{
+|A^r|=
+\sum_{k=1}^{\min(n,r)}
+T(n,k)M(r,k)
+}.
+\]
+
+\prova
+A cada sequência de $A^r$ associamos
+o subconjunto dos elementos distintos
+que nela aparecem.
+
+Cada sequência determina um único
+subconjunto não vazio.
+
+Para um subconjunto fixo de tamanho $k$,
+existem $M(r,k)$ sequências cujo conjunto
+de elementos distintos é exatamente esse.
+
+Como existem $T(n,k)$ subconjuntos
+de tamanho $k$, o Princípio Multiplicativo
+fornece $T(n,k)M(r,k)$ sequências
+para cada valor de $k$.
+
+As classes correspondentes a subconjuntos
+diferentes são disjuntas e cobrem $A^r$.
+
+Pelo Princípio Aditivo, obtemos a igualdade.
+\fimprova
+\end{teoremabox}
+
+\subsection*{O que esta descoberta nos permite fazer?}
+
+Partimos de um problema com repetição,
+que inicialmente parecia exigir uma
+contagem diferente daquela que utilizávamos
+para os subconjuntos.
+
+Mas conseguimos reconstruí-lo em duas etapas:
+
+\begin{enumerate}
+\item Escolher os elementos distintos que
+aparecerão na sequência, utilizando $T(n,k)$.
+
+\item Contar as sequências que utilizam
+exatamente esses elementos, utilizando $M(r,k)$.
+\end{enumerate}
+
+Assim, a contagem com repetição
+foi relacionada com a contagem sem repetição
+através do conjunto das partes.
+
+A representação binária continua presente:
+ela determina os subconjuntos escolhidos
+e, quando temos dois símbolos, também permite
+contar diretamente as sequências que os utilizam.
+
+Para três ou mais símbolos, a representação
+precisará de ser adaptada, mas a decomposição
+em classes permanece válida.
+
+\Pergunta{Será que também podemos descobrir
+relações entre os valores de $M(r,k)$,
+tal como descobrimos uma recorrência
+para $T(n,r)$?}
+
+Esta pergunta fica para uma investigação
+posterior.
+
+Por enquanto, observámos que muitos problemas
+de contagem podem ser abordados escolhendo
+primeiro um subconjunto e estudando depois
+as diferentes maneiras de utilizar os seus
+elementos.
+
+Essa ligação nasceu da representação
+por zeros e uns e dos Princípios
+Multiplicativo e Aditivo.
+
+
+\subsection*{Experimentando o método em problemas práticos}
+
+Até aqui, reconstruímos duas contagens diferentes
+a partir dos subconjuntos de um conjunto $A$.
+
+Quando não permitimos repetições, podemos escolher
+$r$ elementos distintos e depois ordená-los:
+
+\[
+N=T(n,r)\,r!.
+\]
+
+Quando permitimos repetições, podemos agrupar
+as sequências segundo o número de elementos
+distintos que nelas aparecem:
+
+\[
+N=\sum_{k=1}^{\min(n,r)}T(n,k)M(r,k).
+\]
+
+Mas uma expressão só ganha significado quando
+compreendemos os problemas que permite resolver.
+
+Vamos experimentar diferentes situações,
+comparando o nosso método com as contagens
+que normalmente utilizaríamos.
+
+\subsubsection*{Problemas sem repetição}
+
+\paragraph{Problema 1. Formar uma equipa}
+
+Numa turma existem sete estudantes disponíveis
+para participar numa atividade.
+
+De quantas maneiras podemos escolher uma equipa
+de três estudantes, sabendo que a ordem
+não importa?
+
+\textbf{Pelo nosso método.}
+
+Representamos cada estudante por uma coordenada
+de um vetor binário de comprimento $7$.
+
+Escolher três estudantes significa procurar
+vetores com exatamente três algarismos iguais a $1$.
+
+Portanto,
+
+\[
+N=T(7,3)=35.
+\]
+
+Não multiplicamos por $3!$, porque a equipa
+$\{a,b,c\}$ é a mesma que $\{b,c,a\}$.
+
+\textbf{Pelo método habitual.}
+
+Se escolhermos sucessivamente três estudantes,
+teremos
+
+\[
+7\cdot6\cdot5
+\]
+
+sequências ordenadas.
+
+Como cada equipa aparece em $3!$ ordens,
+dividimos por essa quantidade:
+
+\[
+N=\frac{7\cdot6\cdot5}{3!}=35.
+\]
+
+Os dois métodos contam os mesmos objetos.
+
+\paragraph{Problema 2. Distribuir medalhas}
+
+Cinco atletas participam numa competição.
+
+De quantas maneiras diferentes podem ser
+atribuídas as medalhas de ouro, prata e bronze,
+sem que um atleta receba duas medalhas?
+
+\textbf{Pelo nosso método.}
+
+Primeiro escolhemos os três atletas
+que receberão medalhas.
+
+Existem
+
+\[
+T(5,3)=10
+\]
+
+subconjuntos de três atletas.
+
+Depois precisamos de atribuir as três medalhas
+distintas aos atletas escolhidos.
+
+Cada subconjunto admite
+
+\[
+3!=6
+\]
+
+distribuições.
+
+Logo,
+
+\[
+N=T(5,3)\cdot3!=10\cdot6=60.
+\]
+
+\textbf{Pelo método habitual.}
+
+Escolhemos sucessivamente o vencedor
+de cada medalha:
+
+\[
+N=5\cdot4\cdot3=60.
+\]
+
+A diferença entre os métodos está na ordem
+em que organizamos a contagem.
+
+No primeiro, escolhemos o subconjunto e depois
+atribuímos as posições.
+
+No segundo, escolhemos diretamente
+os ocupantes de cada posição.
+
+\paragraph{Problema 3. Um livro obrigatório}
+
+Uma estante contém sete livros distintos.
+
+Queremos escolher três livros e colocá-los
+em fila, sabendo que um determinado livro
+tem obrigatoriamente de estar presente.
+
+De quantas maneiras podemos fazê-lo?
+
+\textbf{Pelo nosso método.}
+
+Como um livro já é obrigatório,
+precisamos de escolher mais dois entre
+os seis restantes.
+
+Existem
+
+\[
+T(6,2)=15
+\]
+
+possibilidades.
+
+Depois podemos ordenar os três livros
+escolhidos de
+
+\[
+3!=6
+\]
+
+maneiras.
+
+Assim,
+
+\[
+N=T(6,2)\cdot3!=15\cdot6=90.
+\]
+
+\textbf{Pelo método habitual.}
+
+O livro obrigatório pode ocupar
+qualquer uma das três posições.
+
+Depois escolhemos os outros dois livros,
+respetivamente entre seis e cinco possibilidades.
+
+Portanto,
+
+\[
+N=3\cdot6\cdot5=90.
+\]
+
+\Pergunta{Por que não utilizámos $T(7,3)$
+na primeira solução?}
+
+Porque a restrição já determina um dos
+elementos escolhidos.
+
+A representação binária permite fixar
+a coordenada correspondente a esse livro
+em $1$, deixando apenas seis coordenadas
+livres, das quais duas devem ser iguais a $1$.
+
+\paragraph{Problema 4. Formar números de três algarismos}
+
+Utilizando os algarismos
+
+\[
+A=\{0,1,2,3,4,5\},
+\]
+
+quantos números de três algarismos distintos
+podemos formar?
+
+Recordemos que um número de três algarismos
+não pode começar por zero.
+
+\textbf{Pelo nosso método.}
+
+Inicialmente ignoramos a restrição
+sobre o primeiro algarismo.
+
+Escolhemos três dos seis algarismos
+e ordenamo-los:
+
+\[
+T(6,3)\cdot3!=20\cdot6=120.
+\]
+
+Agora precisamos de retirar as sequências
+que começam por zero.
+
+Se a primeira posição contém zero,
+precisamos de escolher dois dos cinco
+algarismos restantes e ordená-los
+nas duas posições livres.
+
+Existem
+
+\[
+T(5,2)\cdot2!=10\cdot2=20
+\]
+
+sequências proibidas.
+
+Logo,
+
+\[
+N=120-20=\boxed{100}.
+\]
+
+\textbf{Pelo método habitual.}
+
+O primeiro algarismo possui cinco
+possibilidades, pois não pode ser zero.
+
+O segundo possui cinco possibilidades,
+porque um algarismo já foi utilizado.
+
+O terceiro possui quatro possibilidades.
+
+Portanto,
+
+\[
+N=5\cdot5\cdot4=\boxed{100}.
+\]
+
+Esta experiência mostra que podemos
+combinar a escolha de subconjuntos
+com a subtração dos casos proibidos.
+
+\subsubsection*{Problemas com repetição}
+
+Agora queremos permitir que um mesmo elemento
+apareça mais de uma vez numa sequência.
+
+Em vez de abandonar os subconjuntos,
+vamos classificá-los segundo os elementos
+distintos que aparecem.
+
+\paragraph{Problema 5. Códigos com três símbolos}
+
+Um código possui quatro posições.
+
+Em cada posição podemos utilizar
+um dos símbolos
+
+\[
+A=\{a,b,c\}.
+\]
+
+Os símbolos podem repetir-se.
+
+Quantos códigos diferentes existem?
+
+\textbf{Pelo nosso método.}
+
+Classificamos os códigos segundo a quantidade
+de símbolos distintos que utilizam.
+
+\emph{Caso 1: exatamente um símbolo distinto.}
+
+Existem $T(3,1)=3$ escolhas possíveis
+para esse símbolo.
+
+Cada escolha produz apenas um código.
+
+Logo,
+
+\[
+T(3,1)M(4,1)=3\cdot1=3.
+\]
+
+\emph{Caso 2: exatamente dois símbolos distintos.}
+
+Existem
+
+\[
+T(3,2)=3
+\]
+
+subconjuntos de dois símbolos.
+
+Para cada subconjunto, já descobrimos que
+
+\[
+M(4,2)=2^4-2=14.
+\]
+
+Logo, este caso produz
+
+\[
+T(3,2)M(4,2)=3\cdot14=42
+\]
+
+códigos.
+
+\emph{Caso 3: exatamente três símbolos distintos.}
+
+Existe apenas um subconjunto com os três símbolos.
+
+Como o código possui quatro posições,
+um dos símbolos deve aparecer duas vezes,
+enquanto os outros aparecem uma vez cada.
+
+Podemos escolher o símbolo repetido
+de três maneiras.
+
+Depois escolhemos as duas posições
+em que aparecerá:
+
+\[
+T(4,2)=6.
+\]
+
+Os dois símbolos restantes podem ocupar
+as duas posições livres de $2!$ maneiras.
+
+Assim,
+
+\[
+M(4,3)=3\cdot T(4,2)\cdot2!
+       =3\cdot6\cdot2=36.
+\]
+
+Reunindo os casos disjuntos,
+
+\[
+\begin{aligned}
+N
+&=T(3,1)M(4,1)
+ +T(3,2)M(4,2)
+ +T(3,3)M(4,3)\\
+&=3+42+36\\
+&=\boxed{81}.
+\end{aligned}
+\]
+
+\textbf{Pelo método habitual.}
+
+Cada uma das quatro posições admite
+três símbolos.
+
+Pelo Princípio Multiplicativo,
+
+\[
+N=3^4=\boxed{81}.
+\]
+
+O nosso método exigiu mais trabalho,
+mas revelou como os $81$ códigos
+se distribuem segundo os símbolos utilizados.
+
+\paragraph{Problema 6. Sinais luminosos}
+
+Um dispositivo produz cinco sinais sucessivos.
+
+Cada sinal pode ser vermelho ou azul.
+
+Queremos contar as sequências nas quais
+as duas cores aparecem pelo menos uma vez.
+
+\textbf{Pelo nosso método.}
+
+O subconjunto de cores utilizadas
+é obrigatoriamente
+
+\[
+\{\text{vermelho},\text{azul}\}.
+\]
+
+Por isso, temos exatamente um
+subconjunto admissível:
+
+\[
+T(2,2)=1.
+\]
+
+Representamos vermelho por $1$
+e azul por $0$.
+
+Precisamos de vetores de comprimento $5$
+que não sejam constantes.
+
+Logo,
+
+\[
+\begin{aligned}
+M(5,2)
+&=T(5,1)+T(5,2)+T(5,3)+T(5,4)\\
+&=5+10+10+5\\
+&=30.
+\end{aligned}
+\]
+
+Portanto,
+
+\[
+N=T(2,2)M(5,2)=1\cdot30=30.
+\]
+
+\textbf{Pelo método habitual.}
+
+Existem $2^5$ sequências de cinco sinais.
+
+Excluímos a sequência totalmente vermelha
+e a totalmente azul.
+
+Assim,
+
+\[
+N=2^5-2=\boxed{30}.
+\]
+
+\paragraph{Problema 7. Utilizar exatamente duas letras}
+
+Uma palavra de quatro posições é formada
+com as letras
+
+\[
+A=\{a,b,c\}.
+\]
+
+As letras podem repetir-se.
+
+Quantas palavras utilizam exatamente
+duas letras distintas?
+
+\textbf{Pelo nosso método.}
+
+Primeiro escolhemos quais serão
+as duas letras utilizadas.
+
+Temos
+
+\[
+T(3,2)=3
+\]
+
+subconjuntos possíveis.
+
+Para um subconjunto fixo de duas letras,
+a palavra deve utilizar ambas.
+
+Logo,
+
+\[
+M(4,2)=T(4,1)+T(4,2)+T(4,3).
+\]
+
+Calculando,
+
+\[
+M(4,2)=4+6+4=14.
+\]
+
+Portanto,
+
+\[
+N=T(3,2)M(4,2)=3\cdot14=\boxed{42}.
+\]
+
+\textbf{Pelo método habitual.}
+
+Podemos escolher qual das três letras
+ficará de fora.
+
+Para cada escolha, formamos $2^4$
+palavras com as duas letras restantes.
+
+Precisamos de excluir as duas palavras
+que utilizam apenas uma das letras.
+
+Assim,
+
+\[
+N=3(2^4-2)=3\cdot14=\boxed{42}.
+\]
+
+\paragraph{Problema 8. Utilizar obrigatoriamente três símbolos}
+
+Um código possui cinco posições
+e utiliza os símbolos
+
+\[
+A=\{a,b,c\}.
+\]
+
+As repetições são permitidas,
+mas os três símbolos devem aparecer
+pelo menos uma vez.
+
+Quantos códigos podemos formar?
+
+\textbf{Pelo nosso método.}
+
+Como os três símbolos devem aparecer,
+o subconjunto dos símbolos utilizados
+é obrigatoriamente $A$.
+
+Logo,
+
+\[
+N=T(3,3)M(5,3)=M(5,3).
+\]
+
+Precisamos de descobrir $M(5,3)$.
+
+Como temos cinco posições e três símbolos
+que devem aparecer, as quantidades de
+ocorrências só podem distribuir-se
+de duas maneiras, ignorando a ordem
+dos símbolos:
+
+\[
+(3,1,1)
+\qquad\text{ou}\qquad
+(2,2,1).
+\]
+
+\emph{Primeiro caso: três, uma e uma ocorrências.}
+
+Escolhemos qual dos três símbolos
+aparecerá três vezes.
+
+Depois escolhemos as suas três posições
+entre as cinco disponíveis.
+
+Os outros dois símbolos ocupam
+as posições restantes em qualquer ordem.
+
+Portanto,
+
+\[
+N_1=3\cdot T(5,3)\cdot2!
+   =3\cdot10\cdot2
+   =60.
+\]
+
+\emph{Segundo caso: duas, duas e uma ocorrências.}
+
+Escolhemos qual dos três símbolos
+aparecerá apenas uma vez.
+
+Depois escolhemos a posição desse símbolo.
+
+Restam quatro posições, nas quais
+os dois outros símbolos devem aparecer
+duas vezes cada.
+
+Escolhemos duas dessas posições
+para um deles, ficando as restantes
+determinadas.
+
+Logo,
+
+\[
+N_2=3\cdot T(5,1)\cdot T(4,2)
+   =3\cdot5\cdot6
+   =90.
+\]
+
+Pelo Princípio Aditivo,
+
+\[
+M(5,3)=60+90=\boxed{150}.
+\]
+
+\textbf{Pelo método habitual.}
+
+Começamos por contar todas as sequências:
+
+\[
+3^5=243.
+\]
+
+Retiramos as sequências que não utilizam
+algum dos três símbolos.
+
+Para cada símbolo ausente, existem $2^5$
+sequências possíveis.
+
+Contudo, ao retirar esses três grupos,
+as sequências que utilizam apenas um
+símbolo são retiradas duas vezes.
+
+Precisamos, portanto, de acrescentar
+uma cópia de cada uma dessas três sequências.
+
+Obtemos
+
+\[
+N=3^5-3\cdot2^5+3.
+\]
+
+Assim,
+
+\[
+N=243-96+3=\boxed{150}.
+\]
+
+Esta última contagem utiliza uma correção
+para os casos proibidos que pertencem
+simultaneamente a mais de um grupo.
+
+É uma manifestação do princípio
+de inclusão e exclusão, que poderemos
+investigar mais adiante.
+
+\subsubsection*{Comparando os dois caminhos}
+
+As experiências permitem-nos distinguir
+três situações.
+
+Quando escolhemos $r$ elementos distintos
+sem nos preocuparmos com a ordem,
+a contagem é
+
+\[
+T(n,r).
+\]
+
+Quando escolhemos $r$ elementos distintos
+e precisamos de os ordenar, temos
+
+\[
+T(n,r)\,r!.
+\]
+
+Quando permitimos repetições e queremos
+classificar as sequências segundo a quantidade
+de elementos distintos utilizados, temos
+
+\[
+\sum_{k=1}^{\min(n,r)}T(n,k)M(r,k).
+\]
+
+\Pergunta{Será que o nosso método é sempre
+mais rápido do que o habitual?}
+
+Não necessariamente.
+
+Se cada posição admite livremente
+qualquer um dos $n$ símbolos, a expressão
+$n^r$ é geralmente mais económica.
+
+Mas quando impomos restrições sobre
+quais ou quantos símbolos devem aparecer,
+a decomposição por subconjuntos pode
+organizar o problema de uma forma útil.
+
+Em particular, a representação binária
+permite-nos identificar as escolhas,
+organizar casos disjuntos e contar
+ou excluir os casos proibidos.
+
+A questão seguinte deixa de ser apenas
+como utilizar $M(r,k)$ em problemas.
+
+Passamos agora a perguntar:
+
+\Pergunta{Será que os valores de $M(r,k)$
+também possuem uma estrutura própria,
+tal como aconteceu com $T(n,r)$?}
+
+
+\section*{Uma nova tabela construída a partir de $M$}
+
+Na investigação anterior, descobrimos uma maneira
+de contar sequências com repetição utilizando
+os subconjuntos de um conjunto.
+
+Para isso, introduzimos a quantidade $M(r,k)$,
+que conta as sequências de comprimento $r$
+formadas com $k$ símbolos distintos previamente
+fixados, utilizando todos eles pelo menos uma vez.
+
+Já conhecemos alguns valores:
+
+\[
+\begin{aligned}
+M(3,1)&=1,\\
+M(3,2)&=6,\\
+M(3,3)&=6.
+\end{aligned}
+\]
+
+Também descobrimos que
+
+\[
+M(4,2)=14,
+\qquad
+M(4,3)=36,
+\]
+
+e, através de um problema com códigos,
+
+\[
+M(5,3)=150.
+\]
+
+\Pergunta{Será que estes números estão
+relacionados entre si?}
+
+Recordemos o que aconteceu quando investigámos
+a quantidade $T(n,r)$.
+
+Começámos com casos pequenos, organizámos
+as contagens em tabelas e procurámos
+uma maneira de construir uma tabela maior
+a partir da anterior.
+
+Foi assim que encontrámos a recorrência
+
+\[
+T(n,r)=T(n-1,r)+T(n-1,r-1).
+\]
+
+Essa recorrência permitiu construir
+o triângulo de Pascal.
+
+Vamos tentar fazer algo semelhante com $M$.
+
+\subsection*{Comecemos pelas sequências mais pequenas}
+
+Suponhamos que temos apenas um símbolo:
+
+\[
+A=\{a\}.
+\]
+
+Se queremos formar uma sequência de
+comprimento $1$, obtemos
+
+\[
+a.
+\]
+
+Portanto,
+
+\[
+M(1,1)=1.
+\]
+
+Se o comprimento for $2$, obtemos
+
+\[
+aa.
+\]
+
+Se for $3$, obtemos
+
+\[
+aaa.
+\]
+
+Assim, encontramos
+
+\[
+M(2,1)=1,\qquad M(3,1)=1.
+\]
+
+\Pergunta{Será que esta regularidade continua
+para qualquer comprimento?}
+
+Sim. Com apenas um símbolo disponível,
+e exigindo que ele apareça, existe
+exatamente uma sequência de cada
+comprimento positivo.
+
+Logo,
+
+\[
+\boxed{M(r,1)=1}.
+\]
+
+\subsection*{E se o número de símbolos for igual
+ao comprimento da sequência?}
+
+Consideremos dois símbolos e duas posições:
+
+\[
+A=\{a,b\}.
+\]
+
+Se ambos devem aparecer, temos apenas
+
+\[
+ab,\qquad ba.
+\]
+
+Portanto,
+
+\[
+M(2,2)=2.
+\]
+
+Com três símbolos e três posições,
+precisamos de utilizar cada símbolo
+exatamente uma vez.
+
+Assim,
+
+\[
+M(3,3)=3!=6.
+\]
+
+Com quatro símbolos e quatro posições,
+
+\[
+M(4,4)=4!=24.
+\]
+
+A regularidade sugere
+
+\[
+\boxed{M(r,r)=r!}.
+\]
+
+De facto, como temos $r$ posições
+e todos os $r$ símbolos devem aparecer,
+cada um precisa de ocupar exatamente
+uma posição.
+
+A contagem transforma-se, portanto,
+numa permutação dos $r$ símbolos.
+
+Já encontramos duas propriedades:
+
+\[
+M(r,1)=1
+\qquad\text{e}\qquad
+M(r,r)=r!.
+\]
+
+A primeira fornece a coluna inicial
+da nossa futura tabela.
+
+A segunda fornece a diagonal final.
+
+Mas ainda não sabemos como obter
+os números que aparecem entre elas.
+
+\subsection*{A experiência de acrescentar uma posição}
+
+Voltemos ao caso que já conhecemos:
+
+\[
+M(3,2)=6.
+\]
+
+Queremos construir as sequências de
+comprimento $4$ que utilizam
+obrigatoriamente os símbolos $a$ e $b$.
+
+\Pergunta{Será que podemos construir essas
+sequências acrescentando um símbolo
+ao final de sequências mais curtas?}
+
+Vamos dividir a experiência em dois casos.
+
+\paragraph{Primeiro caso: os dois símbolos
+já aparecem nas três primeiras posições.}
+
+Sabemos que existem
+
+\[
+M(3,2)=6
+\]
+
+sequências de comprimento $3$
+que já utilizam ambos os símbolos.
+
+Podemos acrescentar $a$ ou $b$
+ao final de cada uma.
+
+Por exemplo,
+
+\[
+aba\longrightarrow
+\begin{cases}
+abaa,\\
+abab.
+\end{cases}
+\]
+
+Cada sequência inicial produz duas novas.
+
+Portanto, obtemos
+
+\[
+2M(3,2)=2\cdot6=12.
+\]
+
+\paragraph{Segundo caso: um dos símbolos
+aparece pela primeira vez na última posição.}
+
+Suponhamos que a última posição contém $a$
+e que esse é o primeiro aparecimento de $a$.
+
+Então as três posições anteriores
+devem conter apenas $b$:
+
+\[
+bbba.
+\]
+
+Se, pelo contrário, o símbolo que aparece
+pela primeira vez no final é $b$,
+obtemos
+
+\[
+aaab.
+\]
+
+Assim, este segundo caso produz
+duas sequências.
+
+Podemos escrever esta contagem como
+
+\[
+2M(3,1)=2\cdot1=2.
+\]
+
+\paragraph{Reunindo os dois casos.}
+
+As situações são disjuntas.
+
+Na primeira, o último símbolo
+já tinha aparecido anteriormente.
+
+Na segunda, aparece pela primeira vez.
+
+Logo,
+
+\[
+M(4,2)=2M(3,2)+2M(3,1).
+\]
+
+Calculando,
+
+\[
+M(4,2)=2\cdot6+2\cdot1=14.
+\]
+
+Recuperámos exatamente o valor
+que tínhamos encontrado através
+dos vetores binários!
+
+\Pergunta{Podemos repetir o mesmo raciocínio
+para três símbolos?}
+
+\subsection*{Acrescentando uma posição com três símbolos}
+
+Agora queremos construir
+
+\[
+M(4,3).
+\]
+
+Consideremos os símbolos
+
+\[
+A=\{a,b,c\}.
+\]
+
+A última posição pode corresponder
+a duas situações distintas.
+
+\paragraph{Primeira situação.}
+
+Os três símbolos já apareceram
+nas três primeiras posições.
+
+Existem
+
+\[
+M(3,3)=6
+\]
+
+sequências desse tipo.
+
+A última posição pode receber
+qualquer um dos três símbolos.
+
+Assim, obtemos
+
+\[
+3M(3,3)=3\cdot6=18.
+\]
+
+\paragraph{Segunda situação.}
+
+Um dos três símbolos aparece
+pela primeira vez na última posição.
+
+Podemos escolher esse símbolo
+de três maneiras.
+
+As posições anteriores devem
+utilizar obrigatoriamente os
+outros dois símbolos.
+
+Como existem
+
+\[
+M(3,2)=6
+\]
+
+sequências de comprimento $3$
+que utilizam dois símbolos fixos,
+obtemos
+
+\[
+3M(3,2)=3\cdot6=18.
+\]
+
+\paragraph{Reunindo as situações.}
+
+Portanto,
+
+\[
+M(4,3)=3M(3,3)+3M(3,2).
+\]
+
+Calculando,
+
+\[
+M(4,3)=18+18=36.
+\]
+
+Encontrámos novamente o valor
+obtido no problema anterior.
+
+Mais importante: descobrimos
+uma possível regra de construção.
+
+\subsection*{Procurando a regra geral}
+
+Consideremos agora $k$ símbolos distintos
+e sequências de comprimento $r$.
+
+Queremos que todos os $k$ símbolos
+apareçam pelo menos uma vez.
+
+Vamos observar a última posição.
+
+\Pergunta{Que possibilidades existem
+para o símbolo colocado nessa posição?}
+
+Só podem ocorrer duas situações.
+
+\paragraph{Caso 1. O último símbolo
+já apareceu anteriormente.}
+
+As primeiras $r-1$ posições
+devem utilizar todos os $k$ símbolos.
+
+Existem
+
+\[
+M(r-1,k)
+\]
+
+sequências desse tipo.
+
+Para a última posição, podemos escolher
+qualquer um dos $k$ símbolos.
+
+Logo, este caso produz
+
+\[
+kM(r-1,k).
+\]
+
+\paragraph{Caso 2. O último símbolo
+aparece pela primeira vez.}
+
+Primeiro escolhemos qual dos $k$
+símbolos ficará na última posição.
+
+Existem $k$ possibilidades.
+
+As primeiras $r-1$ posições
+devem utilizar exatamente os
+outros $k-1$ símbolos, todos eles
+pelo menos uma vez.
+
+Existem
+
+\[
+M(r-1,k-1)
+\]
+
+sequências desse tipo.
+
+Logo, este caso produz
+
+\[
+kM(r-1,k-1).
+\]
+
+\paragraph{Somando os casos.}
+
+Como toda a sequência pertence
+exatamente a um desses dois casos,
+
+\[
+\boxed{
+M(r,k)=
+kM(r-1,k)+kM(r-1,k-1)
+}.
+\]
+
+Também podemos escrever
+
+\[
+\boxed{
+M(r,k)=
+k\bigl(M(r-1,k)+M(r-1,k-1)\bigr)
+}.
+\]
+
+Esta é a recorrência que procurávamos.
+
+Para construir a tabela, utilizamos
+a condição inicial $M(1,1)=1$
+e consideramos $M(r,k)=0$ quando
+$k>r$, bem como $M(r,0)=0$
+para $r\geq1$.
+
+\begin{teoremabox}{Recorrência das sequências que utilizam todos os símbolos}
+Para $r\geq2$ e $1\leq k\leq r$,
+
+\[
+\boxed{
+M(r,k)=
+k\bigl(M(r-1,k)+M(r-1,k-1)\bigr)
+}.
+\]
+
+\prova
+Classificamos as sequências segundo
+o aparecimento do símbolo da última posição.
+
+Se esse símbolo já apareceu antes,
+as primeiras $r-1$ posições
+utilizam todos os $k$ símbolos.
+
+Se aparece pela primeira vez,
+as primeiras $r-1$ posições utilizam
+todos os outros $k-1$ símbolos.
+
+Em ambos os casos existem $k$
+possibilidades para escolher
+o símbolo da última posição.
+
+Como os casos são disjuntos
+e cobrem todas as sequências admissíveis,
+o Princípio Aditivo fornece a igualdade.
+\fimprova
+\end{teoremabox}
+
+\subsection*{Construindo uma nova tabela}
+
+Já temos informação suficiente para
+construir os valores sucessivos de $M$.
+
+Começamos com
+
+\[
+M(1,1)=1.
+\]
+
+Para $r=2$,
+
+\[
+M(2,1)=1
+\qquad\text{e}\qquad
+M(2,2)=2.
+\]
+
+Para $r=3$,
+
+\[
+\begin{aligned}
+M(3,1)&=1,\\
+M(3,2)&=2(2+1)=6,\\
+M(3,3)&=3!=6.
+\end{aligned}
+\]
+
+Para $r=4$,
+
+\[
+\begin{aligned}
+M(4,1)&=1,\\
+M(4,2)&=2(6+1)=14,\\
+M(4,3)&=3(6+6)=36,\\
+M(4,4)&=4!=24.
+\end{aligned}
+\]
+
+Vamos acrescentar agora uma quinta linha.
+
+\Pergunta{Quanto deverá valer $M(5,3)$
+se a nossa recorrência estiver correta?}
+
+Utilizando os valores da linha anterior,
+
+\[
+M(5,3)=3\bigl(M(4,3)+M(4,2)\bigr).
+\]
+
+Portanto,
+
+\[
+M(5,3)=3(36+14)=150.
+\]
+
+Este é exatamente o resultado
+que tínhamos encontrado ao estudar
+os códigos de cinco posições!
+
+A recorrência permitiu recuperar
+uma contagem anteriormente obtida
+através da divisão em casos.
+
+Continuando o mesmo procedimento,
+construímos a tabela:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{c|rrrrr}
+\hline
+$r\backslash k$
+& $1$ & $2$ & $3$ & $4$ & $5$\\
+\hline
+$1$ & $1$ & & & &\\
+$2$ & $1$ & $2$ & & &\\
+$3$ & $1$ & $6$ & $6$ & &\\
+$4$ & $1$ & $14$ & $36$ & $24$ &\\
+$5$ & $1$ & $30$ & $150$ & $240$ & $120$\\
+\hline
+\end{tabular}
+\end{center}
+
+Obtivemos uma tabela triangular!
+
+\Pergunta{Como se compara esta estrutura
+com o triângulo de Pascal?}
+
+No triângulo de Pascal, cada valor
+é a soma de dois valores da linha anterior:
+
+\[
+T(n,r)=T(n-1,r)+T(n-1,r-1).
+\]
+
+Na nossa nova tabela, também somamos
+dois valores da linha anterior,
+mas depois multiplicamos pelo número
+de símbolos que precisam de aparecer:
+
+\[
+M(r,k)=k\bigl(M(r-1,k)+M(r-1,k-1)\bigr).
+\]
+
+Portanto, os dois triângulos surgem
+de decomposições em dois casos,
+mas representam objetos diferentes.
+
+\subsection*{Uma nova observação sobre a diagonal}
+
+Vejamos os valores finais de cada linha:
+
+\[
+1,\quad2,\quad6,\quad24,\quad120.
+\]
+
+São os fatoriais:
+
+\[
+1!,\quad2!,\quad3!,\quad4!,\quad5!.
+\]
+
+Isto corresponde à propriedade
+que já tínhamos demonstrado:
+
+\[
+M(r,r)=r!.
+\]
+
+Mas essa observação sugere
+uma nova experiência.
+
+\Pergunta{O que acontece se dividirmos
+cada valor de $M(r,k)$ por $k!$?}
+
+Vamos experimentar alguns casos:
+
+\[
+\begin{aligned}
+\frac{M(3,2)}{2!}&=\frac{6}{2}=3,\\[2mm]
+\frac{M(4,2)}{2!}&=\frac{14}{2}=7,\\[2mm]
+\frac{M(4,3)}{3!}&=\frac{36}{6}=6,\\[2mm]
+\frac{M(5,3)}{3!}&=\frac{150}{6}=25.
+\end{aligned}
+\]
+
+Em todos esses casos, encontramos
+números inteiros.
+
+\Pergunta{Será uma coincidência?
+O que significa dividir por $k!$?}
+
+Recordemos que os $k$ símbolos
+utilizados por $M(r,k)$ são distintos.
+
+Por exemplo, as sequências
+
+\[
+aab,\qquad bba
+\]
+
+são diferentes quando os símbolos
+$a$ e $b$ têm identidades próprias.
+
+Mas observemos apenas quais posições
+possuem símbolos iguais.
+
+Na primeira sequência, as posições
+$1$ e $2$ possuem o mesmo símbolo.
+
+Na segunda, acontece exatamente o mesmo.
+
+Assim, as duas sequências possuem
+o mesmo padrão de igualdade entre posições.
+
+Ao trocar os nomes dos símbolos,
+podemos transformar uma na outra.
+
+Como todos os $k$ símbolos aparecem,
+existem exatamente $k!$ maneiras
+de lhes atribuir os $k$ nomes distintos.
+
+Portanto, cada padrão sem nomes
+corresponde a $k!$ sequências
+contadas por $M(r,k)$.
+
+Isto explica por que a divisão
+por $k!$ produz números inteiros.
+
+\subsection*{Uma nova quantidade para os padrões sem nomes}
+
+Definamos
+
+\[
+\boxed{
+S(r,k)=\frac{M(r,k)}{k!}
+}.
+\]
+
+Esta quantidade conta as maneiras
+de dividir as $r$ posições
+em $k$ grupos não vazios,
+sem distinguir os nomes dos grupos.
+
+Por exemplo, com três posições
+e dois grupos, temos:
+
+\[
+\begin{aligned}
+&\{\{1,2\},\{3\}\},\\
+&\{\{1,3\},\{2\}\},\\
+&\{\{1\},\{2,3\}\}.
+\end{aligned}
+\]
+
+Existem três agrupamentos.
+
+Portanto,
+
+\[
+S(3,2)=3.
+\]
+
+Se atribuirmos os nomes $a$ e $b$
+aos dois grupos, cada agrupamento
+produz duas sequências distintas.
+
+Assim,
+
+\[
+M(3,2)=2!S(3,2)=2\cdot3=6.
+\]
+
+\subsection*{Construindo o triângulo dos agrupamentos}
+
+Vamos dividir os valores da tabela
+anterior pelos fatoriais
+correspondentes a cada coluna.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{c|rrrrr}
+\hline
+$r\backslash k$
+& $1$ & $2$ & $3$ & $4$ & $5$\\
+\hline
+$1$ & $1$ & & & &\\
+$2$ & $1$ & $1$ & & &\\
+$3$ & $1$ & $3$ & $1$ & &\\
+$4$ & $1$ & $7$ & $6$ & $1$ &\\
+$5$ & $1$ & $15$ & $25$ & $10$ & $1$\\
+\hline
+\end{tabular}
+\end{center}
+
+Encontrámos outra tabela triangular!
+
+Agora a primeira e a última
+entradas de cada linha são iguais a $1$.
+
+Isto possui uma interpretação simples.
+
+Existe apenas uma maneira
+de colocar todas as posições
+num único grupo.
+
+E existe apenas uma maneira
+de colocar cada posição
+num grupo diferente.
+
+Por isso,
+
+\[
+S(r,1)=S(r,r)=1.
+\]
+
+\subsection*{Será que a nova tabela também tem uma recorrência?}
+
+Já sabemos que
+
+\[
+M(r,k)=k\bigl(M(r-1,k)+M(r-1,k-1)\bigr).
+\]
+
+Como
+
+\[
+M(r,k)=k!S(r,k),
+\]
+
+podemos substituir esta expressão
+na recorrência:
+
+\[
+\begin{aligned}
+k!S(r,k)
+&=k\bigl(k!S(r-1,k)\\
+&\qquad +(k-1)!S(r-1,k-1)\bigr).
+\end{aligned}
+\]
+
+Dividindo por $k!$, obtemos
+
+\[
+\boxed{
+S(r,k)=
+kS(r-1,k)+S(r-1,k-1)
+}.
+\]
+
+\Pergunta{Conseguimos compreender esta
+recorrência sem utilizar a álgebra?}
+
+Sim. Consideremos uma distribuição
+das primeiras $r-1$ posições
+em grupos não vazios.
+
+Ao acrescentarmos a posição $r$,
+temos duas possibilidades.
+
+\paragraph{Primeira possibilidade.}
+
+A nova posição entra num dos $k$
+grupos já existentes.
+
+Existem $S(r-1,k)$ maneiras
+de construir esses grupos
+e $k$ possibilidades para escolher
+o grupo que recebe a nova posição.
+
+Isto produz
+
+\[
+kS(r-1,k).
+\]
+
+\paragraph{Segunda possibilidade.}
+
+A nova posição forma um grupo
+sozinha.
+
+Nesse caso, as primeiras $r-1$
+posições devem estar divididas
+em $k-1$ grupos não vazios.
+
+Existem
+
+\[
+S(r-1,k-1)
+\]
+
+possibilidades.
+
+Somando os dois casos,
+
+\[
+S(r,k)=kS(r-1,k)+S(r-1,k-1).
+\]
+
+Voltámos a encontrar uma recorrência
+através de uma decomposição em casos!
+
+\begin{descobertabox}{Uma nova estrutura descoberta a partir de $M$}
+Começámos por contar sequências que
+utilizam obrigatoriamente todos
+os símbolos disponíveis.
+
+Essas contagens produziram a tabela
+triangular de $M(r,k)$.
+
+Depois observámos que, ao esquecer
+os nomes dos símbolos, cada padrão
+era representado por $k!$ sequências.
+
+Dividindo por essa quantidade,
+obtivemos uma nova tabela, cujos
+valores contam partições de um
+conjunto de $r$ posições em
+$k$ grupos não vazios.
+
+A nova quantidade satisfaz
+
+\[
+S(r,k)=kS(r-1,k)+S(r-1,k-1).
+\]
+
+Assim, uma investigação iniciada
+com sequências de zeros e uns
+conduziu-nos a uma contagem
+de agrupamentos.
+\end{descobertabox}
+
+\subsection*{Identificando a estrutura descoberta}
+
+Os números $S(r,k)$ que acabámos
+de construir já são conhecidos
+na Combinatória.
+
+Recebem o nome de
+\emph{números de Stirling de segunda espécie}.
+
+Contam as partições de um conjunto
+com $r$ elementos em exatamente
+$k$ subconjuntos não vazios,
+sem considerar a ordem desses subconjuntos.
+
+Como
+
+\[
+M(r,k)=k!S(r,k),
+\]
+
+podemos também reescrever
+a nossa decomposição anterior:
+
+\[
+n^r=
+\sum_{k=1}^{\min(n,r)}
+T(n,k)\,k!S(r,k).
+\]
+
+Esta igualdade reúne três operações
+que investigámos separadamente:
+
+\begin{enumerate}
+\item Escolher quais os $k$ símbolos
+distintos que serão utilizados.
+
+\item Dividir as $r$ posições em
+$k$ grupos não vazios.
+
+\item Atribuir os $k$ símbolos
+escolhidos aos grupos.
+\end{enumerate}
+
+A primeira etapa é contada por $T(n,k)$.
+
+A segunda é contada por $S(r,k)$.
+
+A terceira é contada por $k!$.
+
+Pelo Princípio Multiplicativo,
+o produto dessas três quantidades
+conta as sequências que utilizam
+exatamente $k$ símbolos distintos.
+
+E, pelo Princípio Aditivo,
+somamos os possíveis valores de $k$.
+
+\subsection*{Uma última pergunta}
+
+No triângulo de Pascal,
+investigámos o que acontecia
+quando somávamos os elementos
+de uma linha.
+
+Obtivemos
+
+\[
+\sum_{k=0}^{n}T(n,k)=2^n.
+\]
+
+Agora temos outra tabela:
+
+\[
+\begin{array}{c|l}
+r & S(r,1),S(r,2),\ldots,S(r,r)\\
+\hline
+1 & 1\\
+2 & 1,\ 1\\
+3 & 1,\ 3,\ 1\\
+4 & 1,\ 7,\ 6,\ 1\\
+5 & 1,\ 15,\ 25,\ 10,\ 1
+\end{array}
+\]
+
+\Pergunta{O que estaremos a contar
+se somarmos todos os elementos
+de uma linha deste novo triângulo?}
+
+E será que conseguimos construir
+uma interpretação para essa soma,
+sem começar por uma fórmula?
+
+Deixamos esta pergunta como ponto
+de partida para uma nova investigação.
+
+\part{Traduzir a contagem para a álgebra}
+\chapter{Uma potência que guarda escolhas}
+
+\section*{Um monómio para cada decisão}
+
+Na investigação anterior, representámos os subconjuntos
+de um conjunto por vetores binários.
+
+Descobrimos que, se um conjunto possui $n$ elementos,
+cada subconjunto corresponde a uma sequência de
+$\{0,1\}^n$.
+
+Cada coordenada representa uma decisão:
+
+\begin{itemize}
+    \item O algarismo $0$ significa que não escolhemos
+    o elemento correspondente.
+    \item O algarismo $1$ significa que escolhemos
+    esse elemento.
+\end{itemize}
+
+Também introduzimos $T(n,r)$ para contar os vetores
+de comprimento $n$ que possuem exatamente $r$
+algarismos iguais a $1$.
+
+Através da divisão em camadas, descobrimos a relação
+
+\[
+T(n,r)=T(n-1,r)+T(n-1,r-1).
+\]
+
+E, ao calcularmos sucessivamente esses valores,
+observámos o aparecimento do triângulo de Pascal.
+
+Mas esta descoberta sugere outra pergunta.
+
+\Pergunta{Os números que aparecem no triângulo de
+Pascal também surgem como coeficientes de certos
+polinómios. Será que existe uma ligação entre
+esses coeficientes e a nossa contagem de
+subconjuntos?}
+
+Em vez de começar por uma fórmula conhecida,
+vamos regressar às nossas sequências binárias.
+
+\subsection*{Primeira experiência: observar os oito vetores}
+
+Consideremos novamente o conjunto
+
+\[
+A=\{a,b,c\}.
+\]
+
+Os seus subconjuntos correspondem aos oito
+elementos de
+
+\[
+\{0,1\}^3.
+\]
+
+Já sabemos que o número de elementos de cada
+subconjunto corresponde à quantidade de
+algarismos iguais a $1$ no vetor.
+
+Vamos experimentar uma representação diferente.
+
+Em vez de utilizar os algarismos $0$ e $1$
+apenas como indicadores, vamos associar-lhes
+potências de uma variável $x$:
+
+\[
+0\longleftrightarrow x^0,
+\qquad
+1\longleftrightarrow x^1.
+\]
+
+Por enquanto, não precisamos de assumir que
+esta representação será útil.
+
+Queremos apenas observar o que acontece
+quando multiplicamos as potências
+correspondentes às três coordenadas.
+
+Por exemplo, o vetor $101$ produz
+
+\[
+x^1\cdot x^0\cdot x^1=x^2.
+\]
+
+Já o vetor $010$ produz
+
+\[
+x^0\cdot x^1\cdot x^0=x.
+\]
+
+Construamos uma tabela com todos os casos.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|c|c|c}
+\hline
+\textbf{Vetor} &
+\textbf{Subconjunto} &
+\textbf{Produto} &
+\textbf{Resultado}\\
+\hline
+$000$ & $\varnothing$
+& $x^0x^0x^0$ & $1$\\
+
+$001$ & $\{c\}$
+& $x^0x^0x^1$ & $x$\\
+
+$010$ & $\{b\}$
+& $x^0x^1x^0$ & $x$\\
+
+$100$ & $\{a\}$
+& $x^1x^0x^0$ & $x$\\
+
+$011$ & $\{b,c\}$
+& $x^0x^1x^1$ & $x^2$\\
+
+$101$ & $\{a,c\}$
+& $x^1x^0x^1$ & $x^2$\\
+
+$110$ & $\{a,b\}$
+& $x^1x^1x^0$ & $x^2$\\
+
+$111$ & $\{a,b,c\}$
+& $x^1x^1x^1$ & $x^3$\\
+\hline
+\end{tabular}
+\end{center}
+
+\Pergunta{O que aconteceu aos expoentes quando
+multiplicámos as contribuições de cada coordenada?}
+
+Como
+
+\[
+x^a x^b x^c=x^{a+b+c},
+\]
+
+o expoente final é a soma dos algarismos
+do vetor binário.
+
+Mas, como cada algarismo só pode ser $0$ ou $1$,
+essa soma é precisamente a quantidade de
+elementos escolhidos.
+
+Assim, a potência resultante já nos informa
+quantos elementos possui o subconjunto.
+
+Por exemplo,
+
+\[
+101\longmapsto x^2
+\]
+
+porque o subconjunto correspondente possui
+dois elementos.
+
+\subsection*{O que acontece se reunirmos todos os resultados?}
+
+A tabela produziu os seguintes monómios:
+
+\[
+1,\quad x,\quad x,\quad x,\quad
+x^2,\quad x^2,\quad x^2,\quad x^3.
+\]
+
+Podemos somá-los:
+
+\[
+P(x)=1+x+x+x+x^2+x^2+x^2+x^3.
+\]
+
+Reunindo os termos semelhantes,
+
+\[
+\boxed{P(x)=1+3x+3x^2+x^3}.
+\]
+
+Encontrámos os números
+
+\[
+1,\quad3,\quad3,\quad1.
+\]
+
+São precisamente as quantidades que tínhamos
+descoberto ao contar os subconjuntos de
+$A=\{a,b,c\}$ segundo o seu tamanho!
+
+\Pergunta{O que representa o coeficiente de cada
+potência de $x$?}
+
+O termo $3x$ surgiu porque existem três vetores
+com exatamente um algarismo igual a $1$.
+
+O termo $3x^2$ surgiu porque existem três vetores
+com exatamente dois algarismos iguais a $1$.
+
+O termo $x^3$ surgiu porque existe apenas um vetor
+com três algarismos iguais a $1$.
+
+E o termo constante corresponde ao conjunto vazio.
+
+Podemos, portanto, interpretar o polinómio
+da seguinte maneira:
+
+\[
+P(x)=
+\underbrace{1}_{T(3,0)}
++
+\underbrace{3}_{T(3,1)}x
++
+\underbrace{3}_{T(3,2)}x^2
++
+\underbrace{1}_{T(3,3)}x^3.
+\]
+
+\begin{descobertabox}{Uma interpretação para expoentes e coeficientes}
+O expoente de $x$ regista a quantidade de
+elementos escolhidos.
+
+O coeficiente de $x^r$ regista quantas
+escolhas diferentes produziram essa quantidade,
+isto é, $T(n,r)$.
+
+Desta forma, um único polinómio pode reunir
+as contagens de todos os tamanhos de subconjuntos.
+\end{descobertabox}
+
+\subsection*{Podemos construir o polinómio sem enumerar os vetores?}
+
+Até agora, obtivemos $P(x)$ construindo os oito
+vetores binários e somando os monómios
+correspondentes.
+
+Mas recordemos como esses vetores surgiram.
+
+Cada posição admite exatamente duas escolhas:
+
+\[
+0\quad\text{ou}\quad1.
+\]
+
+Na nossa nova representação, essas escolhas
+correspondem a
+
+\[
+x^0\quad\text{ou}\quad x^1.
+\]
+
+Como $x^0=1$ e $x^1=x$, podemos escrever
+a soma das duas contribuições possíveis:
+
+\[
+1+x.
+\]
+
+\Pergunta{Se cada coordenada contribui com
+$1+x$, como podemos representar as três
+escolhas sucessivas?}
+
+Pelo Princípio Multiplicativo, precisamos de
+combinar uma decisão da primeira coordenada
+com uma decisão da segunda e uma decisão
+da terceira.
+
+Podemos representar essas combinações por
+
+\[
+(1+x)(1+x)(1+x).
+\]
+
+A distributividade obriga-nos a escolher um
+termo de cada fator para formar cada produto.
+
+Por exemplo, escolher
+
+\[
+x\cdot1\cdot x
+\]
+
+corresponde ao vetor $101$.
+
+Escolher
+
+\[
+1\cdot x\cdot1
+\]
+
+corresponde ao vetor $010$.
+
+E escolher
+
+\[
+1\cdot1\cdot1
+\]
+
+corresponde ao vetor $000$.
+
+Assim, antes de reunirmos os termos semelhantes,
+cada produto da expansão corresponde exatamente
+a uma sequência binária.
+
+Temos, portanto,
+
+\[
+P(x)=(1+x)^3.
+\]
+
+Vamos verificar por multiplicação.
+
+Primeiro,
+
+\[
+(1+x)(1+x)=1+2x+x^2.
+\]
+
+Depois,
+
+\[
+\begin{aligned}
+P(x)
+&=(1+2x+x^2)(1+x)\\
+&=1+2x+x^2+x+2x^2+x^3\\
+&=1+3x+3x^2+x^3.
+\end{aligned}
+\]
+
+Obtivemos exatamente o mesmo polinómio
+que surgiu da tabela!
+
+\Pergunta{Será uma coincidência que a
+distributividade reproduza a contagem
+dos vetores binários?}
+
+Não. Ao desenvolver o produto, cada escolha
+de um termo em cada fator determina um
+único vetor binário.
+
+E, reciprocamente, cada vetor binário
+determina uma única escolha de termos
+na expansão.
+
+Existe, portanto, uma bijeção entre
+os vetores de $\{0,1\}^3$ e as
+escolhas individuais de termos na
+expansão distributiva.
+
+Depois de reunirmos os termos semelhantes,
+o coeficiente guarda quantas dessas
+escolhas produziram o mesmo expoente.
+
+\subsection*{Regressando às camadas que estudámos}
+
+A nossa investigação anterior não tinha
+começado por polinómios.
+
+Tínhamos dividido os vetores binários
+segundo o valor da primeira coordenada.
+
+Quando essa coordenada era $0$, ainda
+precisávamos de escolher os algarismos
+das posições restantes.
+
+Quando era $1$, já tínhamos utilizado
+um dos algarismos $1$ pretendidos.
+
+Foi assim que encontrámos
+
+\[
+T(n,r)=T(n-1,r)+T(n-1,r-1).
+\]
+
+\Pergunta{Será que a multiplicação por
+$(1+x)$ reproduz esta mesma divisão
+em duas camadas?}
+
+Vamos experimentar com os vetores de
+comprimento $4$.
+
+Pelas nossas contagens anteriores,
+sabemos que
+
+\[
+\begin{aligned}
+T(4,0)&=1,\\
+T(4,1)&=4,\\
+T(4,2)&=6,\\
+T(4,3)&=4,\\
+T(4,4)&=1.
+\end{aligned}
+\]
+
+Logo, podemos construir o polinómio
+
+\[
+P_4(x)=1+4x+6x^2+4x^3+x^4.
+\]
+
+Queremos agora acrescentar uma quinta
+coordenada binária.
+
+Essa nova coordenada pode ser $0$ ou $1$,
+representados respetivamente por $1$ e $x$.
+
+Portanto,
+
+\[
+P_5(x)=P_4(x)(1+x).
+\]
+
+Mas não precisamos de desenvolver todo
+o produto para descobrir o número de
+vetores com exatamente dois algarismos $1$.
+
+Basta procurar os produtos cujo expoente
+final é $2$.
+
+\subsection*{Uma experiência: encontrar $T(5,2)$}
+
+Temos
+
+\[
+P_5(x)=
+(1+4x+6x^2+4x^3+x^4)(1+x).
+\]
+
+\Pergunta{Quais os produtos que podem
+produzir um termo com expoente $2$?}
+
+Como os expoentes se somam na multiplicação,
+precisamos de encontrar duas possibilidades
+cuja soma seja $2$.
+
+Podemos escolher expoentes
+
+\[
+2+0=2
+\]
+
+ou
+
+\[
+1+1=2.
+\]
+
+Não existem outras possibilidades,
+porque o segundo fator possui apenas
+os expoentes $0$ e $1$.
+
+Portanto, os termos procurados são
+
+\[
+\underbrace{6x^2\cdot1}_{\text{nova coordenada }0}
++
+\underbrace{4x\cdot x}_{\text{nova coordenada }1}.
+\]
+
+Calculando,
+
+\[
+6x^2+4x^2=10x^2.
+\]
+
+Logo,
+
+\[
+\boxed{T(5,2)=10}.
+\]
+
+Mas já tínhamos descoberto esse resultado
+utilizando o Princípio Aditivo:
+
+\[
+T(5,2)=T(4,2)+T(4,1)=6+4=10.
+\]
+
+\Pergunta{Por que os dois métodos produziram
+exatamente a mesma soma $6+4$?}
+
+Observemos as duas contribuições.
+
+Quando multiplicamos $6x^2$ por $1$,
+estamos a acrescentar uma coordenada igual a $0$.
+Os dois algarismos $1$ já se encontram
+nas quatro posições anteriores.
+
+Quando multiplicamos $4x$ por $x$,
+estamos a acrescentar uma coordenada igual a $1$.
+Por isso, precisamos de apenas mais um
+algarismo $1$ nas quatro posições anteriores.
+
+São precisamente os dois casos que
+tínhamos separado na contagem por camadas!
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|c|c}
+\hline
+\textbf{Nova coordenada}
+& \textbf{Contagem por camadas}
+& \textbf{Produto}\\
+\hline
+$0$ & $T(4,2)=6$ & $6x^2\cdot1$\\
+$1$ & $T(4,1)=4$ & $4x\cdot x$\\
+\hline
+\multicolumn{2}{r|}{\textbf{Total}}
+& $10x^2$\\
+\hline
+\end{tabular}
+\end{center}
+
+\Resposta{A multiplicação por $(1+x)$
+reproduz algebricamente a divisão do
+conjunto de vetores nas duas camadas
+correspondentes à nova coordenada.}
+
+\begin{descobertabox}{Os dois princípios reapareceram dentro da álgebra}
+A distributividade representa as combinações
+de escolhas sucessivas, que contávamos
+pelo Princípio Multiplicativo.
+
+A reunião dos termos com o mesmo expoente
+soma as diferentes maneiras de obter
+uma mesma quantidade de elementos escolhidos,
+como fazíamos pelo Princípio Aditivo.
+
+Assim, o produto polinomial reproduz
+a contagem do produto cartesiano por camadas.
+\end{descobertabox}
+
+\subsection*{Uma generalização sugerida pelas experiências}
+
+Já observámos que
+
+\[
+\begin{aligned}
+P_1(x)&=1+x,\\
+P_2(x)&=(1+x)^2,\\
+P_3(x)&=(1+x)^3.
+\end{aligned}
+\]
+
+Acrescentar uma coordenada binária significa
+multiplicar o polinómio anterior por $(1+x)$.
+
+Logo, a regularidade sugere
+
+\[
+P_n(x)=(1+x)^n.
+\]
+
+Mas também sabemos que o coeficiente de
+$x^r$ deve contar os vetores de comprimento
+$n$ com exatamente $r$ algarismos iguais a $1$.
+
+Portanto, a nossa conjectura é
+
+\[
+\boxed{
+(1+x)^n=\sum_{r=0}^{n}T(n,r)x^r
+}.
+\]
+
+\subsection*{Justificação da conjectura}
+
+Cada fator $(1+x)$ representa uma
+coordenada binária.
+
+Ao desenvolvermos o produto de $n$ fatores,
+escolhemos exatamente um termo de cada fator.
+
+Se escolhermos $x$ em $r$ fatores e $1$
+nos restantes, o produto resultante será $x^r$.
+
+Essas escolhas correspondem exatamente
+aos vetores binários de comprimento $n$
+com $r$ algarismos iguais a $1$.
+
+Existem $T(n,r)$ desses vetores.
+
+Logo, depois de reunirmos os termos
+semelhantes, o coeficiente de $x^r$
+é precisamente $T(n,r)$.
+
+A conjectura está demonstrada.
+
+\begin{teoremabox}{Polinómio gerado pelas escolhas binárias}
+Para qualquer inteiro $n\geq0$,
+
+\[
+\boxed{
+(1+x)^n=\sum_{r=0}^{n}T(n,r)x^r
+}.
+\]
+
+\prova
+Cada escolha de um termo em cada fator
+$(1+x)$ corresponde a um único vetor
+de $\{0,1\}^n$.
+
+O produto das contribuições desse vetor
+é $x^r$, onde $r$ é o número das suas
+coordenadas iguais a $1$.
+
+Como existem $T(n,r)$ vetores com essa
+propriedade, o coeficiente de $x^r$
+é $T(n,r)$.
+\fimprova
+\end{teoremabox}
+
+\subsection*{O que ganhámos com esta representação?}
+
+Antes, contávamos os subconjuntos
+organizando os vetores binários
+em tabelas e camadas.
+
+Agora conseguimos representar todas
+essas contagens num único polinómio.
+
+O expoente indica a propriedade
+que estamos a observar:
+a quantidade de elementos escolhidos.
+
+O coeficiente indica quantos objetos
+possuem essa propriedade.
+
+Mais importante ainda, a construção
+do polinómio continua a depender dos
+mesmos dois princípios que utilizávamos
+na contagem por tabelas.
+
+\Pergunta{Será que podemos modificar os
+polinómios para representar outras condições,
+como a soma dos valores escolhidos, em vez
+de apenas a quantidade de elementos?}
+
+Essa pergunta será o ponto de partida
+para a próxima investigação.
+
+\section{A soma das coordenadas em vez da quantidade de escolhas}
+Agora tomemos conjuntos diferentes:
+\[A=\{0,1,2\},\qquad B=\{0,1,2,3\}.\]
+Queremos os pares $(a,b)$ com $a+b=3$. A cada escolha $a$ atribuímos $x^a$ e a $b$, $x^b$:
+\[F_A(x)=1+x+x^2,\qquad F_B(x)=1+x+x^2+x^3.\]
+No produto $F_A(x)F_B(x)$, cada par contribui com $x^{a+b}$. Para o coeficiente de $x^3$, só podem contribuir
+\[
+1\cdot x^3,\quad x\cdot x^2,\quad x^2\cdot x,
+\]
+correspondentes a $(0,3),(1,2),(2,1)$. Logo, existem três pares.
+\begin{center}
+\begin{tabular}{c|cccc}
+$a\backslash b$&0&1&2&3\\\hline
+0&0&1&2&\ccel{3}\\
+1&1&2&\ccel{3}&4\\
+2&2&\ccel{3}&4&5
+\end{tabular}
+\end{center}
+A tabela marca a mesma antidiagonal de soluções que o coeficiente do polinómio.
+\begin{teoremabox}{Polinómios de contagem ponderada}
+Se $A_1,\ldots,A_r$ são conjuntos finitos e $v_i:A_i\to\Nzero$ atribuem pesos, definimos
+\[F_i(x)=\sum_{a\in A_i}x^{v_i(a)}.\]
+Então o coeficiente de $x^s$ em $F_1(x)\cdots F_r(x)$ é o número de tuplos $(a_1,\ldots,a_r)$ para os quais
+\[v_1(a_1)+\cdots+v_r(a_r)=s.\]
+\prova Pela distributividade, antes de reunir termos, cada tuplo determina exatamente um produto de monómios. O expoente é a soma dos seus pesos. Agrupar monómios iguais soma precisamente os tuplos com a mesma soma.\fimprova
+\end{teoremabox}
+\section{Elementos diferentes, mas com o mesmo peso}
+Atribuir pesos não exige que valores distintos tenham pesos distintos. Seja
+\[A=\{a,b,c\},\quad v(a)=0,\ v(b)=v(c)=1,\quad B=\{0,1\}.\]
+O primeiro polinómio é $1+2x$, pois existem dois elementos diferentes com peso um. Multiplicando por $1+x$,
+\[(1+2x)(1+x)=1+3x+2x^2.\]
+O coeficiente de $x$ vale três: os pares são $(a,1)$, $(b,0)$ e $(c,0)$.
+
+Acrescentemos $z\in\{0,1\}$ e exijamos $v(a)+b+z=2$. Por camadas, $z=0$ permite dois pares e $z=1$ permite três; no polinómio,
+\[(1+3x+2x^2)(1+x)=1+4x+5x^2+2x^3.\]
+O coeficiente 5 reproduz a mesma soma de camadas $2+3$.
+\section{O polinómio determina de onde veio?}
+\Pergunta{Se nos derem o polinómio pronto, é possível recuperar os seus conjuntos geradores?}
+Considere $1+2x+x^2$. Ele pode vir de um conjunto de quatro objetos com pesos $0,1,1,2$, ou do produto $\{0,1\}\times\{0,1\}$ com peso dado pela soma. A distribuição dos coeficientes é a mesma; os objetos e a decomposição em fatores são diferentes.
+\begin{observacaobox}{O que se perde ao reunir termos}
+O polinómio conserva o número de objetos de cada peso, mas não necessariamente a identidade de cada objeto, a ordem das coordenadas ou a história das escolhas. Por isso, não há em geral recuperação única dos conjuntos originais. O inverso exige informação adicional.
+\end{observacaobox}
+
+
+\section{Problemas que escondem polinómios}
+
+Até agora, descobrimos que podemos associar
+um monómio a cada escolha e que a
+multiplicação de polinómios permite
+combinar escolhas independentes.
+
+Também observámos que os coeficientes
+registam quantas decisões diferentes
+produzem um mesmo resultado.
+
+Mas será que esta construção tem utilidade
+fora das tabelas que utilizámos
+na nossa investigação?
+
+Vamos experimentar problemas em que,
+à primeira vista, não existe qualquer
+motivo para pensar em polinómios.
+
+Em cada experiência, começaremos pelo
+problema concreto e procuraremos uma
+representação adequada.
+
+\subsection{Problemas sem repetição}
+
+Nestes primeiros problemas, cada objeto
+pode ser escolhido no máximo uma vez.
+
+Assim, se um objeto possui peso $w$,
+temos duas possibilidades:
+
+\[
+\underbrace{1}_{\text{não escolher}}
++
+\underbrace{x^w}_{\text{escolher}}.
+\]
+
+O polinómio correspondente será
+
+\[
+1+x^w.
+\]
+
+O significado de $w$ dependerá
+do problema: poderá ser um preço,
+uma duração, uma distância
+ou qualquer outra quantidade aditiva.
+
+\subsubsection*{Problema 1. Os cupões de desconto}
+
+Uma loja oferece cinco cupões,
+com descontos de
+
+\[
+2,\quad3,\quad4,\quad5,\quad6
+\]
+
+euros.
+
+Cada cupão pode ser utilizado
+no máximo uma vez.
+
+De quantas maneiras podemos escolher
+cupões que produzam um desconto
+total de exatamente $9$ euros?
+
+\Pergunta{Como podemos representar a decisão
+de utilizar ou não cada cupão?}
+
+Para o cupão de $2$ euros, temos
+
+\[
+1+x^2.
+\]
+
+Para o de $3$ euros,
+
+\[
+1+x^3.
+\]
+
+E assim sucessivamente.
+
+O polinómio que representa
+todas as escolhas possíveis é
+
+\[
+P(x)=
+(1+x^2)(1+x^3)(1+x^4)
+(1+x^5)(1+x^6).
+\]
+
+Cada produto obtido pela distributividade
+corresponde a um subconjunto dos cupões.
+
+O expoente regista a soma dos descontos.
+
+Portanto, queremos encontrar
+o coeficiente de $x^9$.
+
+Vamos procurar os produtos
+que podem contribuir para esse termo:
+
+\[
+x^3x^6=x^9,
+\]
+
+\[
+x^4x^5=x^9,
+\]
+
+e
+
+\[
+x^2x^3x^4=x^9.
+\]
+
+Não existem outras possibilidades.
+
+Logo,
+
+\[
+\boxed{[x^9]P(x)=3}.
+\]
+
+Aqui, $[x^9]P(x)$ significa
+o coeficiente de $x^9$ no polinómio $P$.
+
+\Resposta{Existem três escolhas possíveis
+de cupões que totalizam $9$ euros.}
+
+Podemos verificar diretamente:
+
+\[
+\{3,6\},\qquad
+\{4,5\},\qquad
+\{2,3,4\}.
+\]
+
+\subsubsection*{Problema 2. Quatro interruptores}
+
+Um dispositivo possui quatro interruptores.
+
+Quando ativados, os interruptores acrescentam,
+respetivamente,
+
+\[
+1,\quad2,\quad4,\quad8
+\]
+
+unidades de energia ao dispositivo.
+
+Cada interruptor pode estar ligado ou desligado.
+
+O dispositivo necessita de exatamente
+$11$ unidades de energia.
+
+De quantas maneiras podemos configurar
+os interruptores?
+
+\Pergunta{Podemos representar todas as
+configurações por um único polinómio?}
+
+Cada interruptor possui duas possibilidades,
+pelo que construímos
+
+\[
+P(x)=
+(1+x)(1+x^2)(1+x^4)(1+x^8).
+\]
+
+Vamos multiplicar os dois primeiros fatores:
+
+\[
+(1+x)(1+x^2)=1+x+x^2+x^3.
+\]
+
+Acrescentando o terceiro,
+
+\[
+\begin{aligned}
+&(1+x+x^2+x^3)(1+x^4)\\
+&\qquad=1+x+x^2+\cdots+x^7.
+\end{aligned}
+\]
+
+Finalmente,
+
+\[
+\begin{aligned}
+P(x)
+&=(1+x+\cdots+x^7)(1+x^8)\\
+&=1+x+x^2+\cdots+x^{15}.
+\end{aligned}
+\]
+
+\Pergunta{O que significa que todos os
+coeficientes deste polinómio sejam iguais a $1$?}
+
+Significa que cada quantidade inteira
+entre $0$ e $15$ pode ser obtida
+de exatamente uma maneira.
+
+Em particular,
+
+\[
+[x^{11}]P(x)=1.
+\]
+
+A única configuração é
+
+\[
+11=8+2+1.
+\]
+
+Portanto, ativamos os interruptores
+de pesos $8$, $2$ e $1$.
+
+O interruptor de peso $4$
+permanece desligado.
+
+\Resposta{Existe exatamente uma
+configuração que produz $11$ unidades.}
+
+\begin{observacaobox}{Uma ligação inesperada com a escrita binária}
+Os pesos $1,2,4,8$ são potências de $2$.
+
+Escolher ou não cada peso é equivalente
+a escolher um algarismo $0$ ou $1$
+numa representação binária.
+
+Neste caso, a unicidade da representação
+binária reaparece como o facto de todos
+os coeficientes do polinómio serem $1$.
+\end{observacaobox}
+
+\subsubsection*{Problema 3. Tarefas com a mesma duração}
+
+Uma pessoa pretende organizar o seu dia
+e possui quatro tarefas disponíveis:
+
+\begin{itemize}
+\item Organizar documentos: $2$ horas;
+\item Rever apontamentos: $2$ horas;
+\item Preparar uma apresentação: $3$ horas;
+\item Realizar um projeto: $4$ horas.
+\end{itemize}
+
+Cada tarefa pode ser realizada
+no máximo uma vez.
+
+De quantas maneiras diferentes
+pode escolher tarefas que ocupem
+exatamente quatro horas?
+
+\Pergunta{As duas tarefas de duas horas
+devem corresponder ao mesmo monómio?}
+
+As duas tarefas são distintas,
+mas possuem a mesma duração.
+
+Por isso, cada uma contribui
+com o fator
+
+\[
+1+x^2.
+\]
+
+O polinómio completo é
+
+\[
+P(x)=(1+x^2)^2(1+x^3)(1+x^4).
+\]
+
+Queremos o coeficiente de $x^4$.
+
+Vamos começar pelos dois primeiros fatores:
+
+\[
+(1+x^2)^2=1+2x^2+x^4.
+\]
+
+O termo $x^4$ pode surgir
+de duas maneiras diferentes:
+
+\[
+x^2\cdot x^2,
+\]
+
+escolhendo ambas as tarefas de duas horas,
+ou
+
+\[
+1\cdot x^4,
+\]
+
+escolhendo apenas o projeto
+de quatro horas.
+
+Logo,
+
+\[
+[x^4]P(x)=2.
+\]
+
+\Resposta{Existem duas maneiras
+de ocupar exatamente quatro horas.}
+
+Reparemos que o coeficiente $2$
+não significa que alguma tarefa
+tenha sido escolhida duas vezes.
+
+Significa que existem duas escolhas
+diferentes com a mesma duração total.
+
+\subsubsection*{Problema 4. Uma soma par sem calcular todas as somas}
+
+Um painel possui quatro interruptores,
+com pesos
+
+\[
+1,\quad2,\quad3,\quad4.
+\]
+
+Podemos ativar qualquer subconjunto
+dos interruptores.
+
+Quantas configurações produzem
+uma soma par dos pesos ativados,
+incluindo a configuração em que
+todos estão desligados?
+
+\Pergunta{Conseguimos resolver o problema
+sem enumerar as dezasseis configurações?}
+
+Construímos o polinómio
+
+\[
+P(x)=
+(1+x)(1+x^2)(1+x^3)(1+x^4).
+\]
+
+Escrevamos
+
+\[
+P(x)=a_0+a_1x+\cdots+a_{10}x^{10}.
+\]
+
+Queremos somar os coeficientes
+cujos expoentes são pares:
+
+\[
+E=a_0+a_2+a_4+a_6+a_8+a_{10}.
+\]
+
+Mas como podemos separar esses
+coeficientes sem desenvolver
+todo o produto?
+
+Sabemos que
+
+\[
+P(1)=a_0+a_1+\cdots+a_{10}.
+\]
+
+Por outro lado,
+
+\[
+P(-1)=a_0-a_1+a_2-a_3+\cdots+a_{10}.
+\]
+
+\Pergunta{O que acontece se somarmos
+as duas expressões?}
+
+Os coeficientes dos expoentes ímpares
+cancelam-se.
+
+Os coeficientes dos expoentes pares
+aparecem duas vezes.
+
+Portanto,
+
+\[
+P(1)+P(-1)=2E.
+\]
+
+Logo,
+
+\[
+E=\frac{P(1)+P(-1)}{2}.
+\]
+
+Agora já não precisamos
+de desenvolver o polinómio.
+
+Basta calcular
+
+\[
+P(1)=2^4=16
+\]
+
+e
+
+\[
+P(-1)=(1-1)(1+1)(1-1)(1+1)=0.
+\]
+
+Assim,
+
+\[
+E=\frac{16+0}{2}=\boxed{8}.
+\]
+
+\Resposta{Existem oito configurações
+cuja soma dos pesos é par.}
+
+\paragraph{Uma verificação sem polinómios.}
+
+Fixemos as decisões correspondentes
+aos interruptores de pesos $2$, $3$ e $4$.
+
+Para cada uma dessas configurações,
+a decisão sobre o interruptor
+de peso $1$ determina a paridade final.
+
+Exatamente uma das duas possibilidades
+produz uma soma par.
+
+Como os outros três interruptores
+admitem $2^3$ configurações,
+
+\[
+N=2^3=8.
+\]
+
+Descobrimos que avaliar o polinómio
+em $1$ e em $-1$ permite separar
+as contribuições pares das ímpares.
+
+\subsection{Problemas com repetição}
+
+Até agora, cada objeto podia ser
+escolhido no máximo uma vez.
+
+Mas muitas situações permitem que
+a mesma possibilidade seja escolhida
+várias vezes.
+
+Precisamos de observar duas situações
+distintas:
+
+\begin{itemize}
+\item Escolhas efetuadas em posições
+distinguíveis, nas quais a ordem importa;
+
+\item Escolhas nas quais apenas interessa
+a quantidade de vezes que cada elemento
+é utilizado.
+\end{itemize}
+
+Vamos experimentar ambas.
+
+\subsubsection*{Problema 5. Três almoços com orçamento fixo}
+
+Uma cantina disponibiliza refeições
+de $1$, $2$ e $3$ euros.
+
+Uma pessoa vai almoçar na cantina
+na segunda, terça e quarta-feira.
+
+Pode repetir a mesma refeição
+em dias diferentes.
+
+De quantas maneiras pode organizar
+os três almoços para gastar
+exatamente $6$ euros?
+
+\Pergunta{Como representar as três
+decisões sucessivas?}
+
+Cada dia admite as escolhas
+
+\[
+x,\qquad x^2,\qquad x^3.
+\]
+
+Portanto, o polinómio diário é
+
+\[
+F(x)=x+x^2+x^3.
+\]
+
+Como existem três dias distinguíveis,
+
+\[
+P(x)=F(x)^3=(x+x^2+x^3)^3.
+\]
+
+Queremos o coeficiente de $x^6$.
+
+Vamos observar os preços que podem
+somar $6$.
+
+Podemos escolher
+
+\[
+1+2+3=6
+\]
+
+ou
+
+\[
+2+2+2=6.
+\]
+
+No primeiro caso, os três preços
+podem ser distribuídos pelos
+três dias de
+
+\[
+3!=6
+\]
+
+maneiras.
+
+No segundo, existe apenas
+uma distribuição.
+
+Logo,
+
+\[
+[x^6]P(x)=6+1=\boxed{7}.
+\]
+
+\Resposta{Existem sete maneiras
+de organizar os três almoços.}
+
+A potência do polinómio representa
+as escolhas dos três dias.
+
+Os produtos representam as
+combinações de refeições,
+e os coeficientes distinguem
+as diferentes distribuições pelos dias.
+
+\subsubsection*{Problema 6. Os movimentos de um robô}
+
+Um pequeno robô pode avançar,
+num único comando,
+
+\[
+1,\quad2,\quad3
+\quad\text{ou}\quad4
+\]
+
+casas.
+
+O robô deve receber exatamente
+dois comandos.
+
+Quantas sequências de comandos
+fazem o robô avançar exatamente
+cinco casas?
+
+A ordem dos comandos importa.
+
+\Pergunta{Podemos traduzir a distância
+percorrida por cada comando num monómio?}
+
+O primeiro comando é representado por
+
+\[
+F(x)=x+x^2+x^3+x^4.
+\]
+
+O segundo admite as mesmas escolhas.
+
+Portanto,
+
+\[
+P(x)=F(x)^2.
+\]
+
+O coeficiente de $x^5$
+conta as sequências de comandos
+cuja distância total é cinco.
+
+Os produtos relevantes são
+
+\[
+x\cdot x^4,
+\qquad
+x^2\cdot x^3,
+\qquad
+x^3\cdot x^2,
+\qquad
+x^4\cdot x.
+\]
+
+Logo,
+
+\[
+[x^5]P(x)=\boxed{4}.
+\]
+
+\Resposta{Existem quatro sequências
+de dois comandos que percorrem
+exatamente cinco casas.}
+
+Note-se que os comandos $(1,4)$
+e $(4,1)$ são contados separadamente,
+pois a ordem dos movimentos distingue
+as sequências.
+
+\subsubsection*{Problema 7. Pagar exatamente doze euros}
+
+Uma pessoa possui uma quantidade
+suficiente de moedas de $2$ e $3$ euros.
+
+Quer pagar exatamente $12$ euros.
+
+Não interessa a ordem em que
+as moedas são entregues,
+apenas quantas utiliza de cada tipo.
+
+De quantas maneiras pode efetuar o pagamento?
+
+\Pergunta{Podemos representar o número
+de moedas escolhidas utilizando potências?}
+
+Se não utilizarmos moedas de $2$ euros,
+a contribuição é
+
+\[
+1=x^0.
+\]
+
+Se utilizarmos uma moeda,
+a contribuição é $x^2$.
+
+Se utilizarmos duas,
+a contribuição é $x^4$.
+
+Continuando até atingir $12$ euros,
+obtemos
+
+\[
+F_2(x)=
+1+x^2+x^4+x^6+x^8+x^{10}+x^{12}.
+\]
+
+Para as moedas de $3$ euros,
+o mesmo raciocínio produz
+
+\[
+F_3(x)=1+x^3+x^6+x^9+x^{12}.
+\]
+
+Agora podemos multiplicar os fatores:
+
+\[
+P(x)=F_2(x)F_3(x).
+\]
+
+Cada produto da expansão representa
+uma escolha das quantidades de moedas
+dos dois tipos.
+
+Queremos o coeficiente de $x^{12}$.
+
+Os produtos que contribuem são
+
+\[
+x^{12}\cdot1,
+\qquad
+x^6\cdot x^6,
+\qquad
+1\cdot x^{12}.
+\]
+
+Logo,
+
+\[
+[x^{12}]P(x)=\boxed{3}.
+\]
+
+\Resposta{Existem três maneiras
+de pagar exatamente doze euros.}
+
+Podemos verificar pelas quantidades
+de moedas:
+
+\[
+\begin{array}{c|c|c}
+\text{Moedas de }2&
+\text{Moedas de }3&
+\text{Total}\\
+\hline
+6&0&12\\
+3&2&12\\
+0&4&12
+\end{array}
+\]
+
+\Pergunta{Por que não utilizámos
+uma potência como $F(x)^r$?}
+
+Porque não escolhemos um número
+fixo de posições distinguíveis.
+
+Escolhemos quantas moedas utilizaremos
+de cada tipo.
+
+Os fatores representam agora
+as multiplicidades possíveis de
+cada valor, e não decisões
+em posições sucessivas.
+
+\begin{observacaobox}{A escolha do polinómio depende do objeto contado}
+Quando contamos sequências ordenadas,
+utilizamos fatores associados
+às posições da sequência.
+
+Quando contamos quantidades de
+objetos repetidos sem considerar
+a ordem, podemos utilizar fatores
+associados aos tipos de objetos.
+
+A mesma técnica algébrica
+pode representar problemas diferentes,
+desde que a correspondência entre
+os produtos e os objetos contados
+seja corretamente estabelecida.
+\end{observacaobox}
+
+\subsubsection*{Problema 8. Distribuir o esforço por quatro dias}
+
+Uma pessoa quer realizar uma pequena
+atividade física durante quatro dias.
+
+Em cada dia pode realizar
+
+\[
+0,\quad1\quad\text{ou}\quad2
+\]
+
+unidades de atividade.
+
+Pretende realizar exatamente
+três unidades no total.
+
+De quantas maneiras diferentes
+pode distribuir a atividade
+pelos quatro dias?
+
+A ordem dos dias importa.
+
+\Pergunta{Podemos contar as distribuições
+sem escrever todas as sequências?}
+
+Em cada dia, temos três escolhas:
+
+\[
+1,\quad x,\quad x^2.
+\]
+
+Portanto,
+
+\[
+F(x)=1+x+x^2.
+\]
+
+Para os quatro dias,
+
+\[
+P(x)=(1+x+x^2)^4.
+\]
+
+Queremos determinar
+
+\[
+[x^3]P(x).
+\]
+
+Vamos procurar quais os tipos de
+distribuição que produzem três unidades.
+
+Podemos utilizar três dias
+com uma unidade e um dia
+sem atividade:
+
+\[
+1+1+1+0=3.
+\]
+
+Existem quatro escolhas para
+o dia sem atividade.
+
+Logo, este caso produz
+
+\[
+4
+\]
+
+sequências.
+
+Também podemos utilizar um dia
+com duas unidades, outro com uma,
+e dois dias sem atividade:
+
+\[
+2+1+0+0=3.
+\]
+
+Existem quatro escolhas para
+o dia com duas unidades.
+
+Depois existem três escolhas
+para o dia com uma unidade.
+
+Logo, este caso produz
+
+\[
+4\cdot3=12
+\]
+
+sequências.
+
+Pelo Princípio Aditivo,
+
+\[
+[x^3]P(x)=4+12=\boxed{16}.
+\]
+
+\Resposta{Existem dezasseis maneiras
+de distribuir as três unidades
+pelos quatro dias.}
+
+O coeficiente do polinómio
+reuniu automaticamente as
+distribuições pertencentes
+aos dois casos.
+
+\subsection{O que estes problemas nos ensinaram?}
+
+Os oito problemas partiram de situações
+diferentes, mas todos puderam ser
+traduzidos para produtos de polinómios.
+
+Contudo, os fatores utilizados
+não foram sempre os mesmos.
+
+Quando um objeto de peso $w$
+podia ser escolhido uma única vez,
+utilizámos
+
+\[
+1+x^w.
+\]
+
+Quando uma posição admitia
+escolhas com pesos pertencentes
+a um conjunto $A$, utilizámos
+
+\[
+\sum_{a\in A}x^a.
+\]
+
+Quando um tipo de objeto podia
+ser utilizado várias vezes,
+sem que a ordem importasse,
+utilizámos um fator da forma
+
+\[
+1+x^w+x^{2w}+\cdots+x^{mw},
+\]
+
+com $m$ suficientemente grande
+para incluir todas as quantidades
+relevantes para o problema.
+
+\Pergunta{Qual é, então, o verdadeiro
+papel da variável $x$?}
+
+A variável não representa necessariamente
+um objeto físico.
+
+A sua potência regista uma quantidade
+que queremos acompanhar.
+
+Nos exemplos anteriores, essa quantidade
+foi o preço, a duração, a energia,
+a distância ou o esforço realizado.
+
+Quando multiplicamos os monómios,
+os expoentes somam-se.
+
+Essa propriedade reproduz a adição
+das quantidades correspondentes
+a decisões independentes.
+
+Depois, ao reunirmos termos semelhantes,
+o coeficiente regista quantas escolhas
+diferentes produzem o mesmo total.
+
+\begin{descobertabox}{A ideia comum aos oito problemas}
+Para transformar um problema
+numa contagem polinomial, procuramos:
+
+\begin{enumerate}
+\item Identificar os objetos ou decisões
+que podem ser escolhidos.
+
+\item Atribuir a cada escolha um monómio
+cujo expoente regista a quantidade
+que desejamos estudar.
+
+\item Construir um produto que represente
+todas as escolhas admissíveis.
+
+\item Procurar o coeficiente correspondente
+ao resultado exigido pelo problema.
+\end{enumerate}
+
+O polinómio não é a origem da contagem:
+é uma representação algébrica
+das decisões que já sabemos contar
+pelos Princípios Multiplicativo e Aditivo.
+\end{descobertabox}
+
+\subsection*{Uma pergunta para a próxima investigação}
+
+Até agora, cada expoente registou
+apenas uma quantidade.
+
+Mas alguns problemas exigem
+duas condições simultâneas.
+
+Por exemplo, podemos querer escolher
+exatamente três atividades
+cuja duração total seja sete horas.
+
+Nesse caso, precisamos de acompanhar
+tanto a quantidade de atividades
+como a soma das durações.
+
+\Pergunta{Será que um único expoente
+continua a ser suficiente,
+ou precisamos de conservar
+duas informações diferentes?}
+
+Esta pergunta mostra que
+a escolha da representação
+é tão importante como
+a multiplicação dos polinómios.
+
+Será um ponto de partida
+para investigarmos representações
+que conservem várias propriedades
+dos objetos ao mesmo tempo.
+
+
+\chapter{A diagonal reaparece como substituição polinomial}
+\section{Uma restrição que às vezes não modifica a resposta}
+Se $A=B=\{0,1,2,3\}$ e queremos pares distintos $(a,b)$ com $a+b=3$, nenhum par da diagonal serve: a igualdade $a=b$ implicaria $2a=3$, impossível entre inteiros. Logo, a contagem ordinária já funciona.
+\Pergunta{E se mudarmos a condição para $a+b=4$?}
+\Resposta{Agora aparece $(2,2)$, que é proibido; restam $(1,3)$ e $(3,1)$, isto é, dois pares.}
+Precisamos de subtrair a contribuição da \emph{diagonal inteira}, não somente uma célula. Tomemos
+\[F(x)=1+x+x^2+x^3.\]
+O produto $F(x)^2$ representa todos os pares. Os pares $(a,a)$ contribuem com $x^{2a}$, logo
+\[D(x)=1+x^2+x^4+x^6.\]
+\Pergunta{Podemos construir $D$ diretamente a partir de $F$?}
+\Resposta{Basta substituir $x$ por $x^2$.}
+A diagonal é, portanto, $F(x^2)$. Isso permite escrever o polinómio dos pares ordenados com coordenadas distintas:
+\[Q(x)=F(x)^2-F(x^2).\]
+\section{Retirar a ordem sem destruir a diagonal}
+Como cada par distinto $(a,b)$ possui o inverso $(b,a)$, ambos com o mesmo peso $a+b$, os coeficientes de $Q(x)$ são pares. Assim, o polinómio das escolhas de dois elementos distintos \emph{sem ordem} é
+\[H(x)=\frac{F(x)^2-F(x^2)}{2}.\]
+Se permitirmos dois elementos iguais, precisamos de recolocar cada célula diagonal exatamente uma vez:
+\[
+G(x)=H(x)+F(x^2)=\frac{F(x)^2+F(x^2)}2.
+\]
+\begin{teoremabox}{As duas contagens de pares sem ordem}
+Se $A\subseteq\Nzero$ é finito e $F(x)=\sum_{a\in A}x^a$, então
+\[
+\boxed{H(x)=\frac{F(x)^2-F(x^2)}2}\qquad
+\boxed{G(x)=\frac{F(x)^2+F(x^2)}2}
+\]
+contam, por soma dos elementos, respetivamente: escolhas sem ordem de dois elementos \emph{distintos}; escolhas sem ordem de dois elementos \emph{com repetição permitida}.
+\prova Os pares fora da diagonal aparecem em classes de dois inversos com o mesmo monómio. Os pares diagonais aparecem uma vez. Subtrair $F(x^2)$ elimina os diagonais; dividir por dois identifica os restantes. Para permitir diagonal, acrescentamos uma cópia dela à contagem sem ordem.\fimprova
+\end{teoremabox}
+\begin{center}
+\begin{tikzpicture}[node distance=8mm]
+\node[draw,rounded corners,fill=azulclaro,inner sep=7pt] (todos) {$F(x)^2$: todos os pares};
+\node[draw,rounded corners,fill=laranjaclaro,below left=14mm and 17mm of todos,inner sep=7pt] (diag) {$F(x^2)$: diagonal};
+\node[draw,rounded corners,fill=verdeclaro,below right=14mm and 17mm of todos,inner sep=7pt] (fora) {$F(x)^2-F(x^2)$};
+\draw[-{Latex},thick] (todos) -- (diag);
+\draw[-{Latex},thick] (todos) -- (fora);
+\node[draw,rounded corners,fill=verdeclaro,below=10mm of fora,inner sep=6pt] (metade) {$\dfrac{F(x)^2-F(x^2)}2$};
+\draw[-{Latex},thick] (fora) -- node[right,align=left,font=\scriptsize] {identificar\ inversões} (metade);
+\end{tikzpicture}
+\end{center}
+\section{Uma pequena verificação}
+Para $A=\{0,1,2,3\}$, o coeficiente de $x^3$ em $F(x)^2$ é quatro: $(0,3),(1,2),(2,1),(3,0)$. Como $F(x^2)$ só tem expoentes pares, o coeficiente de $x^3$ em $H(x)$ é $4/2=2$, correspondente às escolhas $\{0,3\}$ e $\{1,2\}$.
+
+É tentador pensar que basta eliminar os expoentes pares. Mas os pares $(0,2)$ e $(2,0)$ são distintos e produzem ambos $x^2$. Não é a paridade do \emph{expoente} que revela a simetria; é a paridade dos \emph{coeficientes depois de retirar a diagonal}.
+
+\chapter{Triplos: quando a divisão uniforme deixa de funcionar}
+\section{Três padrões de repetição}
+Voltemos a $A=\{0,1,2\}$ e ao produto $A^3$. Queremos identificar triplos com a mesma coleção de elementos, contando também quantas vezes cada valor aparece. Isso requer a noção de \emph{multiconjunto}: ao contrário de um conjunto usual, nele $0,0,1$ não é o mesmo que $0,1$.
+
+Organizamos a contagem em camadas, fixando a última coordenada $z$:
+\begin{center}
+\begin{tabular}{l|ccc|c}
+Padrão escolhido & $z=0$ & $z=1$ & $z=2$ & Total\\\midrule
+$0,1,2$ (distintos) &2&2&2&6\\
+$0,0,1$ (dois iguais) &2&1&0&3\\
+$1,1,1$ (todos iguais)&0&1&0&1
+\end{tabular}
+\end{center}
+A contagem pode ser confirmada diretamente: em $0,1,2$ há $3\cdot2\cdot1=6$ posições distintas; em $0,0,1$, basta escolher a posição do 1, obtendo três; em $1,1,1$, qualquer permutação deixa a sequência igual.
+\begin{descobertabox}{Por que não podemos dividir $F(x)^3$ por $3!$}
+As classes de representações têm tamanhos diferentes: 6, 3 ou 1. A divisão uniforme só se justificava porque, sem repetição, todas as classes tinham o mesmo tamanho. A tabela por camadas revela exatamente onde essa hipótese falha.
+\end{descobertabox}
+\section{Duas interpretações polinomiais para a mesma tabela}
+Podemos dar ao expoente o significado de \emph{camada}. Se $c_z$ for a quantidade de representações na camada $z$, construímos
+\[L(y)=c_0+c_1y+c_2y^2.\]
+A tabela anterior produz
+\[
+L_{012}(y)=2+2y+2y^2,\quad L_{001}(y)=2+y,\quad L_{111}(y)=y.
+\]
+Mas, se o expoente representar a \emph{soma} dos valores das coordenadas, os mesmos padrões fornecem
+\[
+S_{012}(x)=6x^3,\quad S_{001}(x)=3x,\quad S_{111}(x)=x^3.
+\]
+As duas descrições respondem a perguntas diferentes. Podemos conservar as duas informações simultaneamente, atribuindo ao triplo $(a,b,c)$ o monómio $x^{a+b+c}y^c$. O polinómio do produto completo fica
+\[
+P(x,y)=(1+x+x^2)^2(1+xy+x^2y^2).
+\]
+A variável $x$ regista a soma, enquanto $y$ regista a terceira coordenada, isto é, a camada. Fazer $y=1$ apaga a distinção entre camadas; fazer $x=1$ apaga a distinção entre somas.
+\Pergunta{Por que só o terceiro fator contém a variável $y$?}
+\Resposta{Porque a variável $y$ deve contar a camada, isto é, o valor escolhido na terceira coordenada. Se aparecesse nos outros fatores, passaria a contar outra informação.}
+Ainda assim, o polinómio não conserva \emph{tudo}: $(0,2,1)$ e $(1,1,1)$ produzem o mesmo monómio $x^3y$, mas só o primeiro possui três elementos distintos.
+\section{Conservar todas as coordenadas antes de as esquecer}
+Introduzimos uma variável por coordenada:
+\[
+G(u,v,w)=(1+u+u^2)(1+v+v^2)(1+w+w^2).
+\]
+O triplo $(a,b,c)$ corresponde a $u^av^bw^c$. Os exemplos anteriores passam a ser $v^2w$ e $uvw$, que são distintos.
+\begin{teoremabox}{Representação fiel de um produto cartesiano numérico}
+Se $A,B,C\subseteq\Nzero$ são finitos, o produto
+\[
+G(u,v,w)=\left(\sum_{a\in A}u^a\right)
+\left(\sum_{b\in B}v^b\right)
+\left(\sum_{c\in C}w^c\right)
+\]
+possui um monómio diferente $u^av^bw^c$ para cada triplo $(a,b,c)\in A\times B\times C$; todos esses monómios têm coeficiente 1.
+\prova Se dois monómios em variáveis independentes são iguais, os expoentes de $u$, $v$ e $w$ coincidem coordenada a coordenada. Logo, os triplos de origem são iguais. A distributividade produz uma contribuição por triplo, provando também a sobrejetividade da correspondência.\fimprova
+\end{teoremabox}
+Para elementos não numéricos, primeiro atribuímos códigos inteiros distintos em cada coordenada. O polinómio completo preserva o objeto, mas torna-se cada vez mais difícil de manipular. A verdadeira tarefa agora é \emph{simplificar sem perder a informação exigida pelas restrições}.
+
+\chapter{Uma linguagem comum --- e o que ela não resolve sozinha}
+Seja $R$ um conjunto finito de objetos válidos e $v:R\to\Nzero$ uma propriedade numérica. Podemos sempre \emph{definir}
+\[
+F_R(x)=\sum_{a\in R}x^{v(a)}.
+\]
+O coeficiente de $x^s$ é a quantidade de objetos com propriedade $s$, e $F_R(1)=\card R$. O mesmo vale para vários pesos e várias variáveis.
+
+Contudo, \emph{definir} essa soma não é o mesmo que \emph{calculá-la} eficientemente. Se para construir $F_R$ já precisarmos de listar todos os elementos de $R$, pouco ganhámos em relação à tabela inicial. O valor da álgebra aparece quando podemos fatorizar, decompor em camadas, aplicar filtros ou reconhecer simetrias.
+\begin{center}
+\begin{tikzpicture}[node distance=4mm,>=Latex]
+\node[draw,rounded corners,fill=azulclaro,minimum width=3.2cm,minimum height=1cm,align=center] (a) {\textbf{Construir}\\produto cartesiano};
+\node[draw,rounded corners,fill=azulclaro,right=5mm of a,minimum width=3.0cm,minimum height=1cm,align=center] (b) {\textbf{Selecionar}\\restrições};
+\node[draw,rounded corners,fill=verdeclaro,right=5mm of b,minimum width=3.0cm,minimum height=1cm,align=center] (c) {\textbf{Identificar}\\representações};
+\node[draw,rounded corners,fill=laranjaclaro,below=9mm of b,minimum width=3.0cm,minimum height=1cm,align=center] (d) {\textbf{Contar}\\coeficiente ou $F(1)$};
+\draw[->,thick] (a)--(b);\draw[->,thick] (b)--(c);\draw[->,thick] (c.south)--++(0,-.40cm)-|(d.east);
+\end{tikzpicture}
+\end{center}
+\begin{observacaobox}{Uma condição para simplificar com segurança}
+Se duas escolhas diferentes passam a produzir o mesmo monómio, devemos perguntar: \emph{as restrições que ainda queremos aplicar tratam essas escolhas da mesma maneira?} Se não, precisamos de conservar mais variáveis, separar casos, ou aplicar a restrição \emph{antes} de projetar as informações.
+\end{observacaobox}
+\section{O que sabemos codificar até aqui}
+\begin{center}\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.85cm}X}
+\toprule
+Na linguagem das tabelas & Na linguagem dos polinómios\\\midrule
+Escolhas sucessivas & Produto dos fatores que codificam as escolhas\\
+Casos disjuntos & Soma das contribuições\\
+Condição de soma & Extrair o coeficiente da potência desejada\\
+Fixar uma camada & Fixar a contribuição de uma coordenada\\
+Excluir a diagonal dos pares & Subtrair $F(x^2)$ de $F(x)^2$\\
+Ignorar ordem em pares distintos & Dividir por 2 após excluir a diagonal\\
+Preservar várias propriedades & Usar várias variáveis ou pesos independentes\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\part{As fórmulas clássicas vistas de novo}
+\chapter{Arranjos, combinações e permutações como polinómios}
+Depois de descobrir as fórmulas pelo princípio multiplicativo, surgiu uma pergunta natural: \emph{será possível vê-las todas como expressões polinomiais?} Para responder, precisamos de uma variável $u_i$ por elemento $a_i$ de um conjunto $A=\{a_1,\ldots,a_n\}$; o expoente de $u_i$ regista quantas vezes esse elemento foi utilizado. Introduzimos ainda uma variável auxiliar $t$ que regista a quantidade total de elementos escolhidos.
+
+\section{Escolhas ordenadas com repetição}
+Se temos $r$ posições independentes e qualquer elemento pode ocupar cada posição, a expressão é
+\[
+(u_1+\cdots+u_n)^r.
+\]
+Cada termo bruto da distributividade corresponde a uma sequência ordenada. Se ignorarmos os valores específicos e apenas contarmos quantas sequências existem, fazemos $u_i=1$ e obtemos $n^r$. Os coeficientes antes da especialização guardam quantas sequências têm cada padrão de repetições.
+\section{Escolher sem repetição}
+Para cada elemento $a_i$ há apenas duas decisões: não escolhê-lo (contribuição $1$) ou escolhê-lo uma vez (contribuição $tu_i$). Logo,
+\[E(t;\mathbf u)=\prod_{i=1}^n(1+tu_i).\]
+O coeficiente de $t^r$ é a soma dos monómios $u_{i_1}\cdots u_{i_r}$ em que os índices são distintos, cada um aparecendo exatamente uma vez. Portanto, ele representa as \emph{combinações sem repetição}.
+
+Se desejarmos guardar também a ordem, cada monómio selecionado representa $r!$ sequências ordenadas. Assim,
+\[
+\text{arranjos sem repetição: }\quad r!\,[t^r]E(t;\mathbf u).
+\]
+\section{Permitir multiplicidades}
+Se um elemento pode ser escolhido $0,1,2,\ldots$ vezes, as contribuições possíveis são
+\[1+tu_i+t^2u_i^2+\cdots=\frac1{1-tu_i}.\]
+Aqui usamos a expansão como \emph{série formal}; não precisamos de escolher um valor numérico para $t$. Para seleções de exatamente $r$ elementos, bastam os termos até grau $r$. Portanto,
+\[H(t;\mathbf u)=\prod_{i=1}^n\frac1{1-tu_i}
+\]
+representa as escolhas \emph{sem ordem, com repetição}; o coeficiente de $t^r$ reúne todos os padrões de multiplicidade total $r$, uma vez cada um.
+
+\section{Permutar um multiconjunto}
+Se temos $r=m_1+\cdots+m_n$ posições e queremos exatamente $m_i$ cópias do símbolo $a_i$, procuramos o coeficiente de $u_1^{m_1}\cdots u_n^{m_n}$ em
+\[(u_1+\cdots+u_n)^r.\]
+Este coeficiente vale
+\[\frac{r!}{m_1!\cdots m_n!}.\]
+\prova Se temporariamente distinguirmos por etiquetas as $m_i$ cópias de cada símbolo, haverá $r!$ ordenações dos $r$ objetos etiquetados. Ao apagar as etiquetas de um símbolo que aparece $m_i$ vezes, cada palavra final resulta de $m_i!$ permutações das suas cópias. O número de etiquetas que colapsam em cada palavra é o mesmo, $m_1!\cdots m_n!$; por isso dividimos.\fimprova
+\begin{teoremabox}{Quadro de contagens (recolhido somente depois das experiências)}
+Para $n$ tipos de elementos e comprimento $r$,
+\begin{center}\small
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.9cm} >{\raggedright\arraybackslash}X}
+\toprule
+Objeto contado & Expressão de contagem\\\midrule
+Ordenados, com repetição & $n^r$\\
+Ordenados, sem repetição & $\displaystyle\frac{n!}{(n-r)!}$, se $r\le n$\\
+Sem ordem, sem repetição & $\displaystyle\binom nr$\\
+Sem ordem, com repetição & $\displaystyle\binom{n+r-1}{r}$\\
+Permutação de $r$ símbolos com multiplicidades $m_i$ & $\displaystyle\frac{r!}{\prod_i m_i!}$\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Os quatro primeiros casos também são codificados por $(\sum_i u_i)^r$, $r![t^r]E$, $[t^r]E$ e $[t^r]H$, respetivamente. A expressão para escolhas sem ordem com repetição será justificada concretamente com separadores no capítulo seguinte.
+\end{teoremabox}
+\begin{observacaobox}{Cuidado com o significado de ``forma fechada''}
+Uma expressão polinomial pode \emph{codificar} uma contagem sem fornecer imediatamente um valor numérico simples. Escrever $[t^r]H(t;\mathbf u)$ é uma descrição exata; obter $\binom{n+r-1}{r}$ é um passo adicional de contagem, que precisa da sua própria justificação. Não são objetivos concorrentes: um conserva informação, o outro resume uma quantidade.
+\end{observacaobox}
+
+\part{Questões em que se aprende a construir a representação}
+\chapter{Palíndromos: eliminar a restrição antes de contar}
+\section{A palavra ANNA}
+Consideremos palavras de quatro letras escolhidas de $\{A,N\}$. Formar todas as palavras e depois selecionar palíndromos seria possível, mas pouco económico. Um palíndromo é igual à sua leitura invertida: a primeira posição deve coincidir com a quarta e a segunda com a terceira.
+\begin{center}
+\begin{tikzpicture}[x=1.35cm,y=1cm]
+\foreach \i/\letra in {0/A,1/N,2/N,3/A}{
+\node[draw=azulescuro!55,rounded corners=2pt,minimum width=.74cm,minimum height=.75cm,fill=azulclaro,font=\large\bfseries] (p\i) at (\i,0) {\letra};
+\node[below=2pt of p\i,font=\scriptsize] {\the\numexpr\i+1\relax};}
+\draw[verdeescuro,thick] (p0.north) to[out=75,in=105,looseness=1.35] (p3.north);
+\draw[orange!80!black,thick] (p1.north) to[out=75,in=105,looseness=.95] (p2.north);
+\end{tikzpicture}
+\end{center}
+\Pergunta{Precisamos escolher quatro letras ou apenas duas escolhas independentes?}
+\Resposta{Escolhemos um valor para cada par de posições simétricas; as outras posições ficam determinadas.}
+Introduzimos $u$ para contar letras A e $v$ para contar letras N. Cada par de posições simétricas contribui com $u^2$ ou com $v^2$. Portanto,
+\[P_4(u,v)=(u^2+v^2)^2=u^4+2u^2v^2+v^4.\]
+O coeficiente $2$ de $u^2v^2$ conta os dois palíndromos com duas letras de cada tipo: \rom{ANNA} e \rom{NAAN}. Se não exigirmos quantidades específicas, avaliamos $P_4(1,1)=4$.
+\begin{teoremabox}{Polinómios de palíndromos}
+Para um alfabeto com $q$ símbolos, representados por $u_1,\ldots,u_q$, o polinómio que conta os palíndromos pela multiplicidade de cada símbolo é
+\[
+P_{2m}(\mathbf u)=\left(\sum_{i=1}^q u_i^2\right)^m,
+\qquad
+P_{2m+1}(\mathbf u)=\left(\sum_{i=1}^q u_i^2\right)^m\left(\sum_{i=1}^q u_i\right).
+\]
+\prova Cada uma das $m$ duplas simétricas recebe independentemente um símbolo. A dupla contribui com $u_i^2$, pois esse símbolo aparece duas vezes na palavra. Se o comprimento é ímpar, a posição central é independente e contribui com apenas $u_i$. Aplicamos a distributividade.\fimprova
+\end{teoremabox}
+\section{Questão aplicada: cinco letras e quantidades exatas}
+\textbf{Problema.} Quantos palíndromos de cinco posições podem ser formados com exatamente dois A, dois B e um C?
+
+O polinómio é
+\[P_5(u,v,w)=(u^2+v^2+w^2)^2(u+v+w).\]
+A letra C, que aparece uma única vez, não pode ocupar um par espelhado; deve ficar no centro. Os dois pares restantes recebem A e B em qualquer uma das duas ordens. Assim, há duas palavras: \rom{ABCBA} e \rom{BACAB}.
+
+Algebricamente, procuramos o coeficiente de $u^2v^2w$. Ele só é obtido ao escolher $w$ no fator central e $u^2v^2$ nos dois fatores de pares; esse produto surge duas vezes. A explicação combinatória e a polinomial coincidem.
+\begin{descobertabox}{A escolha da representação pode eliminar a dificuldade}
+A condição ``ser palíndromo'' não foi tratada por uma subtração gigantesca de palavras proibidas. Incorporámo-la no próprio modelo, escolhendo apenas os pares simétricos. Nalguns problemas, uma boa representação vale mais do que uma fórmula complexa.
+\end{descobertabox}
+
+\chapter{Matrículas: separar os casos antes de multiplicar}
+\textbf{Problema.} Quantas sequências de nove algarismos decimais contêm o algarismo 0 \emph{exatamente uma vez} e têm soma par nas duas últimas posições?
+
+Este problema retoma a dúvida que iniciou a investigação. O objeto é um elemento de $D^9$, com $D=\{0,1,\ldots,9\}$. A condição seleciona um subconjunto de $D^9$. Precisamos ainda de esclarecer se a primeira posição pode ser 0: uma matrícula pode admitir zeros iniciais, enquanto um número inteiro de nove algarismos não admite.
+\section{Primeira experiência: contar as duas posições finais}
+Entre os algarismos não nulos, existem cinco ímpares ($1,3,5,7,9$) e quatro pares ($2,4,6,8$). A soma de dois algarismos não nulos é par em dois casos disjuntos:
+\[
+\text{ímpar+ímpar}:5\cdot5=25,\qquad
+\text{par+par}:4\cdot4=16.
+\]
+Assim, quando nenhum dos dois últimos é 0, existem $25+16=41$ pares finais válidos. Se exatamente um deles é 0, o outro deve ser um dos quatro pares não nulos.
+\section{Dois casos principais}
+\textbf{Caso I:} o único zero está entre as primeiras sete posições. Podemos escolher a posição do 0 de sete maneiras; os outros seis lugares iniciais recebem um dos nove algarismos não nulos; o par final pode ser escolhido de 41 maneiras. Portanto,
+\[N_1=7\cdot9^6\cdot41.\]
+\textbf{Caso II:} o único zero está numa das duas posições finais. Escolhemos qual delas de duas maneiras e o outro algarismo final de quatro maneiras. As primeiras sete posições têm nove escolhas não nulas cada:
+\[N_2=2\cdot4\cdot9^7.\]
+Somando os casos disjuntos,
+\[
+\boxed{N=N_1+N_2=359\cdot9^6=190\,787\,319}.\]
+\section{E se o primeiro algarismo não puder ser zero?}
+No primeiro caso, a posição do zero fica restrita às posições 2 a 7: seis possibilidades, e não sete. O segundo caso não muda. Logo,
+\[
+\boxed{N_{\text{primeiro}\ne0}=6\cdot41\cdot9^6+8\cdot9^7
+=318\cdot9^6=168\,998\,238}.\]
+\begin{observacaobox}{O que os princípios fizeram}
+A dificuldade não era reconhecer uma fórmula chamada ``arranjo com restrição''. Era descobrir uma \emph{partição adequada}: zero no início ou zero no fim. Dentro de cada caso, construímos escolhas com quantidades constantes e multiplicámos. Depois somámos os casos disjuntos. Os polinómios também podem codificar a paridade, mas aqui a decomposição por casos é mais transparente.
+\end{observacaobox}
+\section{Como seria a tradução polinomial?}
+Usamos a variável $z$ para registar a quantidade de zeros escolhidos, e uma variável $x$ para registar a soma dos dois últimos algarismos. Para uma posição inicial qualquer, o fator é $z+9$: uma escolha zero e nove escolhas não nulas. Para cada posição final, o fator é
+\[z+\sum_{j=1}^{9}x^j.\]
+Assim, se o primeiro algarismo puder ser zero, um polinómio que conserva simultaneamente a quantidade de zeros e a soma final é
+\[
+M(z,x)=(z+9)^7\left(z+\sum_{j=1}^{9}x^j\right)^2.
+\]
+Para obter a quantidade pretendida, selecionamos o coeficiente de $z^1$ e, dentro dele, somamos os coeficientes de $x^{0},x^{2},x^{4},\ldots,x^{18}$. Se o primeiro algarismo for proibido de ser zero, substituímos o primeiro fator $z+9$ por $9$:
+\[M_{\text{sem zero inicial}}(z,x)=9(z+9)^6\left(z+\sum_{j=1}^{9}x^j\right)^2.\]
+A expressão polinomial não evita a escolha do modelo, mas preserva as duas condições no mesmo objeto algébrico.
+
+\chapter{Palitos e separadores: uma equação torna-se uma sequência}
+\section{A equação que recordámos do livro}
+Queremos contar soluções de
+\[x_1+x_2+x_3+x_4=11.\]
+Se as variáveis podem ser quaisquer inteiros, existem infinitas soluções, por exemplo $(t,-t,0,11)$ para qualquer inteiro $t$. A contagem finita exige uma condição. Vamos impor $x_i\in\Nzero$.
+\Pergunta{Podemos representar a solução $(2,3,1,5)$ com onze palitos e três separadores, recuperando os quatro números a partir das posições?}
+\Resposta{Sim. Se os separadores dividirem a linha em quatro regiões, os números de palitos de cada região são as coordenadas da solução.}
+\begin{center}
+\begin{tikzpicture}[x=.37cm,y=.8cm]
+\foreach \x in {0,1,3,4,5,7,9,10,11,12,13} {
+ \fill[verdeescuro] (\x,0) circle (2.6pt);
+}
+\foreach \x in {2,6,8} {\draw[laranjaescuro,line width=1.7pt] (\x,-.28)--(\x,.28);}
+\node[below,align=center,font=\scriptsize] at (1,-.35) {2};
+\node[below,font=\scriptsize] at (4,-.35) {3};
+\node[below,font=\scriptsize] at (7,-.35) {1};
+\node[below,font=\scriptsize] at (11,-.35) {5};
+\end{tikzpicture}
+\end{center}
+De modo mais legível, com $\bullet$ para uma unidade e $\mid$ para separador:
+\[\bullet\bullet\;\mid\;\bullet\bullet\bullet\;\mid\;\bullet\;\mid\;\bullet\bullet\bullet\bullet\bullet.\]
+Uma região sem palitos indica uma coordenada zero. Por isso, todas as soluções não negativas são representáveis por sequências de onze símbolos de unidade e três separadores, e vice-versa.
+\section{A bijeção fornece a fórmula}
+Temos agora uma sequência de 14 lugares, dos quais escolhemos três para os separadores (os outros onze serão palitos). O número de soluções é, portanto,
+\[\boxed{\binom{14}{3}=364}.\]
+\begin{teoremabox}{Distribuir $s$ objetos indistinguíveis por $r$ caixas distintas}
+O número de soluções inteiras não negativas de
+\[x_1+\cdots+x_r=s\]
+é
+\[\boxed{\binom{s+r-1}{r-1}}.\]
+\prova Associamos a cada solução uma sequência de $s$ unidades e $r-1$ separadores, mantendo a ordem das caixas. A contagem de unidades antes, entre e depois dos separadores recupera unicamente a solução; reciprocamente, toda sequência com essas quantidades de símbolos determina uma solução. Basta escolher $r-1$ lugares para os separadores entre os $s+r-1$ lugares totais.\fimprova
+\end{teoremabox}
+Esta demonstração completa a contagem \emph{sem ordem, com repetição} anunciada anteriormente: escolher $r$ elementos de $n$ tipos com repetição equivale a escolher multiplicidades $m_1+\cdots+m_n=r$, ou seja, $\binom{n+r-1}{n-1}$ possibilidades.
+\section{O mesmo problema pelo polinómio}
+Uma variável não negativa contribui com um dos monómios $1,x,x^2,\ldots$. Assim, para quatro variáveis, a função geradora formal é
+\[
+\frac1{(1-x)^4}.
+\]
+O coeficiente de $x^{11}$ coincide com a quantidade de sequências de palitos e separadores, isto é, 364. Também podemos trabalhar só com o polinómio finito $(1+x+\cdots+x^{11})^4$: os termos de grau 11 coincidem porque nenhuma parcela de grau maior pode contribuir para uma soma 11 com expoentes não negativos.
+
+Se exigirmos $x_i\ge1$, retiramos previamente uma unidade de cada variável: $y_i=x_i-1\ge0$ e $y_1+\cdots+y_4=7$. Assim, o número passa a ser $\binom{10}{3}=120$. Não decorámos uma nova fórmula: transformámos o problema num caso que já sabíamos representar.
+
+\chapter{Um último exemplo: mudar de representação para evitar proibições}
+\textbf{Problema.} Quantas palavras de cinco letras se podem formar com exatamente três A e dois B, sem que dois B fiquem consecutivos?
+
+Podemos começar por todas as sequências de três A e dois B e retirar os casos proibidos. Mas há uma construção mais simples: escrevemos primeiro os três A e observamos os quatro intervalos disponíveis, incluindo as extremidades:
+\[
+\_\;A\;\_\;A\;\_\;A\;\_.
+\]
+Para os dois B não ficarem consecutivos, cada intervalo pode receber no máximo um B. Basta escolher dois dos quatro intervalos. O número é $\binom42=6$.
+
+Na nossa linguagem polinomial, cada intervalo contribui com $1+t$ (não colocar B ou colocar um B). O coeficiente de $t^2$ em $(1+t)^4$ vale 6. A restrição complicada sobre \emph{adjacência} tornou-se uma escolha binária sem repetição depois de mudarmos a representação dos objetos.
+\begin{descobertabox}{Como escolher entre tabela, produto e polinómio}
+Se uma restrição for fácil de traduzir em pesos aditivos, vale a pena procurar coeficientes. Se depender de simetria, escolhemos posições independentes ou identificamos órbitas. Se depender de posições proibidas, uma representação por intervalos, camadas ou estados pode tornar a construção mais simples do que o produto cartesiano original.
+\end{descobertabox}
+
+\part{Uma fronteira aberta e um primeiro prolongamento}
+\chapter{Três igualdades que se sobrepõem}
+A nossa investigação deixou uma pergunta: em $A^3$, como excluir todos os triplos com coordenadas repetidas sem subtrair certos triplos mais de uma vez?
+
+Seja $F(x)=\sum_{a\in A}x^a$, para $A\subseteq\Nzero$ finito. Todos os triplos, classificados pela soma, são representados por $F(x)^3$. A condição ``a primeira e a segunda coordenadas são iguais'' produz
+\[F(x^2)F(x),\]
+pois o par igual contribui com $x^{2a}$ e a terceira coordenada pode ser qualquer elemento. O mesmo polinómio conta cada uma das condições $a=b$, $a=c$ e $b=c$.
+
+Se retirarmos três vezes $F(x^2)F(x)$, um triplo $(a,a,a)$ será retirado três vezes, embora aparecesse apenas uma vez em $F(x)^3$. Para corrigi-lo, precisamos devolver duas cópias de sua contribuição. O polinómio dos triplos todos iguais é $F(x^3)$.
+\begin{teoremabox}{Primeiro caso de inclusão--exclusão em funções geradoras}
+O polinómio que conta os triplos ordenados com três coordenadas \emph{distintas}, classificados pela soma, é
+\[\boxed{Q_3(x)=F(x)^3-3F(x^2)F(x)+2F(x^3)}.\]
+\prova Um triplo com três coordenadas distintas aparece uma vez no primeiro termo e em nenhum dos restantes. Um triplo com exatamente duas iguais aparece uma vez em $F^3$ e exatamente uma vez numa das três subtrações; a sua contribuição é zero. Um triplo com as três iguais aparece uma vez em $F^3$, três vezes nas subtrações e duas vezes na correção, com coeficiente total $1-3+2=0$. Assim, permanecem precisamente os triplos desejados.\fimprova
+\end{teoremabox}
+\begin{observacaobox}{Uma verificação no exemplo que motivou a pergunta}
+Se $A=\{0,1,2\}$ e procuramos soma 3, o coeficiente de $x^3$ em $F(x)^3$ é 7. Em $F(x^2)F(x)$ vale 1 e em $F(x^3)$ também vale 1. Logo, o coeficiente em $Q_3$ é $7-3+2=6$, as seis permutações de $(0,1,2)$. Se a ordem não importar, dividimos esse polinómio por $3!=6$, porque \emph{agora} todos os triplos permitidos têm três elementos distintos.
+\end{observacaobox}
+Este resultado é um \emph{prolongamento} do caminho realizado: a correção das sobreposições leva-nos ao princípio da inclusão--exclusão. Em problemas maiores, a técnica poderá exigir várias interseções, partições de posições e outras estruturas. A álgebra não substitui a decisão sobre o que queremos contar; torna explícita essa decisão.
+
+\chapter*{Síntese: uma teoria construída a partir de perguntas}\addcontentsline{toc}{chapter}{Síntese}
+O percurso começou com uma tabela $A\times B$ e uma pergunta sobre a legitimidade da multiplicação. A primeira restrição exigiu decompor o conjunto em casos disjuntos. Tornar os conjuntos iguais revelou a diagonal; ignorar a ordem revelou representações equivalentes. Com três coordenadas, contámos por camadas e descobrimos por que a multiplicação é um caso particular da soma de camadas de tamanho constante.
+
+Ao passar para sequências de comprimento $r$, surgiram naturalmente os fatoriais, os arranjos e as combinações. Ao mudar para zeros e uns, os subconjuntos transformaram-se em vetores binários; a decomposição desses vetores revelou a recorrência de Pascal. Os polinómios nasceram quando representámos cada escolha por um monómio, e a distributividade reproduziu os princípios de contar. Finalmente, percebemos que restringir, identificar e projetar informações são operações diferentes: cada problema exige escolher o que a representação precisa de conservar.
+
+O princípio diretor pode ser registado numa única frase:
+\begin{descobertabox}{A questão central da Combinatória}
+Antes de procurar uma fórmula, perguntar: \emph{qual é o conjunto dos objetos, como posso representar cada objeto sem ambiguidades, que condições os selecionam, quando duas representações significam a mesma escolha e qual a operação que conta exatamente uma vez cada objeto desejado?}
+\end{descobertabox}
+A partir daí, a tabela, o produto cartesiano, as camadas, as bijeções, os fatoriais e os polinómios deixam de ser assuntos separados: passam a ser maneiras diferentes de olhar para a mesma construção.
+
+\appendix
+\chapter{Perguntas de investigação para continuar}
+\begin{enumerate}[leftmargin=*,itemsep=.65em]
+\item Se as palavras têm de evitar um padrão proibido (por exemplo, \rom{ABBA}), como representar apenas as escolhas admissíveis por camadas ou por estados?
+\item Quando é melhor manter variáveis diferentes para cada coordenada em vez de substituir todas por $x$?
+\item A nossa expressão para triplos distintos pode ser generalizada a quatro coordenadas? Como as diferentes igualdades se intersectam?
+\item Se o objeto é uma combinação com repetição, é mais eficiente usar separadores, produtos de séries geométricas ou uma tabela triangular?
+\item Como identificar a ordem e as simetrias quando as classes de representações não têm tamanho constante?
+\item Podemos criar, para um problema de matrículas, um polinómio que registe ao mesmo tempo quantidade de zeros, paridade e restrições sobre posições?
+\item Que funções geradoras exigem infinitos termos? Que sentido matemático têm essas séries sem escolher um valor numérico de $x$?
+\end{enumerate}
+\chapter{Convenções e vocabulário que surgiu no percurso}
+\begin{description}[style=nextline,leftmargin=1mm,labelwidth=0pt,itemsep=.5em]
+\item[Produto cartesiano] Conjunto de escolhas ordenadas por coordenadas; duas escolhas com os mesmos valores podem diferir pela posição.
+\item[Restrição] Condição que seleciona um subconjunto das representações disponíveis.
+\item[Camada ou fibra] Subconjunto de tuplos obtido ao fixar uma coordenada.
+\item[Bijeção] Correspondência um a um entre dois conjuntos: nenhuma repetição e nenhuma omissão.
+\item[Representações equivalentes] Objetos diferentes de uma representação que são tratados como a mesma escolha final.
+\item[Multiconjunto] Seleção que conserva a quantidade de cópias de cada elemento, mesmo quando a ordem é ignorada.
+\item[Coeficiente de $x^s$] Quantidade agregada de escolhas que produzem o peso $s$, na função geradora adequada.
+\item[Projeção de informação] Substituição ou transformação que conserva certos pesos e deixa de distinguir outros.
+\item[Série formal] Expressão potencialmente infinita em que as operações são feitas coeficiente a coeficiente; não exige analisar convergência numérica para cada manipulação combinatória finita.
+\end{description}
+\end{document}
