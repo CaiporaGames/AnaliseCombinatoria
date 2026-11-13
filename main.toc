@@ -4,81 +4,84 @@
 \contentsline {chapter}{\numberline {1}Dois conjuntos e a primeira dificuldade}{2}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Uma tabela antes de qualquer fórmula}{2}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Introduzir uma condição sem mudar os conjuntos}{3}{section.1.2}%
-\contentsline {chapter}{\numberline {2}A diagonal, a ordem e as representações}{4}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Dois fatores iguais}{4}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Uma nova pergunta: o que significa ``a mesma escolha''?}{4}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Dois conjuntos diferentes, mas com interseção}{5}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Uma soma surge do desenho da tabela}{5}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Acrescentar uma dimensão: as camadas}{7}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Três conjuntos distintos primeiro}{7}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Restrições que alteram o tamanho das camadas}{7}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Somente agora, três cópias do mesmo conjunto}{8}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Generalizar a $r$ posições}{15}{section.3.4}%
-\contentsline {chapter}{\numberline {4}O vazio, os zeros e uns e o triângulo de Pascal}{17}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Uma primeira tentativa de contar subconjuntos}{17}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Contar somente os subconjuntos de tamanho $r$}{18}{section.4.2}%
-\contentsline {section}{\numberline {4.3}O triângulo surgiu da tabela}{21}{section.4.3}%
-\contentsline {paragraph}{Problema 1. Formar uma equipa}{30}{section*.28}%
-\contentsline {paragraph}{Problema 2. Distribuir medalhas}{30}{section*.29}%
-\contentsline {paragraph}{Problema 3. Um livro obrigatório}{31}{section*.30}%
-\contentsline {paragraph}{Problema 4. Formar números de três algarismos}{32}{section*.31}%
-\contentsline {paragraph}{Problema 5. Códigos com três símbolos}{33}{section*.33}%
-\contentsline {paragraph}{Problema 6. Sinais luminosos}{34}{section*.34}%
-\contentsline {paragraph}{Problema 7. Utilizar exatamente duas letras}{35}{section*.35}%
-\contentsline {paragraph}{Problema 8. Utilizar obrigatoriamente três símbolos}{36}{section*.36}%
-\contentsline {paragraph}{Primeiro caso: os dois símbolos já aparecem nas três primeiras posições.}{41}{section*.42}%
-\contentsline {paragraph}{Segundo caso: um dos símbolos aparece pela primeira vez na última posição.}{41}{section*.43}%
-\contentsline {paragraph}{Reunindo os dois casos.}{41}{section*.44}%
-\contentsline {paragraph}{Primeira situação.}{42}{section*.46}%
-\contentsline {paragraph}{Segunda situação.}{42}{section*.47}%
-\contentsline {paragraph}{Reunindo as situações.}{42}{section*.48}%
-\contentsline {paragraph}{Caso 1. O último símbolo já apareceu anteriormente.}{43}{section*.50}%
-\contentsline {paragraph}{Caso 2. O último símbolo aparece pela primeira vez.}{43}{section*.51}%
-\contentsline {paragraph}{Somando os casos.}{44}{section*.52}%
-\contentsline {paragraph}{Primeira possibilidade.}{48}{section*.58}%
-\contentsline {paragraph}{Segunda possibilidade.}{48}{section*.59}%
-\contentsline {part}{II\hspace {1em}Traduzir a contagem para a álgebra}{51}{part.2}%
-\contentsline {chapter}{\numberline {5}Uma potência que guarda escolhas}{52}{chapter.5}%
-\contentsline {section}{\numberline {5.1}A soma das coordenadas em vez da quantidade de escolhas}{60}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Elementos diferentes, mas com o mesmo peso}{60}{section.5.2}%
-\contentsline {section}{\numberline {5.3}O polinómio determina de onde veio?}{61}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Problemas que escondem polinómios}{61}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Problemas sem repetição}{61}{subsection.5.4.1}%
-\contentsline {paragraph}{Uma verificação sem polinómios.}{66}{section*.75}%
-\contentsline {subsection}{\numberline {5.4.2}Problemas com repetição}{67}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}O que estes problemas nos ensinaram?}{71}{subsection.5.4.3}%
-\contentsline {chapter}{\numberline {6}A diagonal reaparece como substituição polinomial}{74}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Uma restrição que às vezes não modifica a resposta}{74}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Retirar a ordem sem destruir a diagonal}{74}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Uma pequena verificação}{75}{section.6.3}%
-\contentsline {chapter}{\numberline {7}Triplos: quando a divisão uniforme deixa de funcionar}{76}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Três padrões de repetição}{76}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Duas interpretações polinomiais para a mesma tabela}{76}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Conservar todas as coordenadas antes de as esquecer}{77}{section.7.3}%
-\contentsline {chapter}{\numberline {8}Uma linguagem comum --- e o que ela não resolve sozinha}{78}{chapter.8}%
-\contentsline {section}{\numberline {8.1}O que sabemos codificar até aqui}{79}{section.8.1}%
-\contentsline {part}{III\hspace {1em}As fórmulas clássicas vistas de novo}{80}{part.3}%
-\contentsline {chapter}{\numberline {9}Arranjos, combinações e permutações como polinómios}{81}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Escolhas ordenadas com repetição}{81}{section.9.1}%
-\contentsline {section}{\numberline {9.2}Escolher sem repetição}{81}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Permitir multiplicidades}{82}{section.9.3}%
-\contentsline {section}{\numberline {9.4}Permutar um multiconjunto}{82}{section.9.4}%
-\contentsline {part}{IV\hspace {1em}Questões em que se aprende a construir a representação}{84}{part.4}%
-\contentsline {chapter}{\numberline {10}Palíndromos: eliminar a restrição antes de contar}{85}{chapter.10}%
-\contentsline {section}{\numberline {10.1}A palavra ANNA}{85}{section.10.1}%
-\contentsline {section}{\numberline {10.2}Questão aplicada: cinco letras e quantidades exatas}{86}{section.10.2}%
-\contentsline {chapter}{\numberline {11}Matrículas: separar os casos antes de multiplicar}{87}{chapter.11}%
-\contentsline {section}{\numberline {11.1}Primeira experiência: contar as duas posições finais}{87}{section.11.1}%
-\contentsline {section}{\numberline {11.2}Dois casos principais}{87}{section.11.2}%
-\contentsline {section}{\numberline {11.3}E se o primeiro algarismo não puder ser zero?}{88}{section.11.3}%
-\contentsline {section}{\numberline {11.4}Como seria a tradução polinomial?}{88}{section.11.4}%
-\contentsline {chapter}{\numberline {12}Palitos e separadores: uma equação torna-se uma sequência}{89}{chapter.12}%
-\contentsline {section}{\numberline {12.1}A equação que recordámos do livro}{89}{section.12.1}%
-\contentsline {section}{\numberline {12.2}A bijeção fornece a fórmula}{89}{section.12.2}%
-\contentsline {section}{\numberline {12.3}O mesmo problema pelo polinómio}{90}{section.12.3}%
-\contentsline {chapter}{\numberline {13}Um último exemplo: mudar de representação para evitar proibições}{91}{chapter.13}%
-\contentsline {part}{V\hspace {1em}Uma fronteira aberta e um primeiro prolongamento}{92}{part.5}%
-\contentsline {chapter}{\numberline {14}Três igualdades que se sobrepõem}{93}{chapter.14}%
-\contentsline {chapter}{Síntese}{94}{chapter*.81}%
-\contentsline {chapter}{\numberline {A}Perguntas de investigação para continuar}{95}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Convenções e vocabulário que surgiu no percurso}{96}{appendix.B}%
+\contentsline {chapter}{\numberline {2}A diagonal, a ordem e as representações}{20}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Dois fatores iguais}{20}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Uma nova pergunta: o que significa ``a mesma escolha''?}{20}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Dois conjuntos diferentes, mas com interseção}{21}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Uma soma surge do desenho da tabela}{21}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Acrescentar uma dimensão: as camadas}{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Três conjuntos distintos primeiro}{23}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Restrições que alteram o tamanho das camadas}{23}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Somente agora, três cópias do mesmo conjunto}{24}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Generalizar a $r$ posições}{31}{section.3.4}%
+\contentsline {chapter}{\numberline {4}O vazio, os zeros e uns e o triângulo de Pascal}{33}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Uma primeira tentativa de contar subconjuntos}{33}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Contar somente os subconjuntos de tamanho $r$}{34}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Os conjuntos escondidos nos traços}{37}{section.4.3}%
+\contentsline {paragraph}{Primeiro caso: a primeira posição contém um cinco.}{41}{section*.38}%
+\contentsline {paragraph}{Segundo caso: a primeira posição não contém um cinco.}{41}{section*.39}%
+\contentsline {section}{\numberline {4.4}O triângulo surgiu da tabela}{44}{section.4.4}%
+\contentsline {paragraph}{Problema 1. Formar uma equipa}{53}{section*.58}%
+\contentsline {paragraph}{Problema 2. Distribuir medalhas}{54}{section*.59}%
+\contentsline {paragraph}{Problema 3. Um livro obrigatório}{54}{section*.60}%
+\contentsline {paragraph}{Problema 4. Formar números de três algarismos}{55}{section*.61}%
+\contentsline {paragraph}{Problema 5. Códigos com três símbolos}{56}{section*.63}%
+\contentsline {paragraph}{Problema 6. Sinais luminosos}{58}{section*.64}%
+\contentsline {paragraph}{Problema 7. Utilizar exatamente duas letras}{58}{section*.65}%
+\contentsline {paragraph}{Problema 8. Utilizar obrigatoriamente três símbolos}{59}{section*.66}%
+\contentsline {paragraph}{Primeiro caso: os dois símbolos já aparecem nas três primeiras posições.}{64}{section*.72}%
+\contentsline {paragraph}{Segundo caso: um dos símbolos aparece pela primeira vez na última posição.}{64}{section*.73}%
+\contentsline {paragraph}{Reunindo os dois casos.}{65}{section*.74}%
+\contentsline {paragraph}{Primeira situação.}{65}{section*.76}%
+\contentsline {paragraph}{Segunda situação.}{66}{section*.77}%
+\contentsline {paragraph}{Reunindo as situações.}{66}{section*.78}%
+\contentsline {paragraph}{Caso 1. O último símbolo já apareceu anteriormente.}{66}{section*.80}%
+\contentsline {paragraph}{Caso 2. O último símbolo aparece pela primeira vez.}{67}{section*.81}%
+\contentsline {paragraph}{Somando os casos.}{67}{section*.82}%
+\contentsline {paragraph}{Primeira possibilidade.}{72}{section*.88}%
+\contentsline {paragraph}{Segunda possibilidade.}{72}{section*.89}%
+\contentsline {part}{II\hspace {1em}Traduzir a contagem para a álgebra}{74}{part.2}%
+\contentsline {chapter}{\numberline {5}Uma potência que guarda escolhas}{75}{chapter.5}%
+\contentsline {section}{\numberline {5.1}A soma das coordenadas em vez da quantidade de escolhas}{83}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Elementos diferentes, mas com o mesmo peso}{83}{section.5.2}%
+\contentsline {section}{\numberline {5.3}O polinómio determina de onde veio?}{84}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Problemas que escondem polinómios}{84}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Problemas sem repetição}{84}{subsection.5.4.1}%
+\contentsline {paragraph}{Uma verificação sem polinómios.}{89}{section*.105}%
+\contentsline {subsection}{\numberline {5.4.2}Problemas com repetição}{90}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}O que estes problemas nos ensinaram?}{94}{subsection.5.4.3}%
+\contentsline {chapter}{\numberline {6}A diagonal reaparece como substituição polinomial}{97}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Uma restrição que às vezes não modifica a resposta}{97}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Retirar a ordem sem destruir a diagonal}{97}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Uma pequena verificação}{98}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Triplos: quando a divisão uniforme deixa de funcionar}{99}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Três padrões de repetição}{99}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Duas interpretações polinomiais para a mesma tabela}{99}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Conservar todas as coordenadas antes de as esquecer}{100}{section.7.3}%
+\contentsline {chapter}{\numberline {8}Uma linguagem comum --- e o que ela não resolve sozinha}{101}{chapter.8}%
+\contentsline {section}{\numberline {8.1}O que sabemos codificar até aqui}{102}{section.8.1}%
+\contentsline {part}{III\hspace {1em}As fórmulas clássicas vistas de novo}{103}{part.3}%
+\contentsline {chapter}{\numberline {9}Arranjos, combinações e permutações como polinómios}{104}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Escolhas ordenadas com repetição}{104}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Escolher sem repetição}{104}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Permitir multiplicidades}{105}{section.9.3}%
+\contentsline {section}{\numberline {9.4}Permutar um multiconjunto}{105}{section.9.4}%
+\contentsline {part}{IV\hspace {1em}Questões em que se aprende a construir a representação}{107}{part.4}%
+\contentsline {chapter}{\numberline {10}Palíndromos: eliminar a restrição antes de contar}{108}{chapter.10}%
+\contentsline {section}{\numberline {10.1}A palavra ANNA}{108}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Questão aplicada: cinco letras e quantidades exatas}{109}{section.10.2}%
+\contentsline {chapter}{\numberline {11}Matrículas: separar os casos antes de multiplicar}{110}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Primeira experiência: contar as duas posições finais}{110}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Dois casos principais}{110}{section.11.2}%
+\contentsline {section}{\numberline {11.3}E se o primeiro algarismo não puder ser zero?}{111}{section.11.3}%
+\contentsline {section}{\numberline {11.4}Como seria a tradução polinomial?}{111}{section.11.4}%
+\contentsline {chapter}{\numberline {12}Palitos e separadores: uma equação torna-se uma sequência}{112}{chapter.12}%
+\contentsline {section}{\numberline {12.1}A equação que recordámos do livro}{112}{section.12.1}%
+\contentsline {section}{\numberline {12.2}A bijeção fornece a fórmula}{112}{section.12.2}%
+\contentsline {section}{\numberline {12.3}O mesmo problema pelo polinómio}{113}{section.12.3}%
+\contentsline {chapter}{\numberline {13}Um último exemplo: mudar de representação para evitar proibições}{114}{chapter.13}%
+\contentsline {part}{V\hspace {1em}Uma fronteira aberta e um primeiro prolongamento}{115}{part.5}%
+\contentsline {chapter}{\numberline {14}Três igualdades que se sobrepõem}{116}{chapter.14}%
+\contentsline {chapter}{Síntese}{117}{chapter*.111}%
+\contentsline {chapter}{\numberline {A}Perguntas de investigação para continuar}{118}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Convenções e vocabulário que surgiu no percurso}{119}{appendix.B}%

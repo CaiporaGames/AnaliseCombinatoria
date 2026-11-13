@@ -111,45 +111,1474 @@ Para conjuntos finitos $A$ e $B$,
 \[\card{A\times B}=\card A\,\card B.\]
 \prova Para cada um dos $\card A$ elementos da primeira coordenada, a segunda percorre exatamente os $\card B$ elementos de $B$. As linhas são disjuntas e todas têm o mesmo comprimento.\fimprova
 \end{teoremabox}
+
 \section{Introduzir uma condição sem mudar os conjuntos}
-Mantemos $A$ e $B$, mas aceitamos um par $(x,y)$ somente quando
+
+Até aqui, aprendemos que, para dois conjuntos
+finitos $A$ e $B$,
+
+\[
+\card{A\times B}=\card A\cdot\card B.
+\]
+
+Esta igualdade vale independentemente de
+$A$ e $B$ serem iguais ou diferentes.
+
+O Princípio Multiplicativo funciona
+porque cada elemento de $A$ pode
+ser combinado com todos os elementos de $B$.
+
+Mas o que acontece quando uma restrição
+proíbe determinados pares?
+
+\subsection*{Uma primeira experiência}
+
+Consideremos
+
+\[
+A=\{a,b,c\},\qquad B=\{1,2,3,4\}.
+\]
+
+Vamos aceitar um par $(x,y)$ somente quando
+
 \[
 \begin{cases}
 y\in\{2,4\},&x=a\text{ ou }x=b,\\
 y\in\{2,3,4\},&x=c.
 \end{cases}
 \]
-\begin{center}\small
+
+Na tabela, destacamos os pares permitidos:
+
+\begin{center}
+\small
 \begin{tabular}{c|cccc|c}
-$A\backslash B$&1&2&3&4&Total na linha\\\hline
-$a$&\ecel{$(a,1)$}&\ccel{$(a,2)$}&\ecel{$(a,3)$}&\ccel{$(a,4)$}&2\\
-$b$&\ecel{$(b,1)$}&\ccel{$(b,2)$}&\ecel{$(b,3)$}&\ccel{$(b,4)$}&2\\
-$c$&\ecel{$(c,1)$}&\ccel{$(c,2)$}&\ccel{$(c,3)$}&\ccel{$(c,4)$}&3
+$A\backslash B$&1&2&3&4&Total\\
+\hline
+$a$&
+\ecel{$(a,1)$}&
+\ccel{$(a,2)$}&
+\ecel{$(a,3)$}&
+\ccel{$(a,4)$}&2\\
+$b$&
+\ecel{$(b,1)$}&
+\ccel{$(b,2)$}&
+\ecel{$(b,3)$}&
+\ccel{$(b,4)$}&2\\
+$c$&
+\ecel{$(c,1)$}&
+\ccel{$(c,2)$}&
+\ccel{$(c,3)$}&
+\ccel{$(c,4)$}&3
 \end{tabular}
 \end{center}
-A condição não altera $A$ nem $B$ isoladamente. Ela seleciona elementos do produto cartesiano. Chamemos $R$ ao conjunto selecionado:
-\[R=\{(x,y)\in A\times B:\text{ a condição é satisfeita}\}.\]
-É importante notar que $R$ \emph{não é um par}; é um \emph{conjunto de pares}.
-\Pergunta{Por que já não podemos multiplicar $3\cdot4$? Existe uma maneira de usar ainda o princípio multiplicativo?}
-\Resposta{Podemos dividir o conjunto em dois, aplicar o princípio em cada um e depois somar. Ou contar tudo e retirar o que não interessa.}
-A primeira resposta sugere partir $R$ em duas regiões:
+
+A restrição seleciona um subconjunto
+do produto cartesiano:
+
 \[
-R_1=\{a,b\}\times\{2,4\},\qquad R_2=\{c\}\times\{2,3,4\}.
+R=\{(x,y)\in A\times B:
+\text{a condição é satisfeita}\}.
 \]
-Em cada região, multiplicamos. Como não há pares comuns às duas regiões, somamos:
+
+É importante observar que $R$
+não é um par, mas um conjunto de pares.
+
+\Pergunta{Por que não podemos contar
+todos os pares multiplicando $3\cdot4$?}
+
+Porque nem todos os elementos da
+primeira coordenada admitem
+as mesmas escolhas para a segunda.
+
+Mas observemos cuidadosamente a tabela.
+
+Quando escolhemos $a$, podemos
+escolher $2$ ou $4$.
+
+Quando escolhemos $b$, também
+podemos escolher $2$ ou $4$.
+
+Quando escolhemos $c$, podemos
+escolher $2$, $3$ ou $4$.
+
+\Pergunta{Apesar de termos três
+linhas, precisamos realmente
+de construir três conjuntos?}
+
+Não necessariamente.
+
+As linhas correspondentes a $a$ e $b$
+admitem exatamente as mesmas
+escolhas para a segunda coordenada.
+
+Por isso, podemos reuni-las:
+
 \[
-\card R=2\cdot2+1\cdot3=7.
+R_1=\{a,b\}\times\{2,4\}.
 \]
-Em alternativa, dos 12 pares totais, cinco são proibidos: $12-5=7$.
-\begin{teoremabox}{Segundo resultado: princípio aditivo}
-Se um conjunto finito $R$ for dividido em partes disjuntas $R_1,\ldots,R_s$, então
-\[R=R_1\mathbin{\dot\cup}\cdots\mathbin{\dot\cup}R_s
-\quad\Longrightarrow\quad \card R=\sum_{i=1}^{s}\card{R_i}.\]
-\prova Todo elemento de $R$ pertence a uma e apenas uma parte; ao somar os tamanhos das partes, cada elemento é contado exatamente uma vez.\fimprova
+
+A linha correspondente a $c$
+produz outra região:
+
+\[
+R_2=\{c\}\times\{2,3,4\}.
+\]
+
+Logo,
+
+\[
+R=R_1\mathbin{\dot\cup}R_2.
+\]
+
+Aplicando o Princípio Multiplicativo
+a cada região,
+
+\[
+\card{R_1}=2\cdot2=4,
+\]
+
+\[
+\card{R_2}=1\cdot3=3.
+\]
+
+Como as regiões não possuem pares comuns,
+
+\[
+\boxed{\card R=4+3=7}.
+\]
+
+Também poderíamos contar todos os
+$12$ pares e retirar os cinco proibidos:
+
+\[
+12-5=7.
+\]
+
+\subsection*{O que determinou a quantidade de regiões?}
+
+Observámos três elementos em $A$,
+mas apenas dois conjuntos distintos
+de escolhas permitidas em $B$.
+
+Podemos organizar a informação:
+
+\[
+\begin{array}{c|c}
+x&\text{Escolhas permitidas para }y\\
+\hline
+a&\{2,4\}\\
+b&\{2,4\}\\
+c&\{2,3,4\}
+\end{array}
+\]
+
+\Pergunta{Será que o número de regiões
+depende da quantidade de condições
+escritas no problema?}
+
+A experiência sugere que não.
+
+O que determinou as duas regiões
+foi o facto de existirem apenas
+dois conjuntos diferentes de escolhas
+para a segunda coordenada.
+
+Vamos testar esta observação.
+
+\subsection*{Experiência com uma região: $k=1$}
+
+Continuemos com
+
+\[
+A=\{a,b,c\},\qquad B=\{1,2,3,4\}.
+\]
+
+Agora exigimos simplesmente
+
+\[
+y\in\{2,4\}.
+\]
+
+Para qualquer escolha de $x$,
+as possibilidades de $y$ são as mesmas:
+
+\[
+\begin{array}{c|c}
+x&\text{Escolhas de }y\\
+\hline
+a&\{2,4\}\\
+b&\{2,4\}\\
+c&\{2,4\}
+\end{array}
+\]
+
+Portanto, podemos reunir todos
+os elementos de $A$.
+
+O conjunto permitido é
+
+\[
+R=A\times\{2,4\}.
+\]
+
+Logo,
+
+\[
+\boxed{\card R=3\cdot2=6}.
+\]
+
+Temos uma restrição, mas continuamos
+a precisar de apenas um produto cartesiano.
+
+\subsection*{Experiência com duas regiões: $k=2$}
+
+Regressemos à primeira condição.
+
+Os conjuntos de possibilidades são
+
+\[
+B_a=B_b=\{2,4\}
+\]
+
+e
+
+\[
+B_c=\{2,3,4\}.
+\]
+
+Como existem dois conjuntos
+distintos de possibilidades,
+agrupamos $a$ e $b$,
+mantendo $c$ separado.
+
+Assim,
+
+\[
+R=
+\bigl(\{a,b\}\times\{2,4\}\bigr)
+\mathbin{\dot\cup}
+\bigl(\{c\}\times\{2,3,4\}\bigr).
+\]
+
+Portanto,
+
+\[
+\boxed{\card R=2\cdot2+1\cdot3=7}.
+\]
+
+\subsection*{Experiência com três regiões: $k=3$}
+
+Vamos modificar novamente
+a condição:
+
+\[
+\begin{cases}
+y\in\{2,4\},&x=a,\\
+y\in\{1,3\},&x=b,\\
+y\in\{2,3,4\},&x=c.
+\end{cases}
+\]
+
+Agora temos
+
+\[
+\begin{array}{c|c}
+x&\text{Escolhas de }y\\
+\hline
+a&\{2,4\}\\
+b&\{1,3\}\\
+c&\{2,3,4\}
+\end{array}
+\]
+
+\Pergunta{Podemos reunir duas linhas
+numa única região cartesiana?}
+
+Não utilizando diretamente
+os conjuntos de escolhas apresentados.
+
+Embora $a$ e $b$ admitam
+duas escolhas cada,
+essas escolhas não são iguais.
+
+Se tentássemos construir
+
+\[
+\{a,b\}\times\{1,2,3,4\},
+\]
+
+introduziríamos vários pares proibidos.
+
+Portanto, devemos manter
+as três regiões separadas:
+
+\[
+R_1=\{a\}\times\{2,4\},
+\]
+
+\[
+R_2=\{b\}\times\{1,3\},
+\]
+
+\[
+R_3=\{c\}\times\{2,3,4\}.
+\]
+
+Logo,
+
+\[
+\card R=1\cdot2+1\cdot2+1\cdot3.
+\]
+
+Assim,
+
+\[
+\boxed{\card R=7}.
+\]
+
+\begin{observacaobox}{Ter o mesmo número de escolhas não é suficiente}
+Os conjuntos $\{2,4\}$ e $\{1,3\}$
+possuem a mesma cardinalidade,
+mas são diferentes.
+
+Para reunir duas linhas num
+único produto cartesiano que
+contenha exatamente todos os
+seus pares permitidos, precisamos
+que as possibilidades sejam iguais,
+e não apenas que tenham
+a mesma quantidade de elementos.
+\end{observacaobox}
+
+\subsection*{Experiência com cinco regiões: $k=5$}
+
+Para investigar um número maior
+de regiões, precisamos de
+mais elementos na primeira coordenada.
+
+Consideremos
+
+\[
+A=\{a,b,c,d,e,f\}
+\]
+
+e
+
+\[
+B=\{1,2,3,4,5,6\}.
+\]
+
+Vamos impor as seguintes condições:
+
+\[
+\begin{array}{c|c}
+x&\text{Escolhas permitidas de }y\\
+\hline
+a&\{1,2\}\\
+b&\{1,2\}\\
+c&\{2,3\}\\
+d&\{1,3,5\}\\
+e&\{4\}\\
+f&\{3,4,6\}
+\end{array}
+\]
+
+\Pergunta{Quantos conjuntos distintos
+de possibilidades encontramos?}
+
+As linhas de $a$ e $b$
+possuem exatamente as mesmas escolhas.
+
+As restantes quatro linhas
+possuem conjuntos de escolhas
+diferentes entre si.
+
+Portanto, encontramos cinco
+grupos de linhas:
+
+\[
+\{a,b\},\quad
+\{c\},\quad
+\{d\},\quad
+\{e\},\quad
+\{f\}.
+\]
+
+A região permitida pode ser escrita como
+
+\[
+R=R_1\mathbin{\dot\cup}R_2
+\mathbin{\dot\cup}R_3
+\mathbin{\dot\cup}R_4
+\mathbin{\dot\cup}R_5,
+\]
+
+onde
+
+\[
+\begin{aligned}
+R_1&=\{a,b\}\times\{1,2\},\\
+R_2&=\{c\}\times\{2,3\},\\
+R_3&=\{d\}\times\{1,3,5\},\\
+R_4&=\{e\}\times\{4\},\\
+R_5&=\{f\}\times\{3,4,6\}.
+\end{aligned}
+\]
+
+Aplicando o Princípio Multiplicativo
+dentro de cada região,
+
+\[
+\begin{aligned}
+\card R
+&=2\cdot2+1\cdot2+1\cdot3\\
+&\qquad+1\cdot1+1\cdot3\\
+&=4+2+3+1+3.
+\end{aligned}
+\]
+
+Portanto,
+
+\[
+\boxed{\card R=13}.
+\]
+
+A experiência confirma a nossa ideia.
+
+Não precisámos de construir uma
+região para cada um dos seis
+elementos de $A$.
+
+Construímos uma região para
+cada conjunto diferente de
+possibilidades na segunda coordenada.
+
+\subsection*{Uma definição que surge das experiências}
+
+Até aqui, estudámos as escolhas
+permitidas de $y$ depois de
+fixarmos um elemento $x$ de $A$.
+
+Vamos dar um nome a esse conjunto.
+
+Para cada $x\in A$, definimos
+
+\[
+\boxed{
+B_x=\{y\in B:(x,y)\in R\}
+}.
+\]
+
+Chamaremos $B_x$ ao conjunto
+de escolhas permitidas para a
+segunda coordenada depois
+de fixarmos $x$.
+
+Assim, a condição que define
+$R$ determina uma família
+de subconjuntos de $B$:
+
+\[
+(B_x)_{x\in A}.
+\]
+
+\Pergunta{Como decidir quais elementos
+de $A$ podem ser reunidos
+num mesmo grupo?}
+
+A nossa observação sugere
+a seguinte regra:
+
+\[
+\boxed{
+x\sim x'
+\iff B_x=B_{x'}
+}.
+\]
+
+Ou seja, dois elementos da
+primeira coordenada pertencem
+ao mesmo grupo quando admitem
+exatamente as mesmas escolhas
+na segunda coordenada.
+
+Esta relação agrupa os elementos
+de $A$ em classes.
+
+\subsection*{Construindo as regiões a partir dos grupos}
+
+Suponhamos que encontramos
+$k$ conjuntos distintos e não vazios
+de escolhas permitidas:
+
+\[
+D_1,D_2,\ldots,D_k.
+\]
+
+Para cada conjunto $D_i$,
+reunimos os elementos de $A$
+que possuem exatamente esse
+conjunto de possibilidades:
+
+\[
+C_i=\{x\in A:B_x=D_i\}.
+\]
+
+Assim, podemos construir
+uma região cartesiana:
+
+\[
+R_i=C_i\times D_i.
+\]
+
+\Pergunta{As regiões construídas
+desta maneira possuem
+algum par em comum?}
+
+Não.
+
+Se duas regiões possuíssem
+um par $(x,y)$ em comum,
+o elemento $x$ teria de
+pertencer simultaneamente
+a dois grupos distintos.
+
+Mas cada elemento $x$
+possui um único conjunto $B_x$.
+
+Logo, pertence a apenas
+um dos grupos $C_i$.
+
+Consequentemente, as regiões
+são disjuntas.
+
+Além disso, todo par admissível
+pertence a uma dessas regiões.
+
+Portanto,
+
+\[
+R=\bigsqcup_{i=1}^{k}(C_i\times D_i).
+\]
+
+\begin{teoremabox}{Critério de agrupamento por escolhas permitidas}
+Sejam $A$ e $B$ conjuntos finitos
+e seja $R\subseteq A\times B$.
+
+Para cada $x\in A$, definimos
+
+\[
+B_x=\{y\in B:(x,y)\in R\}.
+\]
+
+Sejam $D_1,\ldots,D_k$
+todos os valores distintos
+e não vazios assumidos pelos
+conjuntos $B_x$.
+
+Definindo
+
+\[
+C_i=\{x\in A:B_x=D_i\},
+\]
+
+temos
+
+\[
+\boxed{
+R=\bigsqcup_{i=1}^{k}(C_i\times D_i)
+}.
+\]
+
+Consequentemente,
+
+\[
+\boxed{
+\card R=
+\sum_{i=1}^{k}\card{C_i}\card{D_i}
+}.
+\]
+
+\prova
+Se $(x,y)\in R$, então $y\in B_x$.
+
+Como $B_x$ é não vazio,
+existe exatamente um índice $i$
+para o qual $B_x=D_i$.
+
+Assim, $x\in C_i$ e $y\in D_i$,
+pelo que $(x,y)\in C_i\times D_i$.
+
+Reciprocamente, se $(x,y)$
+pertence a $C_i\times D_i$,
+então $B_x=D_i$ e $y\in B_x$.
+
+Logo, $(x,y)\in R$.
+
+Finalmente, os conjuntos $C_i$
+são disjuntos, pois cada $x$
+possui um único conjunto $B_x$.
+
+Portanto, as regiões cartesianas
+também são disjuntas.
+
+Aplicando os Princípios Multiplicativo
+e Aditivo, obtemos a igualdade.
+\fimprova
 \end{teoremabox}
-\begin{descobertabox}{A diferença que organizará o resto do texto}
-Multiplicamos quando encadeamos escolhas com quantidades conhecidas. Somamos quando reunimos casos que não se sobrepõem. Subtraímos quando conhecemos os casos proibidos. Tudo isto pode acontecer mesmo que os conjuntos iniciais sejam diferentes.
+
+\subsection*{E quando aparece a diagonal?}
+
+Recordemos outra experiência,
+na qual os conjuntos iniciais
+eram iguais:
+
+\[
+A=B=\{1,2,3\}.
+\]
+
+Se exigirmos que as duas
+coordenadas sejam iguais,
+obtemos a diagonal:
+
+\[
+D=\{(1,1),(2,2),(3,3)\}.
+\]
+
+Também podemos descrever
+esse conjunto através
+das escolhas permitidas:
+
+\[
+B_1=\{1\},\qquad
+B_2=\{2\},\qquad
+B_3=\{3\}.
+\]
+
+Existem três conjuntos distintos
+de possibilidades.
+
+Por isso, a nossa construção
+produz três regiões:
+
+\[
+D=
+(\{1\}\times\{1\})
+\mathbin{\dot\cup}
+(\{2\}\times\{2\})
+\mathbin{\dot\cup}
+(\{3\}\times\{3\}).
+\]
+
+Logo,
+
+\[
+\card D=1+1+1=3.
+\]
+
+\Pergunta{Mas não tínhamos apenas
+uma condição, $x=y$?}
+
+Sim.
+
+A condição definiu um único
+conjunto, chamado $D$.
+
+Contudo, esse conjunto precisou
+de três regiões cartesianas
+na decomposição por linhas.
+
+Portanto, devemos distinguir
+três quantidades:
+
+\begin{enumerate}
+\item A quantidade de condições
+escritas no problema.
+
+\item A quantidade de conjuntos
+que decidimos estudar, como
+o conjunto permitido $R$
+ou a diagonal $D$.
+
+\item A quantidade de regiões
+cartesianas necessárias para
+decompor esses conjuntos.
+\end{enumerate}
+
+Estas quantidades não precisam
+de ser iguais.
+
+Se chamarmos $R$ ao conjunto
+dos pares com coordenadas
+diferentes, então
+
+\[
+R=(A\times A)\setminus D.
+\]
+
+Neste caso,
+
+\[
+A\times A=R\mathbin{\dot\cup}D.
+\]
+
+Temos dois conjuntos disjuntos:
+os pares com coordenadas iguais
+e os pares com coordenadas diferentes.
+
+Como a diagonal possui três pares,
+
+\[
+\card R=3^2-3=6.
+\]
+
+A decomposição em $R$ e $D$
+é útil para aplicar o
+Princípio Aditivo ou a subtração.
+
+Já a decomposição em regiões
+cartesianas permite aplicar
+o Princípio Multiplicativo
+dentro de cada região.
+
+São duas formas diferentes
+de organizar a mesma contagem.
+
+\subsection*{O que esta investigação nos ensinou?}
+
+Começámos por observar que
+uma restrição pode selecionar
+apenas alguns pares de $A\times B$.
+
+Depois percebemos que não
+precisamos necessariamente
+de separar todas as linhas
+da tabela.
+
+Podemos reunir as linhas
+que admitem exatamente
+as mesmas escolhas para
+a segunda coordenada.
+
+Assim, obtivemos uma regra
+para construir as regiões
+de maneira sistemática.
+
+\begin{descobertabox}{A regra encontrada}
+Para contar um conjunto
+$R\subseteq A\times B$,
+podemos proceder assim:
+
+\begin{enumerate}
+\item Fixar um elemento $x\in A$
+e determinar o conjunto $B_x$
+das escolhas permitidas de $y$.
+
+\item Reunir os elementos de $A$
+cujos conjuntos $B_x$
+sejam exatamente iguais.
+
+\item Para cada grupo $C_i$,
+formar o produto cartesiano
+$C_i\times D_i$.
+
+\item Aplicar o Princípio
+Multiplicativo em cada região.
+
+\item Somar as cardinalidades
+das regiões disjuntas.
+\end{enumerate}
+
+O número de regiões obtido
+por este procedimento é
+o número de conjuntos distintos
+e não vazios entre os $B_x$.
+
+Ele não é necessariamente
+o número de condições
+escritas no problema.
 \end{descobertabox}
+
+\subsection*{Uma pergunta para continuarmos}
+
+Encontrámos uma decomposição
+natural de $R$ agrupando
+os elementos da primeira coordenada.
+
+Mas podíamos ter começado
+pela segunda coordenada
+e agrupado as colunas da tabela.
+
+\Pergunta{As duas maneiras de agrupar
+produzem sempre o mesmo número
+de regiões cartesianas?}
+
+E, se produzirem quantidades
+diferentes, qual das duas
+será mais económica?
+
+Esta pergunta sugere que
+a forma de decompor um conjunto
+pode influenciar a dificuldade
+da sua contagem, mesmo quando
+o resultado final é o mesmo.
+
+\section*{Construir números a partir de conjuntos de posições}
+
+Na investigação anterior, contámos
+os números de seis algarismos
+que possuem exatamente dois cincos.
+
+Começámos com o conjunto
+
+\[
+A=\{1,2,3,4,5,6,7,8,9\}.
+\]
+
+Todos os números possíveis correspondem
+a elementos de $A^6$.
+
+Mas queremos contar apenas os elementos
+que possuem exatamente duas coordenadas
+iguais a $5$.
+
+Chamemos $R$ ao conjunto pretendido:
+
+\[
+R=\{(a_1,\ldots,a_6)\in A^6:
+\text{exatamente dois }a_i=5\}.
+\]
+
+\Pergunta{Podemos construir os elementos
+de $R$ utilizando o Princípio Multiplicativo,
+sem enumerar todos os números?}
+
+A nossa ideia foi começar pelas posições
+que devem conter o algarismo $5$.
+
+Definimos
+
+\[
+D=\{S\subseteq\{1,\ldots,6\}:|S|=2\}.
+\]
+
+Cada elemento de $D$ determina
+uma configuração parcial do número.
+
+Por exemplo,
+
+\[
+S=\{2,5\}
+\]
+
+determina
+
+\[
+(\_,5,\_,\_,5,\_).
+\]
+
+Sabemos que
+
+\[
+\card D=T(6,2)=15.
+\]
+
+Depois de escolhermos as duas posições
+dos cincos, restam quatro posições.
+
+Nelas podemos utilizar qualquer
+elemento de
+
+\[
+B=A\setminus\{5\}.
+\]
+
+Como $\card B=8$, existem
+
+\[
+8^4
+\]
+
+maneiras de preencher essas posições.
+
+Portanto,
+
+\[
+\boxed{\card R=T(6,2)\cdot8^4=61440}.
+\]
+
+\subsection*{O que aconteceu nesta construção?}
+
+Não escolhemos inicialmente
+os seis algarismos de uma só vez.
+
+Primeiro construímos um padrão
+de posições e depois completámos
+as posições restantes.
+
+Cada número de $R$ determina
+exatamente um elemento de $D$:
+o conjunto das posições
+nas quais aparece o algarismo $5$.
+
+Depois de conhecermos essas posições,
+os outros quatro algarismos também
+ficam determinados pelo número.
+
+Consequentemente, a construção
+não conta nenhum número duas vezes.
+
+\Pergunta{Será que podemos aplicar
+a mesma estratégia quando
+introduzimos outras restrições?}
+
+Vamos experimentar.
+
+\subsection*{Experiência com uma categoria}
+
+Suponhamos que queremos simplesmente
+formar números de seis algarismos
+utilizando os algarismos de $1$ a $9$.
+
+Não existe nenhuma restrição
+sobre a quantidade de ocorrências
+de cada algarismo.
+
+Todas as posições admitem
+o mesmo conjunto $A$.
+
+Portanto, temos uma única
+categoria de preenchimento:
+
+\[
+\underbrace{A\times A\times A
+\times A\times A\times A}_{6\text{ posições}}.
+\]
+
+Pelo Princípio Multiplicativo,
+
+\[
+\boxed{N=9^6}.
+\]
+
+Não foi necessário construir
+conjuntos especiais de posições.
+
+\subsection*{Experiência com duas categorias}
+
+Agora exigimos exatamente
+dois algarismos iguais a $5$.
+
+As posições dividem-se em
+duas categorias:
+
+\[
+C_1=\{5\},
+\]
+
+\[
+C_2=\{1,2,3,4,6,7,8,9\}.
+\]
+
+Precisamos de duas posições
+da primeira categoria
+e quatro da segunda.
+
+Escolhemos primeiro as posições
+da categoria $C_1$:
+
+\[
+T(6,2).
+\]
+
+As restantes posições pertencem
+automaticamente à categoria $C_2$.
+
+Assim,
+
+\[
+N=T(6,2)\cdot1^2\cdot8^4.
+\]
+
+Portanto,
+
+\[
+\boxed{N=61440}.
+\]
+
+\Pergunta{Por que não precisamos
+de escolher novamente as posições
+da segunda categoria?}
+
+Porque elas são exatamente
+as posições que sobraram.
+
+Depois de escolhermos as duas
+posições dos cincos,
+as outras quatro já estão determinadas.
+
+\subsection*{Experiência com três categorias}
+
+Vamos acrescentar uma nova condição.
+
+Queremos números de seis algarismos
+com exatamente dois cincos
+e exatamente três algarismos pares.
+
+Agora precisamos de distinguir:
+
+\[
+C_1=\{5\},
+\]
+
+\[
+C_2=\{2,4,6,8\},
+\]
+
+\[
+C_3=\{1,3,7,9\}.
+\]
+
+As quantidades de posições serão
+
+\[
+n_1=2,\qquad n_2=3,\qquad n_3=1.
+\]
+
+\Pergunta{Como construir um número
+que satisfaça simultaneamente
+as duas condições?}
+
+Primeiro escolhemos as duas
+posições dos cincos:
+
+\[
+T(6,2).
+\]
+
+Restam quatro posições.
+
+Dessas quatro, escolhemos três
+para os algarismos pares:
+
+\[
+T(4,3).
+\]
+
+A última posição fica
+automaticamente destinada
+a um algarismo ímpar
+diferente de $5$.
+
+Agora podemos preencher
+as posições:
+
+\[
+1^2\cdot4^3\cdot4^1.
+\]
+
+Logo,
+
+\[
+\begin{aligned}
+N
+&=T(6,2)T(4,3)\,1^2\,4^3\,4\\
+&=15\cdot4\cdot64\cdot4\\
+&=\boxed{15360}.
+\end{aligned}
+\]
+
+\Pergunta{Por que agora precisamos
+de duas escolhas de posições,
+mas não de três?}
+
+Porque depois de escolhermos
+as posições dos cincos
+e dos algarismos pares,
+as posições dos outros ímpares
+já ficam determinadas.
+
+\subsection*{Experiência com cinco categorias}
+
+Vamos criar uma restrição
+mais detalhada.
+
+Queremos números de seis algarismos
+que contenham:
+
+\begin{itemize}
+\item Exatamente dois cincos;
+\item Exatamente um algarismo de $\{2,4\}$;
+\item Exatamente um algarismo de $\{6,8\}$;
+\item Exatamente um algarismo de $\{1,3\}$;
+\item Exatamente um algarismo de $\{7,9\}$.
+\end{itemize}
+
+Estas cinco categorias são disjuntas:
+
+\[
+\begin{aligned}
+C_1&=\{5\},\\
+C_2&=\{2,4\},\\
+C_3&=\{6,8\},\\
+C_4&=\{1,3\},\\
+C_5&=\{7,9\}.
+\end{aligned}
+\]
+
+Precisamos de distribuir as seis
+posições entre as categorias,
+com quantidades
+
+\[
+(2,1,1,1,1).
+\]
+
+\Pergunta{Podemos continuar a escolher
+as posições sucessivamente?}
+
+Sim.
+
+Primeiro escolhemos as duas
+posições dos cincos:
+
+\[
+T(6,2).
+\]
+
+Restam quatro posições.
+
+Escolhemos uma para a categoria $C_2$:
+
+\[
+T(4,1).
+\]
+
+Depois uma para $C_3$:
+
+\[
+T(3,1).
+\]
+
+Depois uma para $C_4$:
+
+\[
+T(2,1).
+\]
+
+A última posição pertence
+automaticamente à categoria $C_5$.
+
+Portanto, o número de padrões
+de posições é
+
+\[
+T(6,2)T(4,1)T(3,1)T(2,1).
+\]
+
+Calculando,
+
+\[
+15\cdot4\cdot3\cdot2=360.
+\]
+
+Agora precisamos de preencher
+cada categoria.
+
+A primeira possui apenas
+um algarismo disponível.
+
+Cada uma das outras quatro
+possui dois algarismos disponíveis.
+
+Logo,
+
+\[
+N=360\cdot1^2\cdot2^4.
+\]
+
+Assim,
+
+\[
+\boxed{N=5760}.
+\]
+
+Reparemos que utilizámos
+cinco categorias de algarismos,
+mas só precisámos de escolher
+explicitamente as posições
+de quatro delas.
+
+A última ficou determinada
+pelas posições restantes.
+
+\subsection*{Que regra aparece nas experiências?}
+
+Nos quatro exemplos, classificámos
+as posições segundo os conjuntos
+de algarismos que poderiam receber.
+
+Quando existia uma categoria,
+todas as posições admitiam
+o mesmo conjunto.
+
+Quando existiam duas categorias,
+escolhemos as posições da primeira,
+ficando a segunda determinada.
+
+Quando existiam três categorias,
+escolhemos as posições das duas
+primeiras e deixámos a última
+determinada.
+
+O mesmo aconteceu com
+cinco categorias.
+
+\Pergunta{Podemos generalizar
+esta construção?}
+
+Suponhamos que queremos
+formar sequências de comprimento $n$.
+
+Dividimos os símbolos disponíveis
+em $k$ conjuntos disjuntos:
+
+\[
+A=C_1\mathbin{\dot\cup}
+C_2\mathbin{\dot\cup}\cdots
+\mathbin{\dot\cup}C_k.
+\]
+
+Exigimos que exatamente $n_i$
+posições recebam símbolos
+da categoria $C_i$.
+
+Naturalmente,
+
+\[
+n_1+n_2+\cdots+n_k=n.
+\]
+
+Primeiro escolhemos $n_1$
+posições entre as $n$ disponíveis:
+
+\[
+T(n,n_1).
+\]
+
+Depois escolhemos $n_2$
+posições entre as $n-n_1$ restantes:
+
+\[
+T(n-n_1,n_2).
+\]
+
+Continuamos sucessivamente.
+
+As posições da última categoria
+ficam determinadas.
+
+Assim, o número de padrões
+de distribuição é
+
+\[
+\begin{aligned}
+D={}&T(n,n_1)\,
+T(n-n_1,n_2)\\
+&\cdots
+T(n-n_1-\cdots-n_{k-2},n_{k-1}).
+\end{aligned}
+\]
+
+Agora, se $\card{C_i}=m_i$,
+cada posição da categoria $C_i$
+admite $m_i$ possibilidades.
+
+Logo, o preenchimento produz
+
+\[
+m_1^{n_1}m_2^{n_2}\cdots m_k^{n_k}
+\]
+
+sequências para cada padrão
+de distribuição.
+
+Portanto,
+
+\[
+\boxed{
+N=D\prod_{i=1}^{k}m_i^{n_i}
+}.
+\]
+
+\begin{teoremabox}{Contagem por categorias de posições}
+Sejam $C_1,\ldots,C_k$
+conjuntos finitos, não vazios
+e dois a dois disjuntos.
+
+Seja $n\geq0$ e sejam
+$n_1,\ldots,n_k$ inteiros
+não negativos tais que
+
+\[
+n_1+\cdots+n_k=n.
+\]
+
+O número de sequências
+de comprimento $n$
+que utilizam exatamente $n_i$
+símbolos da categoria $C_i$
+é
+
+\[
+\boxed{
+\frac{n!}{n_1!\cdots n_k!}
+\prod_{i=1}^{k}\card{C_i}^{n_i}
+}.
+\]
+
+\prova
+Primeiro distribuímos as $n$
+posições entre as $k$
+categorias, respeitando
+as quantidades $n_i$.
+
+Escolhendo sucessivamente
+as posições das categorias,
+obtemos
+
+\[
+\begin{aligned}
+D={}&
+\binom{n}{n_1}
+\binom{n-n_1}{n_2}\cdots\\
+&\binom{n-n_1-\cdots-n_{k-2}}{n_{k-1}}.
+\end{aligned}
+\]
+
+Ao desenvolver os coeficientes
+binomiais, os fatoriais
+intermédios cancelam-se,
+dando
+
+\[
+D=\frac{n!}{n_1!\cdots n_k!}.
+\]
+
+Para cada distribuição fixa
+de posições, existem
+$\card{C_i}^{n_i}$
+maneiras de preencher
+as posições da categoria $C_i$.
+
+Pelo Princípio Multiplicativo,
+obtemos o produto indicado.
+
+A construção é única:
+cada sequência determina
+as posições ocupadas
+por cada categoria e os
+símbolos escolhidos para elas.
+
+Logo, nenhuma sequência
+é contada mais de uma vez.
+\fimprova
+\end{teoremabox}
+
+\subsection*{Uma distinção importante}
+
+O número de categorias
+não é necessariamente igual
+ao número de condições escritas
+no enunciado.
+
+Uma condição pode exigir
+várias categorias,
+e várias condições podem
+ser verificadas utilizando
+as mesmas categorias.
+
+O que devemos investigar
+é se os conjuntos de símbolos
+precisam de ser separados
+para representar corretamente
+as restrições.
+
+Também não precisamos
+necessariamente de criar
+um novo conjunto quando
+acrescentamos uma condição.
+
+Se a condição puder ser
+resolvida utilizando a
+distribuição de posições
+já construída, podemos
+conservar os mesmos conjuntos.
+
+\begin{descobertabox}{A construção que procurávamos}
+Para contar sequências
+com restrições sobre
+a quantidade de símbolos,
+podemos:
+
+\begin{enumerate}
+\item Identificar categorias
+disjuntas de símbolos.
+
+\item Determinar quantas posições
+devem pertencer a cada categoria.
+
+\item Escolher sucessivamente
+os subconjuntos de posições
+correspondentes às categorias.
+
+\item Deixar a última categoria
+determinada pelas posições restantes.
+
+\item Preencher as posições
+com os elementos permitidos
+de cada categoria.
+
+\item Aplicar o Princípio Multiplicativo.
+\end{enumerate}
+
+Assim, a construção de subconjuntos
+de posições permite transformar
+um problema com repetição
+numa sucessão de escolhas
+sem repetição, seguidas
+de preenchimentos independentes.
+\end{descobertabox}
+
+\subsection*{Uma nova pergunta}
+
+Nos exemplos anteriores,
+conhecíamos exatamente
+quantas posições pertenciam
+a cada categoria.
+
+Mas e se o problema exigir
+apenas que uma determinada
+categoria apareça pelo
+menos duas vezes?
+
+Nesse caso, a quantidade
+de posições dessa categoria
+pode variar.
+
+\Pergunta{Poderemos construir
+uma região para cada quantidade
+possível e depois somar
+as contagens obtidas?}
+
+Esta pergunta permite-nos
+regressar ao Princípio Aditivo
+e investigar como o método
+se comporta quando as
+quantidades não estão
+completamente determinadas.
+
 
 \chapter{A diagonal, a ordem e as representações}
 \section{Dois fatores iguais}
@@ -1054,6 +2483,621 @@ recupera o vetor inicial, ela é uma bijeção.
 Logo, os conjuntos possuem a mesma cardinalidade.
 \fimprova
 \end{teoremabox}
+
+
+\section{Os conjuntos escondidos nos traços}
+
+Quando começamos a estudar Combinatória,
+é frequente representar as escolhas
+através de espaços vazios.
+
+Por exemplo, para construir um número
+de seis algarismos, escrevemos
+
+\[
+\underbrace{\_\quad\_\quad\_\quad
+\_\quad\_\quad\_}_{6\text{ posições}}.
+\]
+
+Depois colocamos a quantidade de possibilidades
+em cada posição e multiplicamos.
+
+Este procedimento é útil, mas levanta
+uma questão que merece ser investigada.
+
+\Pergunta{Que conjuntos estamos realmente
+a multiplicar quando colocamos números
+de possibilidades debaixo dos traços?}
+
+Vamos começar por uma situação simples.
+
+\subsection*{Quando todas as escolhas são livres}
+
+Queremos formar números de seis algarismos
+utilizando os elementos do conjunto
+
+\[
+A=\{1,2,3,4,5,6,7,8,9\}.
+\]
+
+Admitimos repetições.
+
+Cada posição pode receber qualquer
+um dos nove elementos de $A$.
+
+Portanto, o conjunto de todos
+os números possíveis é representado por
+
+\[
+A^6=A\times A\times A\times A\times A\times A.
+\]
+
+Pelo Princípio Multiplicativo,
+
+\[
+\card{A^6}=9^6.
+\]
+
+Neste caso, os seis traços representam
+seis escolhas independentes,
+todas realizadas no mesmo conjunto.
+
+\Pergunta{E se acrescentarmos uma restrição?}
+
+\subsection*{Exigir exatamente dois cincos}
+
+Consideremos agora o problema:
+
+\begin{quote}
+Quantos números de seis algarismos
+podemos formar com os algarismos
+de $1$ a $9$, admitindo repetições,
+de modo que apareçam exatamente
+dois algarismos iguais a $5$?
+\end{quote}
+
+O conjunto de todos os números
+continua a ser $A^6$.
+
+Mas queremos contar apenas
+um subconjunto desse produto.
+
+Definimos
+
+\[
+R=\{(a_1,\ldots,a_6)\in A^6:
+\text{exatamente duas coordenadas são }5\}.
+\]
+
+\Pergunta{Podemos continuar a colocar
+nove possibilidades em cada traço?}
+
+Não, porque contaríamos também números
+com zero, um, três ou mais cincos.
+
+\Pergunta{E se colocarmos dois cincos
+e oito possibilidades nos quatro
+espaços restantes?}
+
+Por exemplo,
+
+\[
+5\quad\_\quad\_\quad\_\quad\_\quad5.
+\]
+
+Para esta configuração,
+obtemos
+
+\[
+1\cdot8^4\cdot1=8^4.
+\]
+
+Mas esta contagem considera apenas
+os números cujos cincos ocupam
+a primeira e a última posições.
+
+Os cincos poderiam ocupar
+outras posições.
+
+Portanto, o problema não está
+no Princípio Multiplicativo.
+
+Precisamos de reorganizar
+a maneira como construímos
+os objetos pretendidos.
+
+\subsection*{Uma construção diferente dos números}
+
+Em vez de começar por escolher
+os seis algarismos, vamos começar
+por escolher as posições dos cincos.
+
+Consideremos o conjunto de posições
+
+\[
+I=\{1,2,3,4,5,6\}.
+\]
+
+Queremos escolher exatamente
+duas dessas posições.
+
+Definimos
+
+\[
+D=\{S\subseteq I:\card S=2\}.
+\]
+
+Cada elemento de $D$ corresponde
+a uma configuração parcial
+do número.
+
+Por exemplo,
+
+\[
+S=\{2,5\}
+\]
+
+determina
+
+\[
+\_\quad5\quad\_\quad\_\quad5\quad\_.
+\]
+
+\Pergunta{Quantas configurações diferentes
+podemos construir?}
+
+Como já descobrimos a função $T(n,r)$,
+sabemos que
+
+\[
+\card D=T(6,2)=15.
+\]
+
+Agora precisamos de preencher
+as quatro posições restantes.
+
+Como não podemos introduzir
+outro algarismo igual a $5$,
+definimos
+
+\[
+B=A\setminus\{5\}.
+\]
+
+Portanto,
+
+\[
+B=\{1,2,3,4,6,7,8,9\}.
+\]
+
+Temos
+
+\[
+\card B=8.
+\]
+
+Para cada configuração de $D$,
+as quatro posições livres
+podem receber qualquer elemento de $B$.
+
+Logo, existem
+
+\[
+\card{B^4}=8^4
+\]
+
+preenchimentos possíveis.
+
+\subsection*{Que conjuntos estamos a multiplicar?}
+
+Encontrámos duas escolhas:
+
+\begin{enumerate}
+\item Escolher uma configuração de posições
+para os dois cincos: um elemento de $D$.
+
+\item Escolher os quatro algarismos restantes:
+um elemento de $B^4$.
+\end{enumerate}
+
+Assim, podemos considerar o produto cartesiano
+
+\[
+D\times B^4.
+\]
+
+Cada elemento deste produto
+consiste num par $(S,b)$,
+onde $S$ indica as posições dos cincos
+e $b$ fornece os quatro algarismos
+que preencherão as posições livres,
+por ordem crescente.
+
+Por exemplo,
+
+\[
+S=\{2,5\},
+\qquad
+b=(1,3,7,9)
+\]
+
+produz
+
+\[
+(1,5,3,7,5,9).
+\]
+
+\Pergunta{Será que duas escolhas diferentes
+em $D\times B^4$ podem produzir
+o mesmo número?}
+
+Não.
+
+Dado um número com exatamente dois cincos,
+podemos recuperar de maneira única:
+
+\begin{enumerate}
+\item As duas posições nas quais
+aparece o algarismo $5$.
+
+\item A sequência dos quatro algarismos
+que ocupam as posições restantes.
+\end{enumerate}
+
+Assim, cada elemento de $D\times B^4$
+produz exatamente um elemento de $R$,
+e cada elemento de $R$ corresponde
+a exatamente um elemento de $D\times B^4$.
+
+Existe, portanto, uma bijeção
+
+\[
+\boxed{D\times B^4\longleftrightarrow R}.
+\]
+
+Consequentemente,
+
+\[
+\card R=\card{D\times B^4}.
+\]
+
+Aplicando o Princípio Multiplicativo,
+
+\[
+\begin{aligned}
+\card R
+&=\card D\cdot\card{B^4}\\
+&=T(6,2)\cdot8^4\\
+&=15\cdot4096\\
+&=\boxed{61440}.
+\end{aligned}
+\]
+
+\begin{descobertabox}{Os traços não determinam a construção}
+Quando representávamos um número
+por seis espaços vazios, estávamos
+a pensar nas seis posições como
+escolhas sucessivas.
+
+Mas, ao introduzir a restrição,
+descobrimos uma construção diferente:
+
+\[
+D\times B^4.
+\]
+
+O conjunto $D$ escolhe as posições
+dos elementos obrigatórios.
+
+O conjunto $B^4$ escolhe
+os elementos que preenchem
+as posições restantes.
+
+O Princípio Multiplicativo
+funciona porque esta construção
+representa cada número admissível
+exatamente uma vez.
+\end{descobertabox}
+
+\subsection*{Quando podemos multiplicar diretamente?}
+
+Na experiência anterior,
+cada elemento de $D$ admitia
+exatamente a mesma quantidade
+de preenchimentos:
+
+\[
+8^4.
+\]
+
+Por isso, pudemos multiplicar
+
+\[
+\card D\cdot8^4.
+\]
+
+Mas surge uma nova pergunta.
+
+\Pergunta{E se configurações diferentes
+admitirem quantidades diferentes
+de preenchimentos?}
+
+Vamos acrescentar uma restrição
+ao mesmo problema.
+
+Agora queremos números de seis algarismos
+com exatamente dois cincos,
+mas exigimos também que
+o primeiro algarismo seja par.
+
+Continuamos a escolher as posições
+dos cincos através de $D$.
+
+Contudo, há duas situações possíveis.
+
+\paragraph{Primeiro caso: a primeira posição
+contém um cinco.}
+
+Nesse caso, não existe preenchimento
+que satisfaça a nova condição,
+pois o algarismo $5$ não é par.
+
+Portanto, cada configuração desse tipo
+admite zero preenchimentos válidos.
+
+\paragraph{Segundo caso: a primeira posição
+não contém um cinco.}
+
+Nesse caso, a primeira posição
+pode receber um dos algarismos
+
+\[
+\{2,4,6,8\}.
+\]
+
+Existem quatro escolhas.
+
+As outras três posições livres
+admitem oito escolhas cada.
+
+Assim, cada configuração deste tipo
+possui
+
+\[
+4\cdot8^3
+\]
+
+preenchimentos válidos.
+
+\Pergunta{Podemos multiplicar
+diretamente $\card D$ por esse valor?}
+
+Não.
+
+O conjunto $D$ também possui
+configurações que colocam
+um cinco na primeira posição.
+
+Precisamos de separar
+as configurações admissíveis.
+
+Se a primeira posição não pode
+conter um cinco, devemos escolher
+as duas posições dos cincos
+entre as cinco posições restantes.
+
+Existem
+
+\[
+T(5,2)=10
+\]
+
+configurações desse tipo.
+
+Logo,
+
+\[
+\begin{aligned}
+N
+&=T(5,2)\cdot4\cdot8^3\\
+&=10\cdot4\cdot512\\
+&=\boxed{20480}.
+\end{aligned}
+\]
+
+Conseguimos novamente aplicar
+o Princípio Multiplicativo,
+mas primeiro tivemos de escolher
+o conjunto adequado de configurações.
+
+\subsection*{Uma regra mais geral}
+
+As duas experiências permitem-nos
+formular uma observação.
+
+Suponhamos que queremos construir
+os elementos de um conjunto finito $R$.
+
+Começamos por escolher uma configuração
+$d$ de um conjunto finito $D$.
+
+Depois, para cada configuração $d$,
+existe um conjunto $F(d)$
+de preenchimentos admissíveis.
+
+Não precisamos de supor que
+todos esses conjuntos sejam iguais.
+
+Apenas precisamos de garantir
+que cada objeto de $R$ corresponde
+a uma única configuração $d$
+e a um único preenchimento dessa configuração.
+
+Nesse caso,
+
+\[
+\boxed{
+\card R=\sum_{d\in D}\card{F(d)}
+}.
+\]
+
+\Pergunta{O que acontece se todos
+os conjuntos de preenchimentos
+possuírem a mesma cardinalidade?}
+
+Suponhamos que existe um número $m$
+tal que
+
+\[
+\card{F(d)}=m
+\]
+
+para todo $d\in D$.
+
+Então,
+
+\[
+\begin{aligned}
+\card R
+&=\sum_{d\in D}m\\
+&=\card D\cdot m.
+\end{aligned}
+\]
+
+Recuperámos o Princípio Multiplicativo.
+
+\begin{teoremabox}{Contagem por configurações e preenchimentos}
+Seja $D$ um conjunto finito
+de configurações iniciais.
+
+Para cada $d\in D$, seja $F(d)$
+um conjunto finito de preenchimentos.
+
+Suponhamos que os pares $(d,f)$,
+com $f\in F(d)$, correspondem
+bijetivamente aos objetos de
+um conjunto $R$.
+
+Então
+
+\[
+\boxed{
+\card R=\sum_{d\in D}\card{F(d)}
+}.
+\]
+
+Se todos os conjuntos $F(d)$
+possuírem a mesma cardinalidade $m$, então
+
+\[
+\boxed{\card R=\card D\cdot m}.
+\]
+
+\prova
+Para cada configuração $d$,
+existem $\card{F(d)}$ preenchimentos.
+
+Como cada objeto corresponde
+a um único par $(d,f)$,
+os conjuntos de objetos obtidos
+a partir de configurações diferentes
+são disjuntos.
+
+O Princípio Aditivo fornece
+
+\[
+\card R=\sum_{d\in D}\card{F(d)}.
+\]
+
+Se todas as cardinalidades
+forem iguais a $m$, a soma
+possui $\card D$ parcelas iguais,
+e obtemos
+
+\[
+\card R=\card D\cdot m.
+\]
+\fimprova
+\end{teoremabox}
+
+\subsection*{O que aprendemos sobre o Princípio Multiplicativo?}
+
+Quando um problema é simples,
+podemos colocar diretamente
+as possibilidades nos traços.
+
+Mas, quando aparecem restrições,
+esse procedimento pode esconder
+decisões importantes.
+
+A investigação sugere
+uma pergunta anterior à multiplicação:
+
+\Pergunta{Como podemos construir cada objeto
+admissível através de escolhas
+que o determinem de maneira única?}
+
+Podemos então procurar:
+
+\begin{enumerate}
+\item Um conjunto $D$ de configurações iniciais;
+
+\item Os conjuntos $F(d)$
+de preenchimentos admissíveis;
+
+\item Uma correspondência que garanta
+que cada objeto é construído
+exatamente uma vez.
+\end{enumerate}
+
+Se todas as configurações
+possuírem a mesma quantidade
+de preenchimentos, multiplicamos.
+
+Se as quantidades variarem,
+podemos dividir as configurações
+em casos disjuntos e somar.
+
+Em ambos os casos, os Princípios
+Multiplicativo e Aditivo continuam
+a ser as ferramentas fundamentais.
+
+\begin{descobertabox}{Uma mudança na maneira de pensar}
+O objetivo não deve ser apenas
+descobrir quantas possibilidades
+colocar debaixo de cada traço.
+
+O objetivo é descobrir
+quais são os conjuntos de escolhas
+que permitem construir todos
+os objetos pretendidos,
+sem omissões e sem repetições.
+
+Uma boa construção pode transformar
+um problema aparentemente complicado
+num produto cartesiano simples.
+\end{descobertabox}
+
+\subsection*{Preparando a próxima investigação}
+
+No problema dos dois cincos,
+utilizámos $T(6,2)$ para
+escolher as posições especiais.
+
+Mas muitos problemas permitem
+que os símbolos se repitam
+e impõem condições sobre
+quantos símbolos distintos aparecem.
+
+\Pergunta{Podemos utilizar
+o conjunto das partes para
+organizar também essas repetições?}
+
+Esta pergunta conduzir-nos-á
+a uma nova maneira de
+construir sequências com repetição
+a partir das escolhas binárias.
+
 
 \section{O triângulo surgiu da tabela}
 Organizemos os valores de $T(n,r)$ em linhas, com $r=0,\ldots,n$.
